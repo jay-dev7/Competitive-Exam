@@ -76,8 +76,8 @@ function App() {
           <div className="section-head">
             <h2>Concept Viewer</h2>
             {activeNote ? (
-              <a href={activeSrc} target="_blank" rel="noreferrer" className="open-link">
-                Open in new tab
+              <a href={activeSrc} className="open-link">
+                Open full page
               </a>
             ) : null}
           </div>
