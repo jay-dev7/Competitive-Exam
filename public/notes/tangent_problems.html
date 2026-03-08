@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tangent to a Circle — Complete Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #07080f;
+    --surface: #0c0d18;
+    --panel: #11121e;
+    --border: #1c1d30;
+    --border2: #232438;
+    --cyan: #00d2ff;
+    --gold: #f9c74f;
+    --coral: #f25f5c;
+    --mint: #43e97b;
+    --violet: #b388ff;
+    --sky: #48cae4;
+    --rose: #ff6584;
+    --text: #e4e4f0;
+    --muted: #5c5c80;
+    --dim: #1e1f35;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 52px 20px 36px;
+    text-align: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,210,255,0.07) 0%, transparent 70%);
+    border-bottom: 1px solid var(--border2);
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle, rgba(0,210,255,0.06) 1px, transparent 1px);
+    background-size: 32px 32px;
+    pointer-events: none;
+    mask-image: radial-gradient(ellipse 70% 100% at 50% 0%, black 0%, transparent 80%);
+  }
+
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem; letter-spacing: 3px;
+    color: var(--cyan);
+    border: 1px solid rgba(0,210,255,0.25);
+    padding: 5px 16px; border-radius: 999px;
+    margin-bottom: 18px;
+    animation: fadeDown 0.5s ease both;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 9vw, 6rem);
+    letter-spacing: 5px; line-height: 0.9;
+    background: linear-gradient(135deg, #fff 0%, var(--cyan) 45%, var(--violet) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeDown 0.5s 0.1s ease both; opacity: 0;
+  }
+
+  .hero-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem; color: var(--muted);
+    margin-top: 10px; letter-spacing: 1px;
+    animation: fadeDown 0.5s 0.2s ease both; opacity: 0;
+  }
+
+  /* ── TABS ── */
+  .tabs {
+    display: flex; gap: 6px; justify-content: center; flex-wrap: wrap;
+    padding: 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky; top: 0; z-index: 100;
+    backdrop-filter: blur(12px);
+    animation: fadeDown 0.5s 0.3s ease both; opacity: 0;
+  }
+
+  .tab {
+    padding: 7px 16px; border-radius: 6px;
+    border: 1px solid var(--border2);
+    background: transparent; color: var(--muted);
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.7rem; letter-spacing: 0.5px;
+    transition: all 0.18s; white-space: nowrap;
+  }
+  .tab:hover { color: var(--text); border-color: var(--border2); }
+  .tab.active { background: rgba(0,210,255,0.1); border-color: var(--cyan); color: var(--cyan); }
+
+  /* ── LAYOUT ── */
+  .content { padding: 24px 16px 60px; max-width: 1100px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; animation: slideUp 0.35s ease both; }
+
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+  .g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-bottom: 16px; }
+  @media(max-width:680px) { .g2,.g3 { grid-template-columns:1fr; } }
+  @media(max-width:860px) { .g3 { grid-template-columns:1fr 1fr; } }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    position: relative; overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .card:hover { transform: translateY(-2px); }
+
+  .card-accent {
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px; border-radius: 14px 14px 0 0;
+  }
+
+  .card-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem; text-transform: uppercase;
+    letter-spacing: 2px; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* ── FORMULA ROWS ── */
+  .frow {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,0.04); gap: 12px;
+  }
+  .frow:last-child { border-bottom: none; }
+  .fl { font-family: 'IBM Plex Mono',monospace; font-size: 0.72rem; color: var(--muted); flex-shrink: 0; font-style: italic; }
+  .fv { font-family: 'IBM Plex Mono',monospace; font-size: 0.8rem; color: var(--text); text-align: right; }
+
+  /* ── THEOREM BOX ── */
+  .theorem {
+    background: rgba(0,210,255,0.05);
+    border: 1px solid rgba(0,210,255,0.2);
+    border-radius: 10px; padding: 14px 16px; margin: 12px 0;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem; line-height: 1.9;
+  }
+  .theorem .th-label {
+    font-size: 0.62rem; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--cyan); margin-bottom: 6px;
+  }
+
+  /* ── EXAMPLE BOX ── */
+  .eg {
+    background: #08090f;
+    border-left: 3px solid var(--mint);
+    border-radius: 0 10px 10px 0;
+    padding: 14px 16px; margin-top: 14px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.75rem;
+  }
+  .eg-q { color: var(--mint); font-weight: 700; margin-bottom: 8px; font-size: 0.8rem; }
+  .eg-s { color: #8898b0; margin: 4px 0; line-height: 1.6; }
+  .eg-a {
+    margin-top: 10px; background: rgba(67,233,123,0.1);
+    border-radius: 6px; padding: 7px 12px;
+    color: var(--mint); font-weight: 700; font-size: 0.82rem;
+  }
+
+  /* ── PROPERTY BOX ── */
+  .prop-list { list-style: none; counter-reset: props; }
+  .prop-list li {
+    counter-increment: props;
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 9px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.9rem; line-height: 1.65; color: #c0c8e0;
+  }
+  .prop-list li:last-child { border-bottom: none; }
+  .prop-list li::before {
+    content: counter(props);
+    background: var(--cyan); color: #000;
+    font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 0.7rem;
+    min-width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* ── STEP LIST ── */
+  .step-list { list-style: none; counter-reset: steps; }
+  .step-list li {
+    counter-increment: steps;
+    display: flex; gap: 12px; align-items: flex-start;
+    padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04);
+    font-size: 0.88rem; line-height: 1.6; color: #c0c8e0;
+  }
+  .step-list li:last-child { border-bottom: none; }
+  .step-list li::before {
+    content: counter(steps);
+    background: var(--gold); color: #000;
+    font-family: 'IBM Plex Mono', monospace; font-weight: 700; font-size: 0.7rem;
+    min-width: 22px; height: 22px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* ── COLORS ── */
+  .c-cyan   { color: var(--cyan); }
+  .c-gold   { color: var(--gold); }
+  .c-coral  { color: var(--coral); }
+  .c-mint   { color: var(--mint); }
+  .c-violet { color: var(--violet); }
+  .c-sky    { color: var(--sky); }
+  .c-rose   { color: var(--rose); }
+
+  /* ── TRICK CARD ── */
+  .trick {
+    background: #08090f;
+    border: 1px solid var(--border);
+    border-radius: 10px; padding: 14px 16px; margin-bottom: 12px;
+  }
+  .trick-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.67rem; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--gold); margin-bottom: 8px;
+  }
+  .trick p { font-size: 0.88rem; color: #8898b0; line-height: 1.65; }
+  .trick code {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.8rem;
+    background: rgba(249,199,79,0.1); color: var(--gold);
+    padding: 1px 5px; border-radius: 3px;
+  }
+  .trick .formula-highlight {
+    display: block; margin-top: 8px;
+    background: rgba(0,210,255,0.07); border: 1px solid rgba(0,210,255,0.15);
+    border-radius: 6px; padding: 8px 12px;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.82rem; color: var(--cyan);
+  }
+
+  /* ── SECTION TITLE ── */
+  .stitle {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem;
+    letter-spacing: 4px; color: var(--muted);
+    margin-bottom: 14px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border2);
+  }
+
+  /* ── PRACTICE Q ── */
+  .pq {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px; padding: 18px 20px; margin-bottom: 14px;
+  }
+
+  .pq-num {
+    font-family: 'Bebas Neue', sans-serif; font-size: 2rem;
+    color: rgba(255,255,255,0.04); position: absolute;
+    right: 18px; top: 10px; letter-spacing: 2px;
+  }
+
+  .pq-q {
+    font-size: 0.92rem; color: var(--text); line-height: 1.7;
+    margin-bottom: 12px; font-weight: 500;
+  }
+
+  .pq-reveal {
+    display: none; margin-top: 12px;
+    animation: slideUp 0.3s ease both;
+  }
+
+  .pq-reveal.open { display: block; }
+
+  .pq-btn {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem;
+    color: var(--cyan); background: rgba(0,210,255,0.08);
+    border: 1px solid rgba(0,210,255,0.25); border-radius: 6px;
+    padding: 6px 16px; cursor: pointer; letter-spacing: 1px;
+    transition: all 0.18s;
+  }
+  .pq-btn:hover { background: rgba(0,210,255,0.15); }
+
+  .difficulty {
+    display: inline-block; font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.62rem; letter-spacing: 1.5px; padding: 3px 10px;
+    border-radius: 999px; margin-bottom: 10px;
+  }
+  .easy   { background: rgba(67,233,123,0.1); color: var(--mint); border: 1px solid rgba(67,233,123,0.25); }
+  .medium { background: rgba(249,199,79,0.1); color: var(--gold); border: 1px solid rgba(249,199,79,0.25); }
+  .hard   { background: rgba(242,95,92,0.1);  color: var(--coral); border: 1px solid rgba(242,95,92,0.25); }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── KEY RESULT HIGHLIGHT ── */
+  .key-box {
+    background: linear-gradient(135deg, rgba(0,210,255,0.07), rgba(179,136,255,0.05));
+    border: 1px solid rgba(0,210,255,0.2);
+    border-radius: 10px; padding: 16px 18px; margin: 14px 0;
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.85rem; line-height: 1.9;
+  }
+  .key-box .kb-title {
+    font-size: 0.62rem; text-transform: uppercase; letter-spacing: 2px;
+    color: var(--violet); margin-bottom: 8px;
+  }
+
+  /* ── PROOF STEPS ── */
+  .proof {
+    background: rgba(179,136,255,0.05); border: 1px dashed rgba(179,136,255,0.25);
+    border-radius: 10px; padding: 14px 16px; margin-top: 12px;
+  }
+  .proof-title {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.62rem;
+    text-transform: uppercase; letter-spacing: 2px; color: var(--violet); margin-bottom: 10px;
+  }
+  .proof p {
+    font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem;
+    color: #8888b0; line-height: 1.9;
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-badge">⭕ Circle Geometry · Government Exam Prep</div>
+  <h1>Tangent Problems</h1>
+  <p class="hero-sub">// Length · Angle · Two Circles · Theorems · SSC · IBPS · RRB · UPSC</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('basics')">📖 Basics</button>
+  <button class="tab" onclick="showTab('length')">📏 Tangent Length</button>
+  <button class="tab" onclick="showTab('angles')">📐 Tangent Angles</button>
+  <button class="tab" onclick="showTab('twocircles')">⭕⭕ Two Circles</button>
+  <button class="tab" onclick="showTab('chord')">🔗 Tangent–Chord</button>
+  <button class="tab" onclick="showTab('practice')">✏️ Practice</button>
+  <button class="tab" onclick="showTab('tricks')">⚡ Tricks</button>
+</div>
+
+<div class="content">
+
+<!-- ============ BASICS ============ -->
+<div id="basics" class="section active">
+
+  <div class="g2">
+    <!-- What is a tangent -->
+    <div class="card">
+      <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--cyan), transparent);"></div>
+      <div class="card-title c-cyan"><span>🔵</span> What is a Tangent?</div>
+
+      <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:180px;display:block;margin-bottom:14px;">
+        <!-- Circle -->
+        <circle cx="150" cy="110" r="75" fill="rgba(0,210,255,0.06)" stroke="#00d2ff" stroke-width="2"/>
+        <!-- Center -->
+        <circle cx="150" cy="110" r="4" fill="#00d2ff"/>
+        <text x="154" y="108" fill="#00d2ff" font-size="11" font-family="IBM Plex Mono">O</text>
+        <!-- Tangent line -->
+        <line x1="20" y1="185" x2="280" y2="185" stroke="#f9c74f" stroke-width="2.5"/>
+        <!-- Point of tangency -->
+        <circle cx="150" cy="185" r="5" fill="#43e97b"/>
+        <text x="156" y="200" fill="#43e97b" font-size="11" font-family="IBM Plex Mono">P (point of tangency)</text>
+        <!-- Radius to tangent -->
+        <line x1="150" y1="110" x2="150" y2="185" stroke="#00d2ff" stroke-width="1.8" stroke-dasharray="5,3"/>
+        <rect x="150" y="178" width="7" height="7" fill="none" stroke="#43e97b" stroke-width="1.5"/>
+        <text x="153" y="152" fill="#00d2ff" font-size="11" font-family="IBM Plex Mono">r</text>
+        <!-- 90° label -->
+        <text x="159" y="180" fill="#f9c74f" font-size="10" font-family="IBM Plex Mono">90°</text>
+        <!-- tangent label -->
+        <text x="200" y="178" fill="#f9c74f" font-size="11" font-family="IBM Plex Mono">Tangent</text>
+      </svg>
+
+      <ul class="prop-list">
+        <li>A tangent touches a circle at <span class="c-cyan">exactly one point</span> (point of tangency)</li>
+        <li>Tangent is always <span class="c-gold">perpendicular</span> to the radius drawn to the point of contact</li>
+        <li>From an <span class="c-mint">external point</span>, exactly <b>two tangents</b> can be drawn</li>
+        <li>Both tangents from same external point are <span class="c-violet">equal in length</span></li>
+        <li>A tangent <span class="c-coral">never passes through</span> the interior of the circle</li>
+      </ul>
+    </div>
+
+    <!-- Types of tangents -->
+    <div class="card">
+      <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--violet), transparent);"></div>
+      <div class="card-title c-violet"><span>📋</span> Types & Key Theorem</div>
+
+      <svg viewBox="0 0 300 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:180px;display:block;margin-bottom:14px;">
+        <!-- Circle -->
+        <circle cx="150" cy="110" r="65" fill="rgba(179,136,255,0.06)" stroke="#b388ff" stroke-width="2"/>
+        <circle cx="150" cy="110" r="4" fill="#b388ff"/>
+        <text x="153" y="108" fill="#b388ff" font-size="10" font-family="IBM Plex Mono">O</text>
+        <!-- External point -->
+        <circle cx="270" cy="110" r="5" fill="#f9c74f"/>
+        <text x="275" y="106" fill="#f9c74f" font-size="11" font-family="IBM Plex Mono">A</text>
+        <!-- Two tangents -->
+        <line x1="270" y1="110" x2="170" y2="55" stroke="#43e97b" stroke-width="2"/>
+        <line x1="270" y1="110" x2="170" y2="165" stroke="#43e97b" stroke-width="2"/>
+        <!-- Tangent points -->
+        <circle cx="170" cy="55" r="5" fill="#43e97b"/>
+        <circle cx="170" cy="165" r="5" fill="#43e97b"/>
+        <text x="175" y="52" fill="#43e97b" font-size="10" font-family="IBM Plex Mono">B</text>
+        <text x="175" y="178" fill="#43e97b" font-size="10" font-family="IBM Plex Mono">C</text>
+        <!-- Equal mark -->
+        <text x="222" y="74" fill="#43e97b" font-size="10" font-family="IBM Plex Mono">AT₁</text>
+        <text x="222" y="154" fill="#43e97b" font-size="10" font-family="IBM Plex Mono">AT₂</text>
+        <!-- = sign -->
+        <text x="245" y="114" fill="#f9c74f" font-size="14" font-family="IBM Plex Mono">=</text>
+        <!-- Radii -->
+        <line x1="150" y1="110" x2="170" y2="55" stroke="#b388ff" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <line x1="150" y1="110" x2="170" y2="165" stroke="#b388ff" stroke-width="1.2" stroke-dasharray="4,3"/>
+      </svg>
+
+      <div class="theorem">
+        <div class="th-label">🏛 Tangent from External Point Theorem</div>
+        The lengths of two tangents drawn from an external point to a circle are <span class="c-gold">equal</span>.<br>
+        <span class="c-cyan">AB = AC</span> (both from external point A)
+      </div>
+
+      <div class="key-box" style="margin-top:12px;">
+        <div class="kb-title">⚠️ Important Properties</div>
+        <span class="c-gold">OB ⊥ AB</span> &nbsp;and&nbsp; <span class="c-gold">OC ⊥ AC</span><br>
+        <span class="c-violet">∠OAB = ∠OAC</span> (OA bisects angle between tangents)<br>
+        <span class="c-cyan">OA bisects ∠BOC</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TANGENT LENGTH ============ -->
+<div id="length" class="section">
+
+  <div class="g2">
+    <!-- Main formula -->
+    <div class="card">
+      <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--gold), transparent);"></div>
+      <div class="card-title c-gold"><span>📏</span> Length of Tangent Formula</div>
+
+      <svg viewBox="0 0 300 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:200px;display:block;margin-bottom:14px;">
+        <!-- Circle -->
+        <circle cx="100" cy="130" r="70" fill="rgba(249,199,79,0.05)" stroke="#f9c74f" stroke-width="2"/>
+        <circle cx="100" cy="130" r="4" fill="#f9c74f"/>
+        <text x="103" y="128" fill="#f9c74f" font-size="11" font-family="IBM Plex Mono">O</text>
+        <!-- External point -->
+        <circle cx="260" cy="130" r="5" fill="#00d2ff"/>
+        <text x="265" y="126" fill="#00d2ff" font-size="12" font-family="IBM Plex Mono">P</text>
+        <!-- Tangent point -->
+        <circle cx="113" cy="62" r="5" fill="#43e97b"/>
+        <text x="118" y="58" fill="#43e97b" font-size="11" font-family="IBM Plex Mono">T</text>
+        <!-- Tangent line PT -->
+        <line x1="260" y1="130" x2="113" y2="62" stroke="#43e97b" stroke-width="2.5"/>
+        <!-- Right angle at T -->
+        <rect x="113" y="62" width="8" height="8" fill="none" stroke="#43e97b" stroke-width="1.5" transform="rotate(30 113 62)"/>
+        <!-- Radius OT -->
+        <line x1="100" y1="130" x2="113" y2="62" stroke="#f9c74f" stroke-width="1.8" stroke-dasharray="5,3"/>
+        <!-- Distance OP -->
+        <line x1="100" y1="130" x2="260" y2="130" stroke="#00d2ff" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <!-- Labels -->
+        <text x="167" y="126" fill="#00d2ff" font-size="10" font-family="IBM Plex Mono">d (distance OP)</text>
+        <text x="150" y="88" fill="#43e97b" font-size="11" font-family="IBM Plex Mono">l (tangent length)</text>
+        <text x="94" y="100" fill="#f9c74f" font-size="11" font-family="IBM Plex Mono">r</text>
+        <!-- right angle symbol -->
+        <text x="105" y="148" fill="#43e97b" font-size="9" font-family="IBM Plex Mono">90°</text>
+      </svg>
+
+      <div class="key-box">
+        <div class="kb-title">🔑 Core Formula</div>
+        In right triangle OTP:<br>
+        <span class="c-gold">OP² = OT² + PT²</span><br>
+        <span class="c-cyan">d² = r² + l²</span><br>
+        <span style="font-size:1.1rem; color:#fff;">∴ <span class="c-gold">l = √(d² − r²)</span></span>
+        <br><br>
+        where: <span class="c-cyan">l</span> = tangent length, <span class="c-gold">r</span> = radius, <span class="c-violet">d</span> = distance from center to external point
+      </div>
+    </div>
+
+    <!-- Examples -->
+    <div>
+      <div class="eg" style="margin-bottom:14px; border-left-color: var(--gold);">
+        <div class="eg-q" style="color:var(--gold);">▶ Example 1 — Basic Tangent Length</div>
+        <div class="eg-s">Q: A point P is 13 cm from center O of a circle of radius 5 cm. Find the length of tangent from P.</div>
+        <div class="eg-s" style="margin-top:8px;">d = 13 cm, r = 5 cm</div>
+        <div class="eg-s">l = √(d² − r²)</div>
+        <div class="eg-s">l = √(169 − 25)</div>
+        <div class="eg-s">l = √144</div>
+        <div class="eg-a" style="color:var(--gold); background:rgba(249,199,79,0.1);">∴ l = 12 cm ✅</div>
+      </div>
+
+      <div class="eg" style="margin-bottom:14px;">
+        <div class="eg-q">▶ Example 2 — Find Radius</div>
+        <div class="eg-s">Q: Tangent length = 8 cm, distance = 10 cm. Find radius.</div>
+        <div class="eg-s" style="margin-top:8px;">l = 8, d = 10</div>
+        <div class="eg-s">r = √(d² − l²) = √(100 − 64) = √36</div>
+        <div class="eg-a">∴ r = 6 cm ✅</div>
+      </div>
+
+      <div class="eg" style="border-left-color:var(--violet);">
+        <div class="eg-q" style="color:var(--violet);">▶ Example 3 — Find Distance</div>
+        <div class="eg-s">Q: Tangent = 15 cm, radius = 9 cm. Find distance of external point from center.</div>
+        <div class="eg-s" style="margin-top:8px;">d = √(l² + r²) = √(225 + 81) = √306</div>
+        <div class="eg-s">d = √306 = 3√34 ≈ 17.49 cm</div>
+        <div class="eg-a" style="color:var(--violet); background:rgba(179,136,255,0.1);">∴ d = 3√34 ≈ 17.5 cm ✅</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tangent from external point - 2 tangents -->
+  <div class="card">
+    <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--mint), transparent);"></div>
+    <div class="card-title c-mint"><span>✌️</span> Two Tangents from External Point</div>
+
+    <div class="g2">
+      <div>
+        <svg viewBox="0 0 280 220" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:180px;display:block;">
+          <!-- Circle -->
+          <circle cx="100" cy="110" r="65" fill="rgba(67,233,123,0.05)" stroke="#43e97b" stroke-width="2"/>
+          <circle cx="100" cy="110" r="4" fill="#43e97b"/>
+          <text x="85" y="108" fill="#43e97b" font-size="11" font-family="IBM Plex Mono">O</text>
+          <!-- External point P -->
+          <circle cx="250" cy="110" r="5" fill="#f9c74f"/>
+          <text x="255" y="106" fill="#f9c74f" font-size="12" font-family="IBM Plex Mono">P</text>
+          <!-- Two tangents -->
+          <line x1="250" y1="110" x2="113" y2="55" stroke="#00d2ff" stroke-width="2"/>
+          <line x1="250" y1="110" x2="113" y2="165" stroke="#00d2ff" stroke-width="2"/>
+          <!-- Tangent points A and B -->
+          <circle cx="113" cy="55" r="5" fill="#b388ff"/>
+          <circle cx="113" cy="165" r="5" fill="#b388ff"/>
+          <text x="118" y="52" fill="#b388ff" font-size="11" font-family="IBM Plex Mono">A</text>
+          <text x="118" y="178" fill="#b388ff" font-size="11" font-family="IBM Plex Mono">B</text>
+          <!-- Equal lengths labels -->
+          <text x="170" y="78" fill="#00d2ff" font-size="10" font-family="IBM Plex Mono">PA</text>
+          <text x="170" y="152" fill="#00d2ff" font-size="10" font-family="IBM Plex Mono">PB</text>
+          <text x="213" y="113" fill="#f9c74f" font-size="13" font-family="IBM Plex Mono">=</text>
+          <!-- Radii -->
+          <line x1="100" y1="110" x2="113" y2="55" stroke="#43e97b" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <line x1="100" y1="110" x2="113" y2="165" stroke="#43e97b" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <!-- OP -->
+          <line x1="100" y1="110" x2="250" y2="110" stroke="#f9c74f" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <!-- angle bisector note -->
+          <text x="158" y="108" fill="#f9c74f" font-size="9" font-family="IBM Plex Mono">bisector</text>
+        </svg>
+      </div>
+      <div>
+        <div class="frow"><span class="fl">PA = PB</span><span class="fv c-mint">Both tangent lengths equal</span></div>
+        <div class="frow"><span class="fl">PA = PB</span><span class="fv c-mint">= √(OP² − r²)</span></div>
+        <div class="frow"><span class="fl">∠OAP = ∠OBP</span><span class="fv">= 90°</span></div>
+        <div class="frow"><span class="fl">OP bisects ∠APB</span><span class="fv">∠APO = ∠BPO</span></div>
+        <div class="frow"><span class="fl">OP bisects ∠AOB</span><span class="fv">∠AOP = ∠BOP</span></div>
+        <div class="frow"><span class="fl">OAPB is a kite</span><span class="fv c-gold">Kite shape!</span></div>
+
+        <div class="eg" style="margin-top:12px; border-left-color:var(--mint);">
+          <div class="eg-q">▶ PA = PB = 6, r = 4.5. Find OP.</div>
+          <div class="eg-s">OP = √(PA² + r²) = √(36 + 20.25)</div>
+          <div class="eg-s">OP = √56.25 = 7.5 cm</div>
+          <div class="eg-a">OP = 7.5 cm ✅</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ ANGLES ============ -->
+<div id="angles" class="section">
+
+  <div class="g2">
+    <!-- Angle between tangents -->
+    <div class="card">
+      <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--coral), transparent);"></div>
+      <div class="card-title c-coral"><span>📐</span> Angle Between Two Tangents</div>
+
+      <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:200px;display:block;margin-bottom:14px;">
+        <!-- Circle -->
+        <circle cx="110" cy="120" r="70" fill="rgba(242,95,92,0.05)" stroke="#f25f5c" stroke-width="2"/>
+        <circle cx="110" cy="120" r="4" fill="#f25f5c"/>
+        <text x="113" y="118" fill="#f25f5c" font-size="11" font-family="IBM Plex Mono">O</text>
+        <!-- External point P -->
+        <circle cx="270" cy="120" r="5" fill="#f9c74f"/>
+        <text x="275" y="116" fill="#f9c74f" font-size="12" font-family="IBM Plex Mono">P</text>
+        <!-- Tangents -->
+        <line x1="270" y1="120" x2="123" y2="55" stroke="#00d2ff" stroke-width="2"/>
+        <line x1="270" y1="120" x2="123" y2="185" stroke="#00d2ff" stroke-width="2"/>
+        <!-- Points A, B -->
+        <circle cx="123" cy="55" r="5" fill="#43e97b"/>
+        <circle cx="123" cy="185" r="5" fill="#43e97b"/>
+        <text x="128" y="51" fill="#43e97b" font-size="11" font-family="IBM Plex Mono">A</text>
+        <text x="128" y="198" fill="#43e97b" font-size="11" font-family="IBM Plex Mono">B</text>
+        <!-- Angle at P -->
+        <path d="M 250,120 A 20,20 0 0,0 240,105" fill="none" stroke="#f9c74f" stroke-width="1.5"/>
+        <text x="243" y="118" fill="#f9c74f" font-size="11" font-family="IBM Plex Mono">θ</text>
+        <!-- Angle at O -->
+        <path d="M 130,120 A 22,22 0 0,1 120,100" fill="none" stroke="#f25f5c" stroke-width="1.5"/>
+        <text x="124" y="118" fill="#f25f5c" font-size="11" font-family="IBM Plex Mono">α</text>
+        <!-- Radii -->
+        <line x1="110" y1="120" x2="123" y2="55" stroke="#f25f5c" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <line x1="110" y1="120" x2="123" y2="185" stroke="#f25f5c" stroke-width="1.2" stroke-dasharray="4,3"/>
+      </svg>
+
+      <div class="key-box">
+        <div class="kb-title">🔑 Key Relationship</div>
+        <span class="c-coral">∠APB + ∠AOB = 180°</span><br>
+        <span class="c-gold">θ + α = 180°</span><br>
+        So: <span class="c-cyan">∠APB = 180° − ∠AOB</span><br>
+        And: <span class="c-violet">∠APO = 90° − ∠AOP</span>
+      </div>
+
+      <div class="eg" style="margin-top:12px; border-left-color:var(--coral);">
+        <div class="eg-q" style="color:var(--coral);">▶ ∠AOB = 110°. Find ∠APB.</div>
+        <div class="eg-s">∠APB + ∠AOB = 180°</div>
+        <div class="eg-s">∠APB = 180° − 110° = 70°</div>
+        <div class="eg-a" style="color:var(--coral); background:rgba(242,95,92,0.1);">∠APB = 70° ✅</div>
+      </div>
+    </div>
+
+    <!-- Tangent-Radius angle -->
+    <div class="card">
+      <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--sky), transparent);"></div>
+      <div class="card-title c-sky"><span>🔷</span> Angles in Tangent–Radius Configuration</div>
+
+      <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:200px;display:block;margin-bottom:14px;">
+        <!-- Circle -->
+        <circle cx="150" cy="130" r="75" fill="rgba(72,202,228,0.05)" stroke="#48cae4" stroke-width="2"/>
+        <circle cx="150" cy="130" r="4" fill="#48cae4"/>
+        <text x="154" y="128" fill="#48cae4" font-size="11" font-family="IBM Plex Mono">O</text>
+        <!-- Tangent line -->
+        <line x1="20" y1="205" x2="280" y2="205" stroke="#f9c74f" stroke-width="2"/>
+        <!-- Point of tangency T -->
+        <circle cx="150" cy="205" r="5" fill="#43e97b"/>
+        <text x="154" y="220" fill="#43e97b" font-size="11" font-family="IBM Plex Mono">T</text>
+        <!-- Radius OT -->
+        <line x1="150" y1="130" x2="150" y2="205" stroke="#48cae4" stroke-width="2" stroke-dasharray="5,3"/>
+        <!-- right angle -->
+        <rect x="150" y="198" width="7" height="7" fill="none" stroke="#43e97b" stroke-width="1.5"/>
+        <!-- Chord from T -->
+        <line x1="150" y1="205" x2="90" y2="85" stroke="#b388ff" stroke-width="2"/>
+        <circle cx="90" cy="85" r="4" fill="#b388ff"/>
+        <text x="79" y="82" fill="#b388ff" font-size="11" font-family="IBM Plex Mono">A</text>
+        <!-- angle between chord and tangent -->
+        <path d="M 170,205 A 22,22 0 0,0 163,187" fill="none" stroke="#f25f5c" stroke-width="1.5"/>
+        <text x="172" y="199" fill="#f25f5c" font-size="11" font-family="IBM Plex Mono">α</text>
+        <!-- inscribed angle -->
+        <text x="175" y="145" fill="#b388ff" font-size="9" font-family="IBM Plex Mono">∠TAO on major arc</text>
+        <!-- r label -->
+        <text x="153" y="172" fill="#48cae4" font-size="11" font-family="IBM Plex Mono">r</text>
+      </svg>
+
+      <div class="theorem">
+        <div class="th-label">🏛 Tangent–Chord Angle (Alternate Segment Theorem)</div>
+        Angle between a tangent and a chord = inscribed angle on the <span class="c-gold">opposite side</span> (alternate segment).<br>
+        <span class="c-cyan">∠(tangent, chord) = ∠(inscribed angle in alternate segment)</span>
+      </div>
+
+      <div class="eg" style="margin-top:12px; border-left-color:var(--sky);">
+        <div class="eg-q" style="color:var(--sky);">▶ Tangent–chord angle = 65°. Find the inscribed angle in alternate segment.</div>
+        <div class="eg-s">By Alternate Segment Theorem:</div>
+        <div class="eg-s">Inscribed angle = Tangent–chord angle</div>
+        <div class="eg-a" style="color:var(--sky); background:rgba(72,202,228,0.1);">∠ in alternate segment = 65° ✅</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Angle in a semicircle + tangent -->
+  <div class="card">
+    <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--violet), transparent);"></div>
+    <div class="card-title c-violet"><span>🧮</span> Important Angle Formulas Summary</div>
+    <div class="g3">
+      <div>
+        <div class="frow"><span class="fl">Tangent ⊥ Radius</span><span class="fv c-violet">∠OTP = 90°</span></div>
+        <div class="frow"><span class="fl">∠APB + ∠AOB</span><span class="fv c-violet">= 180°</span></div>
+        <div class="frow"><span class="fl">∠OAP = ∠OBP</span><span class="fv">= 90°</span></div>
+      </div>
+      <div>
+        <div class="frow"><span class="fl">In OAPB</span><span class="fv c-coral">∠A + ∠B + ∠O + ∠P = 360°</span></div>
+        <div class="frow"><span class="fl">90+90+∠O+∠P</span><span class="fv">= 360°</span></div>
+        <div class="frow"><span class="fl">∠O + ∠P</span><span class="fv">= 180°</span></div>
+      </div>
+      <div>
+        <div class="frow"><span class="fl">sin(∠APO)</span><span class="fv c-cyan">= r/d</span></div>
+        <div class="frow"><span class="fl">cos(∠APO)</span><span class="fv c-cyan">= l/d</span></div>
+        <div class="frow"><span class="fl">tan(∠APO)</span><span class="fv c-cyan">= r/l</span></div>
+      </div>
+    </div>
+
+    <div class="eg" style="margin-top:14px;">
+      <div class="eg-q">▶ Example: OP = 10, r = 6. Find ∠APO and tangent length.</div>
+      <div class="eg-s">l = √(100−36) = √64 = 8 cm</div>
+      <div class="eg-s">sin(∠APO) = r/d = 6/10 = 0.6 → ∠APO = 37° (approx)</div>
+      <div class="eg-s">∴ ∠APB = 2 × 37° = 74°</div>
+      <div class="eg-a">l = 8 cm, ∠APB ≈ 74° ✅</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TWO CIRCLES ============ -->
+<div id="twocircles" class="section">
+
+  <div class="card" style="margin-bottom:16px;">
+    <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--rose), transparent);"></div>
+    <div class="card-title c-rose"><span>⭕</span> Common Tangents to Two Circles</div>
+    <p style="color:#8898b0; font-size:0.88rem; line-height:1.7; margin-bottom:16px;">
+      Two circles can have <span class="c-gold">0 to 4</span> common tangents depending on their positions. This is one of the most asked topics in SSC CGL!
+    </p>
+
+    <div class="g2">
+      <div>
+        <svg viewBox="0 0 300 240" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:200px;display:block;">
+          <!-- Circle 1 -->
+          <circle cx="80" cy="120" r="55" fill="rgba(255,101,132,0.06)" stroke="#ff6584" stroke-width="2"/>
+          <circle cx="80" cy="120" r="3" fill="#ff6584"/>
+          <text x="72" y="118" fill="#ff6584" font-size="10" font-family="IBM Plex Mono">O₁</text>
+          <!-- Circle 2 -->
+          <circle cx="220" cy="120" r="45" fill="rgba(0,210,255,0.06)" stroke="#00d2ff" stroke-width="2"/>
+          <circle cx="220" cy="120" r="3" fill="#00d2ff"/>
+          <text x="222" y="118" fill="#00d2ff" font-size="10" font-family="IBM Plex Mono">O₂</text>
+          <!-- External tangents (top and bottom) -->
+          <line x1="50" y1="62" x2="265" y2="72" stroke="#43e97b" stroke-width="1.8"/>
+          <line x1="50" y1="178" x2="265" y2="168" stroke="#43e97b" stroke-width="1.8"/>
+          <!-- Internal tangent (cross) -->
+          <line x1="40" y1="80" x2="270" y2="165" stroke="#f9c74f" stroke-width="1.8" stroke-dasharray="5,3"/>
+          <line x1="40" y1="165" x2="270" y2="80" stroke="#f9c74f" stroke-width="1.8" stroke-dasharray="5,3"/>
+          <!-- Labels -->
+          <text x="14" y="55" fill="#43e97b" font-size="9" font-family="IBM Plex Mono">External</text>
+          <text x="14" y="190" fill="#43e97b" font-size="9" font-family="IBM Plex Mono">tangents</text>
+          <text x="130" y="108" fill="#f9c74f" font-size="9" font-family="IBM Plex Mono">Internal</text>
+          <!-- Distance -->
+          <line x1="80" y1="138" x2="220" y2="138" stroke="#b388ff" stroke-width="1.2" stroke-dasharray="4,3"/>
+          <text x="136" y="150" fill="#b388ff" font-size="9" font-family="IBM Plex Mono">d = O₁O₂</text>
+        </svg>
+      </div>
+      <div>
+        <div class="frow" style="padding:8px 0;"><span class="fl">d > r₁ + r₂</span><span class="fv c-mint">4 common tangents</span></div>
+        <div class="frow" style="padding:8px 0;"><span class="fl">d = r₁ + r₂</span><span class="fv c-gold">3 tangents (ext. tangency)</span></div>
+        <div class="frow" style="padding:8px 0;"><span class="fl">|r₁−r₂| &lt; d &lt; r₁+r₂</span><span class="fv c-sky">2 tangents</span></div>
+        <div class="frow" style="padding:8px 0;"><span class="fl">d = |r₁ − r₂|</span><span class="fv c-coral">1 tangent (int. tangency)</span></div>
+        <div class="frow" style="padding:8px 0;"><span class="fl">d &lt; |r₁ − r₂|</span><span class="fv c-rose">0 tangents (one inside)</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="g2">
+    <!-- Length of external tangent -->
+    <div class="card">
+      <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--mint), transparent);"></div>
+      <div class="card-title c-mint"><span>↔️</span> Length of External Common Tangent</div>
+
+      <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:150px;display:block;margin-bottom:14px;">
+        <!-- Circle 1 (bigger) -->
+        <circle cx="80" cy="90" r="55" fill="rgba(67,233,123,0.05)" stroke="#43e97b" stroke-width="1.8"/>
+        <circle cx="80" cy="90" r="3" fill="#43e97b"/>
+        <text x="68" y="88" fill="#43e97b" font-size="10" font-family="IBM Plex Mono">O₁(r₁)</text>
+        <!-- Circle 2 (smaller) -->
+        <circle cx="230" cy="90" r="35" fill="rgba(67,233,123,0.05)" stroke="#43e97b" stroke-width="1.8"/>
+        <circle cx="230" cy="90" r="3" fill="#43e97b"/>
+        <text x="218" y="88" fill="#43e97b" font-size="10" font-family="IBM Plex Mono">O₂(r₂)</text>
+        <!-- External tangent -->
+        <line x1="60" y1="35" x2="255" y2="55" stroke="#f9c74f" stroke-width="2.5"/>
+        <!-- Radii to tangent -->
+        <line x1="80" y1="90" x2="70" y2="37" stroke="#43e97b" stroke-width="1.2" stroke-dasharray="3,2"/>
+        <line x1="230" y1="90" x2="248" y2="57" stroke="#43e97b" stroke-width="1.2" stroke-dasharray="3,2"/>
+        <!-- Tangent length label -->
+        <text x="130" y="35" fill="#f9c74f" font-size="11" font-family="IBM Plex Mono">L_ext</text>
+        <!-- d = distance -->
+        <line x1="80" y1="108" x2="230" y2="108" stroke="#b388ff" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <text x="138" y="122" fill="#b388ff" font-size="10" font-family="IBM Plex Mono">d</text>
+        <!-- r1 label -->
+        <text x="62" y="68" fill="#43e97b" font-size="10" font-family="IBM Plex Mono">r₁</text>
+        <text x="242" y="72" fill="#43e97b" font-size="10" font-family="IBM Plex Mono">r₂</text>
+      </svg>
+
+      <div class="key-box">
+        <div class="kb-title">🔑 External Tangent Length</div>
+        <span style="font-size:1rem; color:#fff;">L_ext = <span class="c-mint">√(d² − (r₁−r₂)²)</span></span>
+      </div>
+
+      <div class="eg" style="margin-top:12px;">
+        <div class="eg-q">▶ d=13, r₁=5, r₂=2. Find L_ext.</div>
+        <div class="eg-s">L = √(13² − (5−2)²) = √(169 − 9) = √160</div>
+        <div class="eg-a">L_ext = 4√10 ≈ 12.65 cm ✅</div>
+      </div>
+    </div>
+
+    <!-- Length of internal tangent -->
+    <div class="card">
+      <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--rose), transparent);"></div>
+      <div class="card-title c-rose"><span>✕</span> Length of Internal Common Tangent</div>
+
+      <svg viewBox="0 0 300 180" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:150px;display:block;margin-bottom:14px;">
+        <!-- Circle 1 -->
+        <circle cx="80" cy="90" r="55" fill="rgba(255,101,132,0.05)" stroke="#ff6584" stroke-width="1.8"/>
+        <circle cx="80" cy="90" r="3" fill="#ff6584"/>
+        <text x="68" y="88" fill="#ff6584" font-size="10" font-family="IBM Plex Mono">O₁(r₁)</text>
+        <!-- Circle 2 -->
+        <circle cx="230" cy="90" r="40" fill="rgba(255,101,132,0.05)" stroke="#ff6584" stroke-width="1.8"/>
+        <circle cx="230" cy="90" r="3" fill="#ff6584"/>
+        <text x="218" y="88" fill="#ff6584" font-size="10" font-family="IBM Plex Mono">O₂(r₂)</text>
+        <!-- Internal tangent (crosses between circles) -->
+        <line x1="30" y1="30" x2="278" y2="155" stroke="#f9c74f" stroke-width="2.5"/>
+        <!-- d -->
+        <line x1="80" y1="108" x2="230" y2="108" stroke="#b388ff" stroke-width="1.2" stroke-dasharray="4,3"/>
+        <text x="138" y="122" fill="#b388ff" font-size="10" font-family="IBM Plex Mono">d</text>
+        <!-- Tangent label -->
+        <text x="120" y="58" fill="#f9c74f" font-size="11" font-family="IBM Plex Mono">L_int</text>
+      </svg>
+
+      <div class="key-box" style="border-color:rgba(255,101,132,0.25);">
+        <div class="kb-title" style="color:var(--rose);">🔑 Internal Tangent Length</div>
+        <span style="font-size:1rem; color:#fff;">L_int = <span class="c-rose">√(d² − (r₁+r₂)²)</span></span>
+        <br><span style="color:var(--muted); font-size:0.78rem;">Only valid when d > r₁ + r₂</span>
+      </div>
+
+      <div class="eg" style="margin-top:12px; border-left-color:var(--rose);">
+        <div class="eg-q" style="color:var(--rose);">▶ d=17, r₁=4, r₂=9. Find L_int.</div>
+        <div class="eg-s">L = √(17² − (4+9)²) = √(289 − 169) = √120</div>
+        <div class="eg-a" style="color:var(--rose); background:rgba(255,101,132,0.1);">L_int = 2√30 ≈ 10.95 cm ✅</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Direct comparison -->
+  <div class="card">
+    <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--gold), transparent);"></div>
+    <div class="card-title c-gold"><span>📊</span> Quick Comparison Table</div>
+    <div style="overflow-x:auto;">
+      <table style="width:100%; border-collapse:collapse; font-family:'IBM Plex Mono',monospace; font-size:0.78rem;">
+        <thead>
+          <tr>
+            <th style="background:rgba(249,199,79,0.1); color:var(--gold); padding:9px 12px; border:1px solid var(--border2); text-align:left; font-size:0.68rem; letter-spacing:1px;">Type</th>
+            <th style="background:rgba(249,199,79,0.1); color:var(--gold); padding:9px 12px; border:1px solid var(--border2); letter-spacing:1px;">Formula</th>
+            <th style="background:rgba(249,199,79,0.1); color:var(--gold); padding:9px 12px; border:1px solid var(--border2); letter-spacing:1px;">Condition</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td style="padding:8px 12px; border:1px solid var(--border); color:var(--mint);">External Tangent Length</td><td style="padding:8px 12px; border:1px solid var(--border);">√(d² − (r₁−r₂)²)</td><td style="padding:8px 12px; border:1px solid var(--border); color:var(--muted);">d > r₁ − r₂</td></tr>
+          <tr><td style="padding:8px 12px; border:1px solid var(--border); color:var(--rose);">Internal Tangent Length</td><td style="padding:8px 12px; border:1px solid var(--border);">√(d² − (r₁+r₂)²)</td><td style="padding:8px 12px; border:1px solid var(--border); color:var(--muted);">d > r₁ + r₂</td></tr>
+          <tr><td style="padding:8px 12px; border:1px solid var(--border); color:var(--gold);">Tangent from point</td><td style="padding:8px 12px; border:1px solid var(--border);">√(d² − r²)</td><td style="padding:8px 12px; border:1px solid var(--border); color:var(--muted);">d > r</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ============ CHORD ============ -->
+<div id="chord" class="section">
+
+  <div class="g2">
+    <!-- Power of a point -->
+    <div class="card">
+      <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--violet), transparent);"></div>
+      <div class="card-title c-violet"><span>⚡</span> Power of a Point Theorem</div>
+
+      <svg viewBox="0 0 300 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:190px;display:block;margin-bottom:14px;">
+        <!-- Circle -->
+        <circle cx="150" cy="115" r="75" fill="rgba(179,136,255,0.05)" stroke="#b388ff" stroke-width="2"/>
+        <circle cx="150" cy="115" r="3" fill="#b388ff"/>
+        <!-- External point P -->
+        <circle cx="280" cy="115" r="5" fill="#f9c74f"/>
+        <text x="284" y="112" fill="#f9c74f" font-size="11" font-family="IBM Plex Mono">P</text>
+        <!-- Tangent -->
+        <line x1="280" y1="115" x2="158" y2="42" stroke="#43e97b" stroke-width="2"/>
+        <circle cx="158" cy="42" r="4" fill="#43e97b"/>
+        <text x="162" y="39" fill="#43e97b" font-size="11" font-family="IBM Plex Mono">T</text>
+        <!-- Secant -->
+        <line x1="280" y1="115" x2="75" y2="115" stroke="#00d2ff" stroke-width="2"/>
+        <circle cx="225" cy="115" r="4" fill="#00d2ff"/>
+        <circle cx="75" cy="115" r="4" fill="#00d2ff"/>
+        <text x="228" y="110" fill="#00d2ff" font-size="11" font-family="IBM Plex Mono">A</text>
+        <text x="62" y="110" fill="#00d2ff" font-size="11" font-family="IBM Plex Mono">B</text>
+        <!-- Labels -->
+        <text x="245" y="108" fill="#00d2ff" font-size="9" font-family="IBM Plex Mono">PA</text>
+        <text x="155" y="120" fill="#00d2ff" font-size="9" font-family="IBM Plex Mono">PB</text>
+        <text x="225" y="78" fill="#43e97b" font-size="9" font-family="IBM Plex Mono">PT</text>
+      </svg>
+
+      <div class="key-box">
+        <div class="kb-title">🔑 Power of a Point</div>
+        <span class="c-violet">PT² = PA × PB</span><br>
+        (tangent)² = (external secant) × (whole secant)<br><br>
+        Also: if two chords intersect <b>inside</b> circle:<br>
+        <span class="c-cyan">PA × PB = PC × PD</span>
+      </div>
+
+      <div class="eg" style="margin-top:12px;">
+        <div class="eg-q">▶ PA=4, PB=9. Find tangent PT.</div>
+        <div class="eg-s">PT² = PA × PB = 4 × 9 = 36</div>
+        <div class="eg-a">PT = 6 cm ✅</div>
+      </div>
+    </div>
+
+    <!-- Tangent-Secant -->
+    <div class="card">
+      <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--sky), transparent);"></div>
+      <div class="card-title c-sky"><span>🔀</span> Tangent–Secant Relationship</div>
+
+      <svg viewBox="0 0 300 230" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-height:190px;display:block;margin-bottom:14px;">
+        <!-- Circle -->
+        <circle cx="140" cy="115" r="70" fill="rgba(72,202,228,0.05)" stroke="#48cae4" stroke-width="2"/>
+        <!-- Ext point A -->
+        <circle cx="280" cy="115" r="5" fill="#f9c74f"/>
+        <text x="284" y="112" fill="#f9c74f" font-size="12" font-family="IBM Plex Mono">A</text>
+        <!-- Tangent at T -->
+        <line x1="280" y1="115" x2="150" y2="45" stroke="#43e97b" stroke-width="2.5"/>
+        <circle cx="150" cy="45" r="5" fill="#43e97b"/>
+        <text x="154" y="42" fill="#43e97b" font-size="11" font-family="IBM Plex Mono">T</text>
+        <!-- Secant through B, C -->
+        <line x1="280" y1="115" x2="70" y2="115" stroke="#f25f5c" stroke-width="2"/>
+        <circle cx="210" cy="115" r="4" fill="#f25f5c"/>
+        <circle cx="70" cy="115" r="4" fill="#f25f5c"/>
+        <text x="213" y="110" fill="#f25f5c" font-size="11" font-family="IBM Plex Mono">B</text>
+        <text x="57" y="110" fill="#f25f5c" font-size="11" font-family="IBM Plex Mono">C</text>
+        <!-- brace labels -->
+        <text x="238" y="132" fill="#f25f5c" font-size="9" font-family="IBM Plex Mono">AB</text>
+        <text x="138" y="132" fill="#f25f5c" font-size="9" font-family="IBM Plex Mono">AC</text>
+        <text x="208" y="80" fill="#43e97b" font-size="9" font-family="IBM Plex Mono">AT²</text>
+      </svg>
+
+      <div class="theorem">
+        <div class="th-label">🏛 Tangent–Secant Theorem</div>
+        <span class="c-sky">AT² = AB × AC</span><br>
+        where AB = external segment, AC = whole secant length
+      </div>
+
+      <div class="eg" style="margin-top:12px; border-left-color:var(--sky);">
+        <div class="eg-q" style="color:var(--sky);">▶ AT=8, AB=4. Find BC (chord).</div>
+        <div class="eg-s">AT² = AB × AC</div>
+        <div class="eg-s">64 = 4 × AC → AC = 16</div>
+        <div class="eg-s">BC = AC − AB = 16 − 4 = 12 cm</div>
+        <div class="eg-a" style="color:var(--sky); background:rgba(72,202,228,0.1);">BC = 12 cm ✅</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ PRACTICE ============ -->
+<div id="practice" class="section">
+  <div class="stitle">✏️ Practice Questions</div>
+
+  <div class="g2">
+    <div>
+      <!-- Q1 -->
+      <div class="pq" style="position:relative;">
+        <div class="pq-num">01</div>
+        <div class="difficulty easy">EASY</div>
+        <div class="pq-q">A tangent is drawn from a point P to a circle of radius 5 cm. If OP = 13 cm, find the length of the tangent.</div>
+        <button class="pq-btn" onclick="toggleAns(this)">▶ Show Solution</button>
+        <div class="pq-reveal">
+          <div class="eg" style="margin-top:0; border-left-color:var(--mint);">
+            <div class="eg-s">r = 5, OP = 13</div>
+            <div class="eg-s">l = √(OP² − r²) = √(169 − 25) = √144</div>
+            <div class="eg-a">l = 12 cm ✅</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="pq" style="position:relative;">
+        <div class="pq-num">02</div>
+        <div class="difficulty easy">EASY</div>
+        <div class="pq-q">Two tangents PA and PB are drawn from an external point P to a circle with centre O and radius 7 cm. If ∠APB = 60°, find OP.</div>
+        <button class="pq-btn" onclick="toggleAns(this)">▶ Show Solution</button>
+        <div class="pq-reveal">
+          <div class="eg" style="margin-top:0;">
+            <div class="eg-s">∠APB = 60° → ∠APO = 30° (OA bisects ∠APB)</div>
+            <div class="eg-s">sin(∠APO) = r/OP → sin 30° = 7/OP</div>
+            <div class="eg-s">0.5 = 7/OP → OP = 14 cm</div>
+            <div class="eg-a">OP = 14 cm ✅</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="pq" style="position:relative;">
+        <div class="pq-num">03</div>
+        <div class="difficulty medium">MEDIUM</div>
+        <div class="pq-q">From an external point P, tangent PA = 10 cm is drawn to a circle. A secant PAB is drawn with PA = 5 cm (external part). Find AB (chord length).</div>
+        <button class="pq-btn" onclick="toggleAns(this)">▶ Show Solution</button>
+        <div class="pq-reveal">
+          <div class="eg" style="margin-top:0; border-left-color:var(--gold);">
+            <div class="eg-s">PT² = Pext × Pwhole (Tangent-Secant)</div>
+            <div class="eg-s">10² = 5 × PAB_whole</div>
+            <div class="eg-s">PAB_whole = 100/5 = 20</div>
+            <div class="eg-s">AB = 20 − 5 = 15 cm</div>
+            <div class="eg-a" style="color:var(--gold); background:rgba(249,199,79,0.1);">AB = 15 cm ✅</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="pq" style="position:relative;">
+        <div class="pq-num">04</div>
+        <div class="difficulty medium">MEDIUM</div>
+        <div class="pq-q">Two circles have radii 8 cm and 3 cm. The distance between their centres is 13 cm. Find the length of the external common tangent.</div>
+        <button class="pq-btn" onclick="toggleAns(this)">▶ Show Solution</button>
+        <div class="pq-reveal">
+          <div class="eg" style="margin-top:0; border-left-color:var(--mint);">
+            <div class="eg-s">L_ext = √(d² − (r₁−r₂)²)</div>
+            <div class="eg-s">= √(169 − (8−3)²) = √(169 − 25)</div>
+            <div class="eg-s">= √144</div>
+            <div class="eg-a">L_ext = 12 cm ✅</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <!-- Q5 -->
+      <div class="pq" style="position:relative;">
+        <div class="pq-num">05</div>
+        <div class="difficulty medium">MEDIUM</div>
+        <div class="pq-q">Two circles have radii 5 cm and 3 cm, centres 10 cm apart. Find the length of the internal common tangent.</div>
+        <button class="pq-btn" onclick="toggleAns(this)">▶ Show Solution</button>
+        <div class="pq-reveal">
+          <div class="eg" style="margin-top:0; border-left-color:var(--rose);">
+            <div class="eg-s">L_int = √(d² − (r₁+r₂)²)</div>
+            <div class="eg-s">= √(100 − (5+3)²) = √(100 − 64)</div>
+            <div class="eg-s">= √36</div>
+            <div class="eg-a" style="color:var(--rose); background:rgba(255,101,132,0.1);">L_int = 6 cm ✅</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="pq" style="position:relative;">
+        <div class="pq-num">06</div>
+        <div class="difficulty hard">HARD</div>
+        <div class="pq-q">PA and PB are tangents from P to a circle with centre O. If PA = 24 cm and OP = 26 cm, find the area of quadrilateral OAPB.</div>
+        <button class="pq-btn" onclick="toggleAns(this)">▶ Show Solution</button>
+        <div class="pq-reveal">
+          <div class="eg" style="margin-top:0; border-left-color:var(--violet);">
+            <div class="eg-s">r = OA = √(OP²−PA²) = √(676−576) = √100 = 10</div>
+            <div class="eg-s">OAPB is a kite (OA=OB=r, PA=PB=24)</div>
+            <div class="eg-s">Area = ½ × d₁ × d₂ (diagonals of kite)</div>
+            <div class="eg-s">d₁ = OP = 26, d₂ = 2×PA×OA/OP = 2×24×10/26</div>
+            <div class="eg-s">Actually: Area = 2 × area(△OAP) = 2 × ½ × OA × PA</div>
+            <div class="eg-s">= OA × PA = 10 × 24 = 240</div>
+            <div class="eg-a" style="color:var(--violet); background:rgba(179,136,255,0.1);">Area = 240 cm² ✅</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="pq" style="position:relative;">
+        <div class="pq-num">07</div>
+        <div class="difficulty hard">HARD</div>
+        <div class="pq-q">Tangent from point P touches the circle at T. A chord AB passes through the centre. If PT = 12 and PB = 8 cm, find PA.</div>
+        <button class="pq-btn" onclick="toggleAns(this)">▶ Show Solution</button>
+        <div class="pq-reveal">
+          <div class="eg" style="margin-top:0; border-left-color:var(--coral);">
+            <div class="eg-s">By Power of a Point: PT² = PA × PB</div>
+            <div class="eg-s">144 = PA × 8</div>
+            <div class="eg-s">PA = 144/8 = 18 cm</div>
+            <div class="eg-a" style="color:var(--coral); background:rgba(242,95,92,0.1);">PA = 18 cm ✅</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="pq" style="position:relative;">
+        <div class="pq-num">08</div>
+        <div class="difficulty hard">HARD</div>
+        <div class="pq-q">Two tangents from P make an angle of 120° with each other. The radius of the circle is 3√3 cm. Find the distance OP.</div>
+        <button class="pq-btn" onclick="toggleAns(this)">▶ Show Solution</button>
+        <div class="pq-reveal">
+          <div class="eg" style="margin-top:0; border-left-color:var(--sky);">
+            <div class="eg-s">∠APB = 120° → ∠APO = 60°</div>
+            <div class="eg-s">sin(60°) = r/OP = OA/OP</div>
+            <div class="eg-s">√3/2 = 3√3 / OP</div>
+            <div class="eg-s">OP = 3√3 × 2/√3 = 6 cm</div>
+            <div class="eg-a" style="color:var(--sky); background:rgba(72,202,228,0.1);">OP = 6 cm ✅</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ TRICKS ============ -->
+<div id="tricks" class="section">
+  <div class="stitle">⚡ Exam Tricks & Quick Reference</div>
+
+  <div class="g2">
+    <div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 1 — Golden Formula</div>
+        <p>For ANY tangent problem: identify r, d (or l), and use <code>l² + r² = d²</code>. This single right triangle relationship solves 80% of tangent questions!</p>
+        <span class="formula-highlight">l = √(d²−r²) · r = √(d²−l²) · d = √(l²+r²)</span>
+      </div>
+
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 2 — Angle shortcut</div>
+        <p>When tangent angle ∠APB is given:<br>
+        • <code>sin(∠APO) = r/OP</code><br>
+        • <code>∠APO = ½ × ∠APB</code><br>
+        Use 30°→sin=½, 60°→sin=√3/2 for clean answers!</p>
+      </div>
+
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 3 — Power of a Point</div>
+        <p>Whenever you see tangent + secant from same point: <code>PT² = PA × PB</code>. Look for Pythagorean triples hidden here. PA=4, PB=9 → PT=6 (instant!).</p>
+      </div>
+
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 4 — Two circles tangent key</div>
+        <p>External tangent formula uses <code>(r₁ − r₂)</code> — difference of radii.<br>
+        Internal tangent formula uses <code>(r₁ + r₂)</code> — sum of radii.<br>
+        Easy to remember: I→Internal→Add, E→External→rEduction!</p>
+      </div>
+    </div>
+
+    <div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 5 — Kite property</div>
+        <p>OAPB (two tangents + two radii) is always a <code>kite</code>. Area = OA × PA = r × l. Saves time — no need to compute full quadrilateral!</p>
+      </div>
+
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 6 — Number of common tangents</div>
+        <p>Memorise with: <b style="color:var(--gold);">"4-3-2-1-0"</b> as circles move closer:<br>
+        Separated → 4, External touch → 3, Intersecting → 2, Internal touch → 1, One inside → 0</p>
+      </div>
+
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 7 — Pythagorean triple hunter</div>
+        <p>In exam: if r=5 and d=13 → l=12 (5-12-13 triple). If r=3, d=5 → l=4 (3-4-5). Always scan for Pythagorean triples first — saves 30 seconds!</p>
+      </div>
+
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 8 — Equal tangent usage</div>
+        <p>If a triangle is inscribed/circumscribed in a circle, use equal tangent lengths from each vertex to find side lengths. Let tangents from A=x, B=y, C=z, then sides: a=y+z, b=x+z, c=x+y.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Quick ref box -->
+  <div class="card" style="margin-top:4px;">
+    <div class="card-accent" style="background: linear-gradient(90deg, transparent, var(--cyan), transparent);"></div>
+    <div class="card-title c-cyan"><span>📌</span> One-Page Cheat Sheet</div>
+    <div class="g3">
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:0.8rem; line-height:2.2; color:#8898b0;">
+        <span class="c-cyan">Tangent length l</span><br>
+        l = √(d² − r²)<br>
+        <span class="c-gold">Angle relationship</span><br>
+        ∠APB + ∠AOB = 180°<br>
+        <span class="c-mint">Tangent ⊥ Radius</span><br>
+        ∠OTP = 90° always
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:0.8rem; line-height:2.2; color:#8898b0;">
+        <span class="c-rose">Ext. common tangent</span><br>
+        √(d² − (r₁−r₂)²)<br>
+        <span class="c-violet">Int. common tangent</span><br>
+        √(d² − (r₁+r₂)²)<br>
+        <span class="c-coral">Power of point</span><br>
+        PT² = PA × PB
+      </div>
+      <div style="font-family:'IBM Plex Mono',monospace; font-size:0.8rem; line-height:2.2; color:#8898b0;">
+        <span class="c-sky">Equal tangents</span><br>
+        PA = PB (ext. point)<br>
+        <span class="c-gold">sin∠APO = r/OP</span><br>
+        cos∠APO = l/OP<br>
+        <span class="c-violet">tan∠APO = r/l</span><br>
+        Kite area = r × l
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- /content -->
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+
+function toggleAns(btn) {
+  const reveal = btn.nextElementSibling;
+  const isOpen = reveal.classList.contains('open');
+  reveal.classList.toggle('open');
+  btn.textContent = isOpen ? '▶ Show Solution' : '▼ Hide Solution';
+}
+</script>
+</body>
+</html>
