@@ -156,10 +156,10 @@
   .step-list { list-style: none; counter-reset: steps; }
   .step-list li {
     counter-increment: steps;
-    display: flex;
-    gap: 14px;
+    position: relative;
+    display: block;
+    padding-left: 38px;
     margin-bottom: 12px;
-    align-items: flex-start;
     font-size: 0.9rem;
     line-height: 1.6;
     color: #cccce0;
@@ -172,14 +172,14 @@
     font-family: 'JetBrains Mono', monospace;
     font-weight: 700;
     font-size: 0.75rem;
-    min-width: 24px;
+    width: 24px;
     height: 24px;
     border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-    margin-top: 2px;
+    position: absolute;
+    left: 0;
+    top: 2px;
+    display: grid;
+    place-items: center;
   }
 
   .example-box {
