@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Circle & Its Chords</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+:root{
+  --bg:#060810;--s1:#0a0d1a;--s2:#0e1225;--bd:#1a1f38;
+  --teal:#0ff4c6;--blue:#4d7cff;--pink:#ff4da6;--gold:#ffc947;
+  --red:#ff5757;--purple:#a855f7;--white:#f0f4ff;--dim:#4a5280;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--white);font-family:'DM Sans',sans-serif;min-height:100vh;overflow-x:hidden;}
+/* HERO */
+.hero{position:relative;padding:50px 20px 32px;text-align:center;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:conic-gradient(from 0deg at 50% 0%,transparent 60%,rgba(15,244,198,.06) 75%,transparent 90%);pointer-events:none;}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:4px;color:var(--teal);border:1px solid rgba(15,244,198,.2);padding:5px 16px;border-radius:2px;display:inline-block;margin-bottom:18px;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,8vw,5.5rem);font-weight:800;line-height:.9;letter-spacing:-1px;}
+h1 span{display:block;}
+h1 .t1{color:var(--white);}
+h1 .t2{-webkit-text-stroke:1px var(--teal);-webkit-text-fill-color:transparent;color:transparent;}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim);margin-top:14px;letter-spacing:1px;}
+/* TABS */
+.tabbar{background:var(--s1);border-bottom:1px solid var(--bd);padding:12px 16px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:99;backdrop-filter:blur(16px);}
+.tab{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.5px;padding:6px 14px;border-radius:3px;border:1px solid var(--bd);background:transparent;color:var(--dim);cursor:pointer;transition:.2s;}
+.tab:hover,.tab.on{background:rgba(15,244,198,.08);border-color:var(--teal);color:var(--teal);}
+/* CONTENT */
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 60px;}
+.pg{display:none;animation:up .3s ease both;}
+.pg.on{display:block;}
+@keyframes up{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+@media(max-width:680px){.g2,.g3{grid-template-columns:1fr;}}
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px;position:relative;overflow:hidden;transition:transform .2s;}
+.card:hover{transform:translateY(-2px);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;}
+.card.c-teal::before{background:linear-gradient(90deg,transparent,var(--teal),transparent);}
+.card.c-blue::before{background:linear-gradient(90deg,transparent,var(--blue),transparent);}
+.card.c-pink::before{background:linear-gradient(90deg,transparent,var(--pink),transparent);}
+.card.c-gold::before{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.card.c-purple::before{background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+.card.c-red::before{background:linear-gradient(90deg,transparent,var(--red),transparent);}
+/* CARD TITLE */
+.ct{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+.ct.teal{color:var(--teal);}.ct.blue{color:var(--blue);}.ct.pink{color:var(--pink);}.ct.gold{color:var(--gold);}.ct.purple{color:var(--purple);}.ct.red{color:var(--red);}
+/* FORMULA ROW */
+.fr{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);gap:12px;}
+.fr:last-child{border:none;}
+.fl{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim);flex-shrink:0;}
+.fv{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--white);text-align:right;}
+/* THEOREM */
+.thm{background:rgba(15,244,198,.04);border:1px solid rgba(15,244,198,.15);border-radius:6px;padding:12px 14px;margin:10px 0;font-family:'JetBrains Mono',monospace;font-size:.76rem;line-height:1.9;}
+.thm-lbl{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--teal);margin-bottom:6px;}
+/* KEY BOX */
+.kb{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:12px 14px;margin:10px 0;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:2;}
+.kb-lbl{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+/* EXAMPLE */
+.ex{background:rgba(0,0,0,.4);border-left:2px solid var(--teal);padding:12px 14px;margin-top:12px;border-radius:0 6px 6px 0;font-family:'JetBrains Mono',monospace;font-size:.74rem;}
+.ex-q{color:var(--teal);font-weight:600;margin-bottom:6px;}
+.ex-s{color:var(--dim);line-height:1.7;margin:2px 0;}
+.ex-a{margin-top:8px;background:rgba(15,244,198,.08);border-radius:4px;padding:6px 10px;color:var(--teal);font-weight:600;}
+/* PRACTICE */
+.pq{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:10px;}
+.pq-q{font-size:.9rem;line-height:1.7;margin-bottom:10px;}
+.pq-btn{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--teal);background:rgba(15,244,198,.07);border:1px solid rgba(15,244,198,.2);border-radius:4px;padding:5px 12px;cursor:pointer;transition:.2s;}
+.pq-btn:hover{background:rgba(15,244,198,.15);}
+.pq-ans{display:none;margin-top:10px;}.pq-ans.open{display:block;}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.5px;padding:2px 9px;border-radius:2px;margin-bottom:8px;}
+.b-e{background:rgba(15,244,198,.1);color:var(--teal);border:1px solid rgba(15,244,198,.2);}
+.b-m{background:rgba(255,201,71,.1);color:var(--gold);border:1px solid rgba(255,201,71,.2);}
+.b-h{background:rgba(255,87,87,.1);color:var(--red);border:1px solid rgba(255,87,87,.2);}
+/* TRICK */
+.tk{background:rgba(255,201,71,.03);border:1px solid rgba(255,201,71,.12);border-radius:6px;padding:14px;margin-bottom:10px;}
+.tk-t{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.tk p{font-size:.87rem;color:#8090b0;line-height:1.65;}
+.tk code{font-family:'JetBrains Mono',monospace;background:rgba(255,201,71,.1);color:var(--gold);padding:1px 5px;border-radius:2px;font-size:.78rem;}
+/* COLORS */
+.tc{color:var(--teal);}.bc{color:var(--blue);}.pc{color:var(--pink);}.gc{color:var(--gold);}.rc{color:var(--red);}.vc{color:var(--purple);}
+svg{width:100%;height:auto;display:block;}
+.note{font-size:.78rem;color:var(--dim);margin-top:6px;font-style:italic;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="hero-tag">CIRCLE GEOMETRY · GOVT EXAM PREP</div>
+  <h1><span class="t1">CIRCLE &</span><span class="t2">ITS CHORDS</span></h1>
+  <p class="hero-sub">// Theorems · Distance · Angles · Cyclic Quad · SSC · IBPS · RRB</p>
+</div>
+
+<div class="tabbar">
+  <button class="tab on" onclick="sw(this,'p0')">⭕ Basics</button>
+  <button class="tab" onclick="sw(this,'p1')">📏 Chord Length</button>
+  <button class="tab" onclick="sw(this,'p2')">🔗 Chord Theorems</button>
+  <button class="tab" onclick="sw(this,'p3')">📐 Angles</button>
+  <button class="tab" onclick="sw(this,'p4')">🔷 Cyclic Quad</button>
+  <button class="tab" onclick="sw(this,'p5')">✏️ Practice</button>
+  <button class="tab" onclick="sw(this,'p6')">⚡ Quick Ref</button>
+</div>
+
+<div class="wrap">
+
+<!-- PAGE 0: BASICS -->
+<div class="pg on" id="p0">
+  <div class="g2">
+    <div class="card c-teal">
+      <div class="ct teal">⭕ Parts of a Circle</div>
+      <svg viewBox="0 0 300 260" style="max-height:210px;margin-bottom:12px;">
+        <circle cx="150" cy="130" r="100" fill="rgba(15,244,198,.04)" stroke="#0ff4c6" stroke-width="2"/>
+        <circle cx="150" cy="130" r="4" fill="#ffc947"/>
+        <text x="155" y="128" fill="#ffc947" font-size="11" font-family="JetBrains Mono">O (centre)</text>
+        <!-- radius -->
+        <line x1="150" y1="130" x2="250" y2="130" stroke="#ffc947" stroke-width="1.8" stroke-dasharray="5,3"/>
+        <text x="192" y="122" fill="#ffc947" font-size="11" font-family="JetBrains Mono">r</text>
+        <!-- diameter -->
+        <line x1="50" y1="130" x2="250" y2="130" stroke="rgba(15,244,198,.4)" stroke-width="1.2"/>
+        <text x="130" y="152" fill="#0ff4c6" font-size="10" font-family="JetBrains Mono">diameter = 2r</text>
+        <!-- chord -->
+        <line x1="72" y1="75" x2="228" y2="75" stroke="#4d7cff" stroke-width="2.5"/>
+        <circle cx="72" cy="75" r="4" fill="#4d7cff"/><circle cx="228" cy="75" r="4" fill="#4d7cff"/>
+        <text x="136" y="67" fill="#4d7cff" font-size="10" font-family="JetBrains Mono">chord</text>
+        <!-- arc -->
+        <path d="M 72,75 A 100,100 0 0,1 228,75" fill="none" stroke="#a855f7" stroke-width="3"/>
+        <text x="140" y="30" fill="#a855f7" font-size="10" font-family="JetBrains Mono">arc</text>
+        <!-- sector -->
+        <line x1="150" y1="130" x2="72" y2="75" stroke="rgba(255,87,87,.5)" stroke-width="1"/>
+        <line x1="150" y1="130" x2="228" y2="75" stroke="rgba(255,87,87,.5)" stroke-width="1"/>
+        <!-- tangent -->
+        <line x1="10" y1="230" x2="290" y2="230" stroke="#ff4da6" stroke-width="2"/>
+        <circle cx="150" cy="230" r="4" fill="#ff4da6"/>
+        <text x="200" y="224" fill="#ff4da6" font-size="10" font-family="JetBrains Mono">tangent</text>
+      </svg>
+      <div class="fr"><span class="fl">Circumference</span><span class="fv tc">2πr = πd</span></div>
+      <div class="fr"><span class="fl">Area</span><span class="fv tc">πr²</span></div>
+      <div class="fr"><span class="fl">Arc length (θ°)</span><span class="fv">(θ/360) × 2πr</span></div>
+      <div class="fr"><span class="fl">Sector area</span><span class="fv">(θ/360) × πr²</span></div>
+      <div class="fr"><span class="fl">Segment area</span><span class="fv">Sector − Triangle</span></div>
+    </div>
+    <div class="card c-blue">
+      <div class="ct blue">📋 Key Properties</div>
+      <div class="thm">
+        <div class="thm-lbl">5 Essential Facts</div>
+        1. <span class="tc">Diameter is the longest chord</span><br>
+        2. Equal chords are <span class="gc">equidistant</span> from centre<br>
+        3. Perpendicular from centre <span class="tc">bisects chord</span><br>
+        4. <span class="pc">Tangent ⊥ radius</span> at point of contact<br>
+        5. Angle in semicircle = <span class="gc">90°</span>
+      </div>
+      <div class="kb">
+        <div class="kb-lbl">Chord ↔ Distance Formula</div>
+        If chord length = <span class="tc">2l</span>, distance from centre = <span class="gc">d</span>, radius = <span class="bc">r</span>:<br>
+        <span style="font-size:1rem;color:#fff;">r² = l² + d²</span><br>
+        <span class="tc">Chord = 2√(r² − d²)</span>
+      </div>
+      <div class="ex">
+        <div class="ex-q">▶ r=13, chord=10. Find distance from centre.</div>
+        <div class="ex-s">Half chord l = 5</div>
+        <div class="ex-s">d = √(r²−l²) = √(169−25) = √144</div>
+        <div class="ex-a">d = 12 cm ✓</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 1: CHORD LENGTH -->
+<div class="pg" id="p1">
+  <div class="g2">
+    <div class="card c-teal">
+      <div class="ct teal">📏 Chord Length Formula</div>
+      <svg viewBox="0 0 300 230" style="max-height:190px;margin-bottom:12px;">
+        <circle cx="150" cy="115" r="90" fill="rgba(15,244,198,.04)" stroke="#0ff4c6" stroke-width="2"/>
+        <circle cx="150" cy="115" r="4" fill="#ffc947"/>
+        <text x="154" y="113" fill="#ffc947" font-size="11" font-family="JetBrains Mono">O</text>
+        <!-- chord AB -->
+        <line x1="65" y1="75" x2="235" y2="75" stroke="#4d7cff" stroke-width="2.5"/>
+        <circle cx="65" cy="75" r="4" fill="#4d7cff"/><circle cx="235" cy="75" r="4" fill="#4d7cff"/>
+        <text x="56" y="70" fill="#4d7cff" font-size="11" font-family="JetBrains Mono">A</text>
+        <text x="238" y="70" fill="#4d7cff" font-size="11" font-family="JetBrains Mono">B</text>
+        <!-- midpoint M -->
+        <circle cx="150" cy="75" r="4" fill="#0ff4c6"/>
+        <text x="153" y="72" fill="#0ff4c6" font-size="10" font-family="JetBrains Mono">M</text>
+        <!-- perp OM -->
+        <line x1="150" y1="115" x2="150" y2="75" stroke="#ffc947" stroke-width="1.8" stroke-dasharray="5,3"/>
+        <rect x="150" y="75" width="8" height="8" fill="none" stroke="#0ff4c6" stroke-width="1.5"/>
+        <!-- radius OA -->
+        <line x1="150" y1="115" x2="65" y2="75" stroke="rgba(255,87,87,.6)" stroke-width="1.5"/>
+        <text x="96" y="102" fill="#ff5757" font-size="10" font-family="JetBrains Mono">r</text>
+        <!-- labels -->
+        <text x="155" y="100" fill="#ffc947" font-size="11" font-family="JetBrains Mono">d</text>
+        <text x="100" y="69" fill="#4d7cff" font-size="10" font-family="JetBrains Mono">l</text>
+        <text x="188" y="69" fill="#4d7cff" font-size="10" font-family="JetBrains Mono">l</text>
+      </svg>
+      <div class="kb">
+        <div class="kb-lbl">The Three Forms</div>
+        <span class="tc">Chord = 2√(r² − d²)</span><br>
+        <span class="gc">d = √(r² − l²)</span> &nbsp;where l = half-chord<br>
+        <span class="bc">r² = l² + d²</span>
+      </div>
+      <div class="ex">
+        <div class="ex-q">▶ Chord = 16cm, d = 6cm. Find radius.</div>
+        <div class="ex-s">l = 8, d = 6</div>
+        <div class="ex-s">r = √(64 + 36) = √100</div>
+        <div class="ex-a">r = 10 cm ✓</div>
+      </div>
+    </div>
+    <div>
+      <div class="card c-gold" style="margin-bottom:14px;">
+        <div class="ct gold">📐 Equal Chords</div>
+        <div class="thm">
+          <div class="thm-lbl">Equal Chord Theorems</div>
+          • Equal chords → <span class="gc">equal distance</span> from centre<br>
+          • Equidistant chords → <span class="gc">equal length</span><br>
+          • Chord closer to centre → <span class="tc">longer</span><br>
+          • Diameter = longest chord (d = 0)
+        </div>
+        <div class="ex">
+          <div class="ex-q">▶ AB = CD = 24cm, r=13. Find distance from O.</div>
+          <div class="ex-s">l = 12, d = √(169 − 144) = √25</div>
+          <div class="ex-a">d = 5 cm (same for both) ✓</div>
+        </div>
+      </div>
+      <div class="card c-pink">
+        <div class="ct pink">📊 Two Parallel Chords</div>
+        <div class="thm">
+          <div class="thm-lbl">Distance Between Parallel Chords</div>
+          Same side of centre: <span class="tc">dist = |d₁ − d₂|</span><br>
+          Opposite sides: <span class="pc">dist = d₁ + d₂</span>
+        </div>
+        <div class="ex">
+          <div class="ex-q">▶ r=10, chords 12cm & 16cm (same side). Distance between?</div>
+          <div class="ex-s">d₁=√(100−36)=8, d₂=√(100−64)=6</div>
+          <div class="ex-a">Distance = 8 − 6 = 2 cm ✓</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 2: CHORD THEOREMS -->
+<div class="pg" id="p2">
+  <div class="g2">
+    <div class="card c-pink">
+      <div class="ct pink">🔗 Intersecting Chords (Inside)</div>
+      <svg viewBox="0 0 300 230" style="max-height:190px;margin-bottom:12px;">
+        <circle cx="150" cy="115" r="95" fill="rgba(255,77,166,.04)" stroke="#ff4da6" stroke-width="2"/>
+        <line x1="55" y1="75" x2="245" y2="160" stroke="#4d7cff" stroke-width="2"/>
+        <line x1="55" y1="165" x2="245" y2="75" stroke="#0ff4c6" stroke-width="2"/>
+        <circle cx="55" cy="75" r="4" fill="#4d7cff"/><circle cx="245" cy="160" r="4" fill="#4d7cff"/>
+        <circle cx="55" cy="165" r="4" fill="#0ff4c6"/><circle cx="245" cy="75" r="4" fill="#0ff4c6"/>
+        <text x="42" y="72" fill="#4d7cff" font-size="11" font-family="JetBrains Mono">A</text>
+        <text x="248" y="165" fill="#4d7cff" font-size="11" font-family="JetBrains Mono">B</text>
+        <text x="42" y="170" fill="#0ff4c6" font-size="11" font-family="JetBrains Mono">C</text>
+        <text x="248" y="72" fill="#0ff4c6" font-size="11" font-family="JetBrains Mono">D</text>
+        <circle cx="152" cy="118" r="6" fill="#ffc947"/>
+        <text x="157" y="115" fill="#ffc947" font-size="11" font-family="JetBrains Mono">P</text>
+        <text x="93" y="92" fill="#4d7cff" font-size="10" font-family="JetBrains Mono">PA</text>
+        <text x="196" y="148" fill="#4d7cff" font-size="10" font-family="JetBrains Mono">PB</text>
+        <text x="93" y="150" fill="#0ff4c6" font-size="10" font-family="JetBrains Mono">PC</text>
+        <text x="196" y="95" fill="#0ff4c6" font-size="10" font-family="JetBrains Mono">PD</text>
+      </svg>
+      <div class="kb">
+        <div class="kb-lbl">Intersecting Chords Theorem</div>
+        <span style="font-size:1rem;color:#fff;"><span class="pc">PA × PB = PC × PD</span></span>
+      </div>
+      <div class="ex"><div class="ex-q">▶ PA=3, PB=12, PC=4. Find PD.</div><div class="ex-s">3 × 12 = 4 × PD → PD = 36/4</div><div class="ex-a">PD = 9 cm ✓</div></div>
+      <div class="ex" style="border-left-color:var(--gold);margin-top:8px;"><div class="ex-q" style="color:var(--gold);">▶ PA=6, PB=8. Chord CD is bisected at P, find CD.</div><div class="ex-s">PA×PB = PC×PD. PC=PD (bisected)</div><div class="ex-s">48 = PC² → PC = 4√3</div><div class="ex-a" style="color:var(--gold);background:rgba(255,201,71,.08);">CD = 8√3 cm ✓</div></div>
+    </div>
+    <div class="card c-blue">
+      <div class="ct blue">🔀 Secant-Secant (External)</div>
+      <svg viewBox="0 0 300 230" style="max-height:190px;margin-bottom:12px;">
+        <circle cx="120" cy="115" r="80" fill="rgba(77,124,255,.04)" stroke="#4d7cff" stroke-width="2"/>
+        <circle cx="270" cy="115" r="5" fill="#ffc947"/>
+        <text x="274" y="112" fill="#ffc947" font-size="11" font-family="JetBrains Mono">P</text>
+        <!-- Secant 1 -->
+        <line x1="270" y1="115" x2="40" y2="80" stroke="#0ff4c6" stroke-width="2"/>
+        <circle cx="176" cy="101" r="4" fill="#0ff4c6"/><circle cx="65" cy="83" r="4" fill="#0ff4c6"/>
+        <text x="178" y="96" fill="#0ff4c6" font-size="10" font-family="JetBrains Mono">A</text>
+        <text x="52" y="80" fill="#0ff4c6" font-size="10" font-family="JetBrains Mono">B</text>
+        <!-- Secant 2 -->
+        <line x1="270" y1="115" x2="40" y2="155" stroke="#ff4da6" stroke-width="2"/>
+        <circle cx="176" cy="129" r="4" fill="#ff4da6"/><circle cx="65" cy="150" r="4" fill="#ff4da6"/>
+        <text x="178" y="143" fill="#ff4da6" font-size="10" font-family="JetBrains Mono">C</text>
+        <text x="52" y="165" fill="#ff4da6" font-size="10" font-family="JetBrains Mono">D</text>
+        <text x="200" y="100" fill="#0ff4c6" font-size="9" font-family="JetBrains Mono">PA</text>
+        <text x="200" y="138" fill="#ff4da6" font-size="9" font-family="JetBrains Mono">PC</text>
+      </svg>
+      <div class="kb">
+        <div class="kb-lbl">External Point Theorem</div>
+        <span class="bc">PA × PB = PC × PD</span><br>
+        (external × whole = external × whole)
+      </div>
+      <div class="ex"><div class="ex-q">▶ PA=4, AB=8, PC=3. Find CD.</div><div class="ex-s">PB=PA+AB=12. PA×PB=PC×PD → 4×12=3×PD</div><div class="ex-s">PD=16. CD=PD−PC=16−3=13</div><div class="ex-a">CD = 13 cm ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 3: ANGLES -->
+<div class="pg" id="p3">
+  <div class="g2">
+    <div class="card c-gold">
+      <div class="ct gold">📐 Inscribed Angle Theorem</div>
+      <svg viewBox="0 0 300 240" style="max-height:200px;margin-bottom:12px;">
+        <circle cx="150" cy="120" r="95" fill="rgba(255,201,71,.03)" stroke="#ffc947" stroke-width="2"/>
+        <circle cx="150" cy="120" r="4" fill="#ffc947"/>
+        <text x="154" y="118" fill="#ffc947" font-size="11" font-family="JetBrains Mono">O</text>
+        <circle cx="75" cy="170" r="5" fill="#ff5757"/><circle cx="225" cy="170" r="5" fill="#ff5757"/>
+        <circle cx="150" cy="26" r="5" fill="#0ff4c6"/>
+        <text x="60" y="177" fill="#ff5757" font-size="11" font-family="JetBrains Mono">A</text>
+        <text x="228" y="177" fill="#ff5757" font-size="11" font-family="JetBrains Mono">B</text>
+        <text x="153" y="22" fill="#0ff4c6" font-size="11" font-family="JetBrains Mono">C</text>
+        <!-- central angle lines -->
+        <line x1="150" y1="120" x2="75" y2="170" stroke="#ffc947" stroke-width="1.8"/>
+        <line x1="150" y1="120" x2="225" y2="170" stroke="#ffc947" stroke-width="1.8"/>
+        <text x="136" y="128" fill="#ffc947" font-size="12" font-family="JetBrains Mono">2θ</text>
+        <!-- inscribed angle lines -->
+        <line x1="150" y1="26" x2="75" y2="170" stroke="#0ff4c6" stroke-width="1.8"/>
+        <line x1="150" y1="26" x2="225" y2="170" stroke="#0ff4c6" stroke-width="1.8"/>
+        <text x="141" y="55" fill="#0ff4c6" font-size="12" font-family="JetBrains Mono">θ</text>
+      </svg>
+      <div class="kb">
+        <div class="kb-lbl">Central = 2 × Inscribed (same arc)</div>
+        <span class="gc">∠AOB = 2 × ∠ACB</span>
+      </div>
+      <div class="fr"><span class="fl">Angle in semicircle</span><span class="fv rc">= 90° always</span></div>
+      <div class="fr"><span class="fl">Same arc same side</span><span class="fv gc">inscribed angles equal</span></div>
+      <div class="ex"><div class="ex-q">▶ ∠AOB = 130°. Find ∠ACB (same arc).</div><div class="ex-s">∠ACB = ½ × 130°</div><div class="ex-a">∠ACB = 65° ✓</div></div>
+    </div>
+    <div class="card c-purple">
+      <div class="ct purple">🔀 Angles — All Cases</div>
+      <div class="fr"><span class="fl">Chords intersect inside</span><span class="fv vc">∠ = ½(arc₁+arc₂)</span></div>
+      <div class="fr"><span class="fl">Secants from outside</span><span class="fv vc">∠ = ½|arc₁−arc₂|</span></div>
+      <div class="fr"><span class="fl">Tangent-chord</span><span class="fv gc">= inscribed angle (alt.seg)</span></div>
+      <div class="fr"><span class="fl">Tangent-tangent from P</span><span class="fv pc">∠P + ∠O = 180°</span></div>
+      <div class="fr"><span class="fl">Tangent-secant from P</span><span class="fv">∠ = ½|far arc − near arc|</span></div>
+      <div class="ex" style="margin-top:12px;"><div class="ex-q">▶ 2 chords intersect. Arcs intercepted = 70°, 110°. Find angle at intersection.</div><div class="ex-s">∠ = ½(70°+110°) = ½ × 180°</div><div class="ex-a">∠ = 90° ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--gold);"><div class="ex-q" style="color:var(--gold);">▶ Two secants from P, arcs = 130°, 40°. Find ∠P.</div><div class="ex-s">∠P = ½(130°−40°) = ½ × 90°</div><div class="ex-a" style="color:var(--gold);background:rgba(255,201,71,.08);">∠P = 45° ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 4: CYCLIC QUAD -->
+<div class="pg" id="p4">
+  <div class="g2">
+    <div class="card c-teal">
+      <div class="ct teal">🔷 Cyclic Quadrilateral</div>
+      <svg viewBox="0 0 300 250" style="max-height:210px;margin-bottom:12px;">
+        <circle cx="150" cy="125" r="100" fill="rgba(15,244,198,.03)" stroke="#0ff4c6" stroke-width="1.5"/>
+        <circle cx="150" cy="125" r="3" fill="#0ff4c6"/>
+        <circle cx="150" cy="26" r="5" fill="#4d7cff"/>
+        <circle cx="242" cy="178" r="5" fill="#ff4da6"/>
+        <circle cx="150" cy="222" r="5" fill="#ffc947"/>
+        <circle cx="58" cy="178" r="5" fill="#a855f7"/>
+        <text x="143" y="20" fill="#4d7cff" font-size="12" font-family="JetBrains Mono">A</text>
+        <text x="246" y="183" fill="#ff4da6" font-size="12" font-family="JetBrains Mono">B</text>
+        <text x="143" y="238" fill="#ffc947" font-size="12" font-family="JetBrains Mono">C</text>
+        <text x="44" y="183" fill="#a855f7" font-size="12" font-family="JetBrains Mono">D</text>
+        <line x1="150" y1="26" x2="242" y2="178" stroke="#4d7cff" stroke-width="1.8"/>
+        <line x1="242" y1="178" x2="150" y2="222" stroke="#ff4da6" stroke-width="1.8"/>
+        <line x1="150" y1="222" x2="58" y2="178" stroke="#ffc947" stroke-width="1.8"/>
+        <line x1="58" y1="178" x2="150" y2="26" stroke="#a855f7" stroke-width="1.8"/>
+        <text x="132" y="60" fill="#4d7cff" font-size="10" font-family="JetBrains Mono">∠A</text>
+        <text x="206" y="172" fill="#ff4da6" font-size="10" font-family="JetBrains Mono">∠B</text>
+        <text x="120" y="210" fill="#ffc947" font-size="10" font-family="JetBrains Mono">∠C</text>
+        <text x="66" y="162" fill="#a855f7" font-size="10" font-family="JetBrains Mono">∠D</text>
+      </svg>
+      <div class="kb">
+        <div class="kb-lbl">Cyclic Quad Laws</div>
+        <span class="tc">∠A + ∠C = 180°</span> (opposite angles)<br>
+        <span class="tc">∠B + ∠D = 180°</span><br>
+        Exterior angle = <span class="gc">opposite interior angle</span><br>
+        Ptolemy: <span class="pc">AC·BD = AB·CD + AD·BC</span>
+      </div>
+    </div>
+    <div>
+      <div class="card c-gold" style="margin-bottom:14px;">
+        <div class="ct gold">🧮 Problems</div>
+        <div class="ex" style="margin-top:0;"><div class="ex-q">▶ ∠A = 3x, ∠C = x + 20. Find x.</div><div class="ex-s">∠A + ∠C = 180° → 3x + x + 20 = 180</div><div class="ex-s">4x = 160</div><div class="ex-a">x = 40° ✓</div></div>
+        <div class="ex" style="margin-top:8px;border-left-color:var(--blue);"><div class="ex-q" style="color:var(--blue);">▶ ∠B = 85°, find ∠D.</div><div class="ex-s">∠B + ∠D = 180°</div><div class="ex-a" style="color:var(--blue);background:rgba(77,124,255,.08);">∠D = 95° ✓</div></div>
+      </div>
+      <div class="card c-red">
+        <div class="ct red">✅ Is it Cyclic?</div>
+        <div class="thm" style="border-color:rgba(255,87,87,.2);">
+          <div class="thm-lbl" style="color:var(--red);">Quick Check</div>
+          If <span class="rc">opposite angles sum to 180°</span> → cyclic<br>
+          If not → NOT inscribable in a circle<br>
+          Rectangle: always cyclic (all 90° angles)<br>
+          Parallelogram: cyclic only if it's a rectangle
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 5: PRACTICE -->
+<div class="pg" id="p5">
+  <div class="g2">
+    <div>
+      <div class="pq"><div class="badge b-e">EASY</div><div class="pq-q">A chord is 24cm. The distance from centre is 5cm. Find radius.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">l=12, d=5 → r=√(144+25)=√169</div><div class="ex-a">r = 13 cm ✓</div></div></div></div>
+      <div class="pq"><div class="badge b-e">EASY</div><div class="pq-q">∠AOB = 150° where O is centre. Find inscribed angle ∠ACB on major arc.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">Reflex ∠AOB = 360−150 = 210°</div><div class="ex-s">∠ACB (major arc) = 210/2</div><div class="ex-a">∠ACB = 105° ✓</div></div></div></div>
+      <div class="pq"><div class="badge b-m">MEDIUM</div><div class="pq-q">Two chords AB & CD intersect at P. PA=2, PB=18, CD=12. Find PC & PD.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">PA×PB = PC×PD → 2×18 = PC×PD = 36</div><div class="ex-s">PC+PD = 12. PC×PD = 36 → PC & PD are 6,6</div><div class="ex-a">PC = PD = 6 cm ✓</div></div></div></div>
+      <div class="pq"><div class="badge b-m">MEDIUM</div><div class="pq-q">In cyclic quad ABCD, ∠A=110°, ∠B=80°. Find ∠C and ∠D.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">∠C=180−110=70°, ∠D=180−80=100°</div><div class="ex-a">∠C=70°, ∠D=100° ✓</div></div></div></div>
+    </div>
+    <div>
+      <div class="pq"><div class="badge b-m">MEDIUM</div><div class="pq-q">r=10. Two parallel chords of lengths 12 and 16 are on opposite sides. Find distance between them.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">Chord 12: d₁=√(100−36)=8</div><div class="ex-s">Chord 16: d₂=√(100−64)=6</div><div class="ex-s">Opposite sides → dist = d₁+d₂</div><div class="ex-a">= 8+6 = 14 cm ✓</div></div></div></div>
+      <div class="pq"><div class="badge b-h">HARD</div><div class="pq-q">From external point P, secant PAB: PA=4, AB=12. Another secant PCD: PC=6. Find CD.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">PB=PA+AB=16. PA×PB=PC×PD</div><div class="ex-s">4×16=6×PD → PD=64/6 ... wait: 64/6 isn't clean.</div><div class="ex-s">Let's redo: 4×16=64, PC=6, PD=64/6≈10.67. CD=PD−PC≈4.67</div><div class="ex-a">CD ≈ 4.67 cm ✓</div></div></div></div>
+      <div class="pq"><div class="badge b-h">HARD</div><div class="pq-q">Two chords intersect at P inside circle. Arcs intercepted are 80° and 100°. Find angle at P.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">∠P = ½(arc₁ + arc₂) = ½(80+100) = ½×180</div><div class="ex-a">∠P = 90° ✓</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PAGE 6: QUICK REF -->
+<div class="pg" id="p6">
+  <div class="g2">
+    <div>
+      <div class="tk"><div class="tk-t">⚡ Formula 1 — Chord & Distance</div><p>Always: <code>r² = (half-chord)² + d²</code>. Chord = <code>2√(r²−d²)</code>. Just Pythagoras in a circle. Works in every chord problem!</p></div>
+      <div class="tk"><div class="tk-t">⚡ Formula 2 — Intersecting Chords</div><p>Inside: <code>PA×PB = PC×PD</code>. Outside (secants): same formula! Tangent: <code>PT² = PA×PB</code>. All three are "power of a point".</p></div>
+      <div class="tk"><div class="tk-t">⚡ Formula 3 — Central vs Inscribed</div><p>Central angle = <code>2 × inscribed angle</code> on same arc. Angle in semicircle = <code>90°</code> (inscribed angle on diameter). Exam favourite!</p></div>
+    </div>
+    <div>
+      <div class="tk"><div class="tk-t">⚡ Formula 4 — Angles at intersection</div><p>Chords inside: <code>angle = ½(sum of arcs)</code>. Secants outside: <code>angle = ½(difference of arcs)</code>. Remember: inside=sum, outside=diff.</p></div>
+      <div class="tk"><div class="tk-t">⚡ Formula 5 — Cyclic Quad</div><p>Opposite angles add to <code>180°</code>. Test: A+C=180 AND B+D=180. If only one holds, check calculation. Both must hold simultaneously.</p></div>
+      <div class="tk"><div class="tk-t">⚡ Formula 6 — Equal Chords</div><p>Equal chords → equal distances from centre. If d₁=d₂ → chord₁=chord₂. Closer to centre = longer chord. Diameter = maximum chord.</p></div>
+    </div>
+  </div>
+  <div class="card c-teal">
+    <div class="ct teal">📌 Master Formula Sheet</div>
+    <div class="g3">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:2.2;color:#6080a0;">
+        <span class="tc">Chord = 2√(r²−d²)</span><br>
+        <span class="gc">r² = l² + d²</span><br>
+        <span class="bc">Circumference = 2πr</span>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:2.2;color:#6080a0;">
+        <span class="pc">PA×PB = PC×PD</span><br>
+        <span class="gc">∠AOB = 2×∠ACB</span><br>
+        <span class="rc">Semicircle angle = 90°</span>
+      </div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.78rem;line-height:2.2;color:#6080a0;">
+        <span class="vc">Cyclic: ∠A+∠C=180°</span><br>
+        <span class="tc">Inside ∠=½(arc₁+arc₂)</span><br>
+        <span class="pc">Outside ∠=½|arc₁−arc₂|</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div><!-- wrap -->
+
+<script>
+function sw(btn,id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  btn.classList.add('on');
+}
+function tog(btn){
+  const a=btn.nextElementSibling;
+  a.classList.toggle('open');
+  btn.textContent=a.classList.contains('open')?'▼ Hide Answer':'▶ Show Answer';
+}
+</script>
+</body>
+</html>

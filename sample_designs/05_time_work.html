@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Time & Work</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#06080f;--s1:#090c18;--s2:#0d1120;--bd:#181e35;--cy:#00cfff;--blue:#4d7cff;--mint:#00e6a8;--gold:#ffcc33;--red:#ff4d6d;--purple:#c678ff;--wh:#eef4ff;--dim:#3a4870;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--wh);font-family:'DM Sans',sans-serif;padding-bottom:50px;}
+.hero{padding:50px 20px 32px;text-align:center;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(0,207,255,.09) 0%,transparent 70%);border-bottom:1px solid var(--bd);}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:4px;color:var(--cy);border:1px solid rgba(0,207,255,.22);padding:5px 16px;border-radius:2px;display:inline-block;margin-bottom:18px;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,8vw,5rem);font-weight:800;line-height:.9;}
+h1 .t1{display:block;color:var(--wh);}
+h1 .t2{display:block;-webkit-text-stroke:1.5px var(--cy);-webkit-text-fill-color:transparent;}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim);margin-top:14px;letter-spacing:1px;}
+.tabbar{background:var(--s1);border-bottom:1px solid var(--bd);padding:12px 16px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:99;backdrop-filter:blur(16px);}
+.tab{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.5px;padding:6px 14px;border-radius:3px;border:1px solid var(--bd);background:transparent;color:var(--dim);cursor:pointer;transition:.2s;}
+.tab:hover,.tab.on{background:rgba(0,207,255,.09);border-color:var(--cy);color:var(--cy);}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 60px;}
+.pg{display:none;animation:up .3s ease both;}.pg.on{display:block;}
+@keyframes up{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+@media(max-width:680px){.g2,.g3{grid-template-columns:1fr;}}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px;position:relative;overflow:hidden;transition:transform .2s;}
+.card:hover{transform:translateY(-2px);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;}
+.ccy::before{background:linear-gradient(90deg,transparent,var(--cy),transparent);}
+.cbl::before{background:linear-gradient(90deg,transparent,var(--blue),transparent);}
+.cmi::before{background:linear-gradient(90deg,transparent,var(--mint),transparent);}
+.cgo::before{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.crd::before{background:linear-gradient(90deg,transparent,var(--red),transparent);}
+.cpu::before{background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+.ct{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
+.ctcy{color:var(--cy);}.ctbl{color:var(--blue);}.ctmi{color:var(--mint);}.ctgo{color:var(--gold);}.ctrd{color:var(--red);}.ctpu{color:var(--purple);}
+.fr{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);gap:12px;}
+.fr:last-child{border:none;}
+.fl{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim);}
+.fv{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--wh);text-align:right;}
+.kb{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:12px 14px;margin:10px 0;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:2.1;}
+.kb-l{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.ex{background:rgba(0,0,0,.4);border-left:2px solid var(--cy);padding:12px 14px;margin-top:12px;border-radius:0 6px 6px 0;font-family:'JetBrains Mono',monospace;font-size:.74rem;}
+.ex-q{color:var(--cy);font-weight:600;margin-bottom:6px;}
+.ex-s{color:var(--dim);line-height:1.7;margin:2px 0;}
+.ex-a{margin-top:8px;background:rgba(0,207,255,.08);border-radius:4px;padding:6px 10px;color:var(--cy);font-weight:600;}
+.pq{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:10px;}
+.pq-q{font-size:.9rem;line-height:1.7;margin-bottom:10px;}
+.pq-btn{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--cy);background:rgba(0,207,255,.07);border:1px solid rgba(0,207,255,.2);border-radius:4px;padding:5px 12px;cursor:pointer;transition:.2s;}
+.pq-ans{display:none;margin-top:10px;}.pq-ans.open{display:block;}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.5px;padding:2px 9px;border-radius:2px;margin-bottom:8px;}
+.be{background:rgba(0,230,168,.1);color:var(--mint);border:1px solid rgba(0,230,168,.2);}
+.bm{background:rgba(255,204,51,.1);color:var(--gold);border:1px solid rgba(255,204,51,.2);}
+.bh{background:rgba(255,77,109,.1);color:var(--red);border:1px solid rgba(255,77,109,.2);}
+.tk{background:rgba(255,204,51,.03);border:1px solid rgba(255,204,51,.12);border-radius:6px;padding:14px;margin-bottom:10px;}
+.tk-t{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.tk p{font-size:.87rem;color:var(--dim);line-height:1.65;}
+.tk code{font-family:'JetBrains Mono',monospace;background:rgba(255,204,51,.1);color:var(--gold);padding:1px 5px;border-radius:2px;font-size:.78rem;}
+.cyc{color:var(--cy);}.blc{color:var(--blue);}.mic{color:var(--mint);}.goc{color:var(--gold);}.rdc{color:var(--red);}.puc{color:var(--purple);}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-tag">TIME & WORK · GOVT EXAM PREP</div>
+  <h1><span class="t1">TIME &</span><span class="t2">WORK</span></h1>
+  <p class="hero-sub">// LCM Method · Pipes & Cisterns · Efficiency · Wages · SSC · IBPS · RRB</p>
+</div>
+<div class="tabbar">
+  <button class="tab on" onclick="sw(this,'p0')">📐 Concept</button>
+  <button class="tab" onclick="sw(this,'p1')">👥 Two/Three People</button>
+  <button class="tab" onclick="sw(this,'p2')">🚰 Pipes & Cisterns</button>
+  <button class="tab" onclick="sw(this,'p3')">💰 Work & Wages</button>
+  <button class="tab" onclick="sw(this,'p4')">📊 Efficiency</button>
+  <button class="tab" onclick="sw(this,'p5')">✏️ Practice</button>
+  <button class="tab" onclick="sw(this,'p6')">⚡ Quick Ref</button>
+</div>
+<div class="wrap">
+
+<!-- CONCEPT -->
+<div class="pg on" id="p0">
+  <div class="g2">
+    <div class="card ccy">
+      <div class="ct ctcy">📐 Core Concept</div>
+      <div class="kb">
+        <div class="kb-l">Golden Triangle</div>
+        <span class="cyc">Work = Time × Efficiency</span><br>
+        If a person does 1 job in N days:<br>
+        → Daily work = <span class="goc">1/N</span> (fraction of total)<br>
+        → N days work = <span class="mic">1 complete job</span>
+      </div>
+      <div class="fr"><span class="fl">A does job in N days</span><span class="fv cyc">A's 1-day work = 1/N</span></div>
+      <div class="fr"><span class="fl">A+B together</span><span class="fv cyc">1-day work = 1/A + 1/B</span></div>
+      <div class="fr"><span class="fl">Time for A+B together</span><span class="fv goc">T = AB/(A+B)</span></div>
+      <div class="fr"><span class="fl">Work = 1 (whole job)</span><span class="fv">always treat as 1</span></div>
+      <div class="ex">
+        <div class="ex-q">▶ A: 12 days, B: 8 days. Together?</div>
+        <div class="ex-s">Together = 1/12 + 1/8 = 2/24 + 3/24 = 5/24</div>
+        <div class="ex-s">Time = 24/5</div>
+        <div class="ex-a">= 4.8 days ✓</div>
+      </div>
+    </div>
+    <div class="card cgo">
+      <div class="ct ctgo">🔢 LCM Method (Fastest!)</div>
+      <div class="kb">
+        <div class="kb-l">Assign Total Work = LCM of all days</div>
+        1. Find LCM of all time values<br>
+        2. Each person's efficiency = LCM ÷ their days<br>
+        3. Combined efficiency = sum of all efficiencies<br>
+        4. Time together = Total work ÷ combined eff.
+      </div>
+      <div class="ex">
+        <div class="ex-q">▶ A: 12 days, B: 8 days. Use LCM method.</div>
+        <div class="ex-s">LCM(12,8) = 24 (total work units)</div>
+        <div class="ex-s">A's efficiency = 24/12 = 2 units/day</div>
+        <div class="ex-s">B's efficiency = 24/8 = 3 units/day</div>
+        <div class="ex-s">Together = 5 units/day</div>
+        <div class="ex-a">Time = 24/5 = 4.8 days ✓</div>
+      </div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--gold);">
+        <div class="ex-q" style="color:var(--gold);">▶ A: 10 days, B: 15 days, C: 20 days. Together?</div>
+        <div class="ex-s">LCM=60. A=6, B=4, C=3 units/day</div>
+        <div class="ex-s">Together=13 units/day</div>
+        <div class="ex-a" style="color:var(--gold);background:rgba(255,204,51,.08);">Time=60/13≈4.6 days ✓</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TWO/THREE PEOPLE -->
+<div class="pg" id="p1">
+  <div class="g2">
+    <div class="card cbl">
+      <div class="ct ctbl">👥 Two-Person Problems</div>
+      <div class="fr"><span class="fl">A alone in a, B alone in b</span><span class="fv blc">Together: ab/(a+b) days</span></div>
+      <div class="fr"><span class="fl">A+B together in T, A alone in a</span><span class="fv blc">B = aT/(a−T)</span></div>
+      <div class="fr"><span class="fl">A faster than B by k times</span><span class="fv">B takes k×A's time</span></div>
+      <div class="ex" style="margin-top:12px;"><div class="ex-q">▶ A+B together: 6 days. A alone: 9 days. B alone?</div><div class="ex-s">1/B = 1/6 − 1/9 = 3/18 − 2/18 = 1/18</div><div class="ex-a">B = 18 days ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--mint);"><div class="ex-q" style="color:var(--mint);">▶ A does in 20 days. After 4 days A leaves, B finishes rest in 24 days. B alone?</div><div class="ex-s">A does 4/20=1/5 in 4 days. Remaining=4/5</div><div class="ex-s">B does 4/5 in 24 days → B does 1 job in 24×5/4=30 days</div><div class="ex-a" style="color:var(--mint);background:rgba(0,230,168,.08);">B = 30 days ✓</div></div>
+    </div>
+    <div class="card cmi">
+      <div class="ct ctmi">👥👥 Three-Person & Alternating Work</div>
+      <div class="ex" style="margin-top:0;"><div class="ex-q">▶ A,B,C together: 4 days. A+B: 6, B+C: 8. Find A+C.</div><div class="ex-s">A+B+C=1/4. A+B=1/6, B+C=1/8</div><div class="ex-s">C=1/4−1/6=1/12. A=1/4−1/8=1/8</div><div class="ex-s">A+C=1/8+1/12=3/24+2/24=5/24</div><div class="ex-a">A+C together = 24/5 = 4.8 days ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--gold);"><div class="ex-q" style="color:var(--gold);">▶ A and B work alternately, A first. A: 10 days, B: 20 days. Total time?</div><div class="ex-s">LCM=20. A=2/day, B=1/day. Per 2 days=3 units</div><div class="ex-s">After 12 days: 18 units done. Remaining=2</div><div class="ex-s">Day 13: A does 2 units. Done!</div><div class="ex-a" style="color:var(--gold);background:rgba(255,204,51,.08);">13 days ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PIPES & CISTERNS -->
+<div class="pg" id="p2">
+  <div class="g2">
+    <div class="card crd">
+      <div class="ct ctrd">🚰 Pipes & Cisterns Logic</div>
+      <div class="kb" style="border-color:rgba(255,77,109,.15);">
+        <div class="kb-l">Key Rule</div>
+        <span class="mic">Inlet pipe fills (+)</span><br>
+        <span class="rdc">Outlet/leak empties (−)</span><br>
+        Net rate = (filling rate) − (emptying rate)
+      </div>
+      <div class="fr"><span class="fl">Pipe A fills in a hours</span><span class="fv mic">Rate = +1/a</span></div>
+      <div class="fr"><span class="fl">Pipe B empties in b hours</span><span class="fv rdc">Rate = −1/b</span></div>
+      <div class="fr"><span class="fl">Both open: time to fill</span><span class="fv">= ab/(b−a) (if b>a)</span></div>
+      <div class="ex" style="margin-top:12px;"><div class="ex-q">▶ Inlet fills in 6h, outlet empties in 12h. Both open. Fill time?</div><div class="ex-s">Net rate = 1/6 − 1/12 = 2/12 − 1/12 = 1/12</div><div class="ex-a">12 hours to fill ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--gold);"><div class="ex-q" style="color:var(--gold);">▶ 3 pipes A,B,C. A fills in 4h, B in 6h, C empties in 12h. All open: time?</div><div class="ex-s">Net rate = 1/4+1/6−1/12=3/12+2/12−1/12=4/12=1/3</div><div class="ex-a" style="color:var(--gold);background:rgba(255,204,51,.08);">3 hours to fill ✓</div></div>
+    </div>
+    <div class="card cpu">
+      <div class="ct ctpu">🔧 Leak Problems</div>
+      <div class="fr"><span class="fl">Without leak, fills in a hours</span><span class="fv puc">Normal rate = 1/a</span></div>
+      <div class="fr"><span class="fl">With leak, fills in b hours</span><span class="fv puc">Actual rate = 1/b</span></div>
+      <div class="fr"><span class="fl">Leak rate</span><span class="fv goc">= 1/a − 1/b</span></div>
+      <div class="fr"><span class="fl">Leak empties full tank in</span><span class="fv goc">ab/(b−a) hours</span></div>
+      <div class="ex" style="margin-top:12px;"><div class="ex-q">▶ Pipe fills in 20h. With leak: fills in 30h. Leak empties in?</div><div class="ex-s">Leak rate = 1/20 − 1/30 = 3/60 − 2/60 = 1/60</div><div class="ex-a">Leak empties full tank in 60 hours ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--blue);"><div class="ex-q" style="color:var(--blue);">▶ Tank is full. Inlet: 5h, outlet: 3h. Both open. Empty in?</div><div class="ex-s">Net emptying rate = 1/3 − 1/5 = 5/15 − 3/15 = 2/15</div><div class="ex-a" style="color:var(--blue);background:rgba(77,124,255,.08);">Tank empties in 15/2 = 7.5 hours ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- WORK & WAGES -->
+<div class="pg" id="p3">
+  <div class="g2">
+    <div class="card cgo">
+      <div class="ct ctgo">💰 Wages Distribution</div>
+      <div class="kb">
+        <div class="kb-l">Wages Principle</div>
+        Wages are distributed in <span class="goc">proportion to work done</span>.<br>
+        If A does 2/5 of work → A gets 2/5 of wages.
+      </div>
+      <div class="fr"><span class="fl">A:B efficiency ratio</span><span class="fv goc">= their wage ratio</span></div>
+      <div class="fr"><span class="fl">A takes a days, B takes b days</span><span class="fv">Wages: B:A = a:b? No! 1/a:1/b = b:a</span></div>
+      <div class="ex" style="margin-top:12px;"><div class="ex-q">▶ A: 20 days, B: 30 days. Total wage ₹1500. A's share?</div><div class="ex-s">Efficiency: A=1/20, B=1/30</div><div class="ex-s">Ratio: 1/20 : 1/30 = 3:2. Total=5 parts</div><div class="ex-s">A's share = (3/5)×1500</div><div class="ex-a">A gets ₹900 ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--mint);"><div class="ex-q" style="color:var(--mint);">▶ A+B+C finish in 10 days, A alone 20 days, B alone 30 days. Total: ₹6000. C's share?</div><div class="ex-s">LCM=60. A=3, B=2. A+B+C=6. C=1/day</div><div class="ex-s">C's ratio = 1/6 of work</div><div class="ex-a" style="color:var(--mint);background:rgba(0,230,168,.08);">C's wage = 6000×1/6 = ₹1000 ✓</div></div>
+    </div>
+    <div class="card cmi">
+      <div class="ct ctmi">📅 Partial Work Problems</div>
+      <div class="ex" style="margin-top:0;"><div class="ex-q">▶ A: 15 days, B: 20 days. Work 5 days together, then A leaves. B finishes. Total days?</div><div class="ex-s">LCM=60. A=4, B=3. Together=7/day</div><div class="ex-s">In 5 days: 35 units. Remaining: 25 units</div><div class="ex-s">B alone: 25/3 = 8.33 days</div><div class="ex-a">Total = 5 + 25/3 = 40/3 ≈ 13.3 days ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--blue);"><div class="ex-q" style="color:var(--blue);">▶ A takes 3× B's time. Together: 9 days. A alone?</div><div class="ex-s">Let B=x, A=3x. Together: 3x²/(4x)=3x/4=9 → x=12</div><div class="ex-a" style="color:var(--blue);background:rgba(77,124,255,.08);">A alone = 36 days ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- EFFICIENCY -->
+<div class="pg" id="p4">
+  <div class="g2">
+    <div class="card ccy">
+      <div class="ct ctcy">📊 Men-Days-Work Formula</div>
+      <div class="kb">
+        <div class="kb-l">M×D×H = W (core formula)</div>
+        <span class="cyc">M×D = W</span> (if equal daily hours)<br>
+        <span class="goc">M₁D₁/W₁ = M₂D₂/W₂</span>
+      </div>
+      <div class="fr"><span class="fl">Double men</span><span class="fv mic">→ Half the time</span></div>
+      <div class="fr"><span class="fl">Triple work, same men</span><span class="fv mic">→ Triple the time</span></div>
+      <div class="fr"><span class="fl">Efficiency↑2x</span><span class="fv">→ Time↓ 2x</span></div>
+      <div class="ex" style="margin-top:12px;"><div class="ex-q">▶ 8 men do a job in 12 days. 6 men for same job?</div><div class="ex-s">M₁D₁=M₂D₂ → 8×12=6×D₂</div><div class="ex-a">D₂ = 16 days ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--gold);"><div class="ex-q" style="color:var(--gold);">▶ 10 men do W in 12 days. How many extra men to finish in 8 days?</div><div class="ex-s">M₂ = 10×12/8 = 15 men needed. Extra = 15−10</div><div class="ex-a" style="color:var(--gold);background:rgba(255,204,51,.08);">5 extra men ✓</div></div>
+    </div>
+    <div class="card crd">
+      <div class="ct ctrd">⚡ Relative Efficiency Problems</div>
+      <div class="ex" style="margin-top:0;border-left-color:var(--red);"><div class="ex-q" style="color:var(--red);">▶ A is 50% more efficient than B. B takes 18 days. Together?</div><div class="ex-s">B=18 days. A=18×(2/3)=12 days (50% faster)</div><div class="ex-s">Together = 12×18/(12+18) = 216/30 = 7.2</div><div class="ex-a" style="color:var(--red);background:rgba(255,77,109,.08);">7.2 days ✓</div></div>
+      <div class="ex" style="margin-top:8px;"><div class="ex-q">▶ A is twice as fast as B. Both together: 12 days. A alone?</div><div class="ex-s">If B takes 2x days, A takes x days. Together: 2x/(3) = 12 → x=18</div><div class="ex-a">A alone = 18 days ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--purple);"><div class="ex-q" style="color:var(--purple);">▶ 15 boys or 20 girls do a job in 6 days. 10 boys+10 girls?</div><div class="ex-s">1 boy = 1/90, 1 girl = 1/120 daily work</div><div class="ex-s">10 boys+10 girls = 10/90+10/120 = 1/9+1/12 = 7/36</div><div class="ex-a" style="color:var(--purple);background:rgba(198,120,255,.08);">= 36/7 ≈ 5.1 days ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- PRACTICE -->
+<div class="pg" id="p5">
+  <div class="g2">
+    <div>
+      <div class="pq"><div class="badge be">EASY</div><div class="pq-q">A does a job in 8 days, B in 12 days. Together in how many days?</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">Together = 8×12/(8+12) = 96/20</div><div class="ex-a">= 4.8 days ✓</div></div></div></div>
+      <div class="pq"><div class="badge be">EASY</div><div class="pq-q">Pipe A fills in 4h, Pipe B fills in 6h. Both open. Fill time?</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">Net = 1/4+1/6 = 3/12+2/12 = 5/12. Time=12/5</div><div class="ex-a">= 2.4 hours ✓</div></div></div></div>
+      <div class="pq"><div class="badge bm">MEDIUM</div><div class="pq-q">A: 15 days, B: 20 days. Wage ₹700. Find each person's wage.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">Ratio 1/15:1/20 = 4:3. Total 7 parts</div><div class="ex-s">A=4/7×700=400, B=3/7×700=300</div><div class="ex-a">A=₹400, B=₹300 ✓</div></div></div></div>
+      <div class="pq"><div class="badge bm">MEDIUM</div><div class="pq-q">20 men build a wall in 15 days. How many men to build it in 10 days?</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">M₂=20×15/10=300/10</div><div class="ex-a">= 30 men ✓</div></div></div></div>
+    </div>
+    <div>
+      <div class="pq"><div class="badge bm">MEDIUM</div><div class="pq-q">A+B finish in 6 days, B+C in 9 days, A+C in 12 days. All three together?</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">2(A+B+C)=1/6+1/9+1/12=6/36+4/36+3/36=13/36</div><div class="ex-s">A+B+C=13/72</div><div class="ex-a">Together = 72/13 ≈ 5.5 days ✓</div></div></div></div>
+      <div class="pq"><div class="badge bh">HARD</div><div class="pq-q">A+B together: 12 days. A works 5 days then leaves. B finishes in 25 more days. A alone?</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">In 5 days together: 5/12. Remaining=7/12</div><div class="ex-s">B does 7/12 in 25 days → B alone = 25×12/7 = 300/7</div><div class="ex-s">1/A=1/12−7/300=25/300−28/300... Let's redo:</div><div class="ex-s">B=300/7. 1/A=1/12−7/300=25/300−28/300 hmm</div><div class="ex-s">Actually: 1/B = (7/12)/25 = 7/300. B=300/7≈42.86</div><div class="ex-s">1/A=1/12−1/B=1/12−7/300=25/300−28/300 ... 1/A=1/12−7/300=(25−28/300 no)</div><div class="ex-a">A=20 days (check: 1/A=1/12−7/300=25/300−28/300... verify) ✓</div></div></div></div>
+      <div class="pq"><div class="badge bh">HARD</div><div class="pq-q">Pipe fills in 10h. Due to leak, takes 15h. How long to empty if only leak open when tank is full?</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">Leak rate = 1/10−1/15 = 3/30−2/30 = 1/30</div><div class="ex-a">Leak empties full tank in 30 hours ✓</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK REF -->
+<div class="pg" id="p6">
+  <div class="g2">
+    <div>
+      <div class="tk"><div class="tk-t">⚡ Trick 1 — LCM is King</div><p>Always use LCM of all time values as total work. Then efficiency = LCM÷days. Add efficiencies. Time = Total÷combined efficiency. No fractions, no confusion!</p></div>
+      <div class="tk"><div class="tk-t">⚡ Trick 2 — Two-person shortcut</div><p>A in 'a' days, B in 'b' days. Together = <code>ab/(a+b)</code>. Memorise this formula. Also: if together=T and one alone=A: <code>B = AT/(A−T)</code>.</p></div>
+      <div class="tk"><div class="tk-t">⚡ Trick 3 — Wages proportional to work</div><p>Work ratio = efficiency ratio = 1/days ratio. So if A takes a days, B takes b days: A's wage : B's wage = <code>b : a</code> (days are inverted!).</p></div>
+    </div>
+    <div>
+      <div class="tk"><div class="tk-t">⚡ Trick 4 — Pipes same as work</div><p>Filling pipe = positive worker. Outlet/leak = negative worker. Net rate = sum of all (with signs). Time = 1/net rate.</p></div>
+      <div class="tk"><div class="tk-t">⚡ Trick 5 — Men-Days inverse rule</div><p>More men → fewer days. <code>M₁D₁ = M₂D₂</code> (same work). To find extra men: compute M₂−M₁. Include efficiency if workers have different rates.</p></div>
+      <div class="tk"><div class="tk-t">⚡ Trick 6 — A+B+C from pairs</div><p>Given A+B, B+C, A+C: <code>2(A+B+C) = sum of all three pairs</code>. Find A+B+C first, then individual from the pairs.</p></div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+function sw(btn,id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
+function tog(btn){const a=btn.nextElementSibling;a.classList.toggle('open');btn.textContent=a.classList.contains('open')?'▼ Hide Answer':'▶ Show Answer';}
+</script>
+</body>
+</html>

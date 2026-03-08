@@ -35,7 +35,7 @@ function App() {
   return (
     <div className="app-shell">
       <header className="hero">
-        <h1>Competitive Exam Notes</h1>
+        <h1>Notes</h1>
         <p>Organize and launch your Quantitative Aptitude concepts quickly.</p>
       </header>
 

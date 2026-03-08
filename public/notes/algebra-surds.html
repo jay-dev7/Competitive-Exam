@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Algebra & Surds</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=JetBrains+Mono:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap');
+:root{--bg:#0f0800;--s1:#170b00;--s2:#1e1000;--bd:#2e1e00;--am:#ff9500;--gold:#ffd166;--mint:#3dffa0;--blue:#5b9eff;--red:#ff5a5a;--purple:#c87bff;--wh:#fff8ec;--dim:#6a5030;}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--wh);font-family:'DM Sans',sans-serif;padding-bottom:50px;}
+.hero{padding:50px 20px 32px;text-align:center;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(255,149,0,.1) 0%,transparent 70%);border-bottom:1px solid var(--bd);}
+.hero-tag{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:4px;color:var(--am);border:1px solid rgba(255,149,0,.25);padding:5px 16px;border-radius:2px;display:inline-block;margin-bottom:18px;}
+h1{font-family:'Syne',sans-serif;font-size:clamp(2.8rem,8vw,5rem);font-weight:800;line-height:.9;}
+h1 .t1{display:block;color:var(--wh);}
+h1 .t2{display:block;-webkit-text-stroke:1.5px var(--am);-webkit-text-fill-color:transparent;}
+.hero-sub{font-family:'JetBrains Mono',monospace;font-size:.72rem;color:var(--dim);margin-top:14px;letter-spacing:1px;}
+.tabbar{background:var(--s1);border-bottom:1px solid var(--bd);padding:12px 16px;display:flex;gap:6px;flex-wrap:wrap;justify-content:center;position:sticky;top:0;z-index:99;backdrop-filter:blur(16px);}
+.tab{font-family:'JetBrains Mono',monospace;font-size:.68rem;letter-spacing:.5px;padding:6px 14px;border-radius:3px;border:1px solid var(--bd);background:transparent;color:var(--dim);cursor:pointer;transition:.2s;}
+.tab:hover,.tab.on{background:rgba(255,149,0,.1);border-color:var(--am);color:var(--am);}
+.wrap{max-width:1080px;margin:0 auto;padding:24px 16px 60px;}
+.pg{display:none;animation:up .3s ease both;}.pg.on{display:block;}
+@keyframes up{from{opacity:0;transform:translateY(12px);}to{opacity:1;transform:translateY(0);}}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.g3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:14px;}
+@media(max-width:680px){.g2,.g3{grid-template-columns:1fr;}}
+.card{background:var(--s1);border:1px solid var(--bd);border-radius:10px;padding:20px;position:relative;overflow:hidden;transition:transform .2s;}
+.card:hover{transform:translateY(-2px);}
+.card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;}
+.cam::before{background:linear-gradient(90deg,transparent,var(--am),transparent);}
+.cgo::before{background:linear-gradient(90deg,transparent,var(--gold),transparent);}
+.cmi::before{background:linear-gradient(90deg,transparent,var(--mint),transparent);}
+.cbl::before{background:linear-gradient(90deg,transparent,var(--blue),transparent);}
+.crd::before{background:linear-gradient(90deg,transparent,var(--red),transparent);}
+.cpu::before{background:linear-gradient(90deg,transparent,var(--purple),transparent);}
+.ct{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;}
+.ctam{color:var(--am);}.ctgo{color:var(--gold);}.ctmi{color:var(--mint);}.ctbl{color:var(--blue);}.ctrd{color:var(--red);}.ctpu{color:var(--purple);}
+.fr{display:flex;justify-content:space-between;align-items:baseline;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04);gap:12px;}
+.fr:last-child{border:none;}
+.fl{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--dim);}
+.fv{font-family:'JetBrains Mono',monospace;font-size:.78rem;color:var(--wh);text-align:right;}
+.kb{background:var(--s2);border:1px solid var(--bd);border-radius:6px;padding:12px 14px;margin:10px 0;font-family:'JetBrains Mono',monospace;font-size:.8rem;line-height:2.2;}
+.kb-l{font-size:.58rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:6px;}
+.ibox{background:rgba(255,149,0,.04);border:1px solid rgba(255,149,0,.15);border-radius:6px;padding:14px 16px;margin:8px 0;font-family:'JetBrains Mono',monospace;font-size:.82rem;line-height:2.3;}
+.ex{background:rgba(0,0,0,.4);border-left:2px solid var(--mint);padding:12px 14px;margin-top:12px;border-radius:0 6px 6px 0;font-family:'JetBrains Mono',monospace;font-size:.74rem;}
+.ex-q{color:var(--mint);font-weight:600;margin-bottom:6px;}
+.ex-s{color:var(--dim);line-height:1.7;margin:2px 0;}
+.ex-a{margin-top:8px;background:rgba(61,255,160,.08);border-radius:4px;padding:6px 10px;color:var(--mint);font-weight:600;}
+.pq{background:var(--s1);border:1px solid var(--bd);border-radius:8px;padding:16px;margin-bottom:10px;}
+.pq-q{font-size:.9rem;line-height:1.7;margin-bottom:10px;}
+.pq-btn{font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--am);background:rgba(255,149,0,.07);border:1px solid rgba(255,149,0,.2);border-radius:4px;padding:5px 12px;cursor:pointer;transition:.2s;}
+.pq-ans{display:none;margin-top:10px;}.pq-ans.open{display:block;}
+.badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:1.5px;padding:2px 9px;border-radius:2px;margin-bottom:8px;}
+.be{background:rgba(61,255,160,.1);color:var(--mint);border:1px solid rgba(61,255,160,.2);}
+.bm{background:rgba(255,209,102,.1);color:var(--gold);border:1px solid rgba(255,209,102,.2);}
+.bh{background:rgba(255,90,90,.1);color:var(--red);border:1px solid rgba(255,90,90,.2);}
+.tk{background:rgba(255,209,102,.03);border:1px solid rgba(255,209,102,.12);border-radius:6px;padding:14px;margin-bottom:10px;}
+.tk-t{font-family:'JetBrains Mono',monospace;font-size:.62rem;letter-spacing:2px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+.tk p{font-size:.87rem;color:var(--dim);line-height:1.65;}
+.tk code{font-family:'JetBrains Mono',monospace;background:rgba(255,209,102,.1);color:var(--gold);padding:1px 5px;border-radius:2px;font-size:.78rem;}
+.amc{color:var(--am);}.goc{color:var(--gold);}.mic{color:var(--mint);}.blc{color:var(--blue);}.rdc{color:var(--red);}.puc{color:var(--purple);}
+</style>
+</head>
+<body>
+<div class="hero">
+  <div class="hero-tag">ALGEBRA & SURDS · GOVT EXAM PREP</div>
+  <h1><span class="t1">ALGEBRA &</span><span class="t2">SURDS</span></h1>
+  <p class="hero-sub">// Identities · Factoring · Surds · Rationalisation · x+1/x tricks · SSC · IBPS</p>
+</div>
+<div class="tabbar">
+  <button class="tab on" onclick="sw(this,'p0')">🔗 Basic Identities</button>
+  <button class="tab" onclick="sw(this,'p1')">🧮 3-Var Identities</button>
+  <button class="tab" onclick="sw(this,'p2')">✂️ Factoring</button>
+  <button class="tab" onclick="sw(this,'p3')">√ Surds</button>
+  <button class="tab" onclick="sw(this,'p4')">⭐ x+1/x Series</button>
+  <button class="tab" onclick="sw(this,'p5')">✏️ Practice</button>
+  <button class="tab" onclick="sw(this,'p6')">⚡ Quick Ref</button>
+</div>
+<div class="wrap">
+
+<!-- BASIC IDENTITIES -->
+<div class="pg on" id="p0">
+  <div class="g2">
+    <div class="card cam">
+      <div class="ct ctam">🔗 Square & Cube Identities</div>
+      <div class="ibox">
+        <span class="amc">(a+b)² = a²+2ab+b²</span><br>
+        <span class="amc">(a−b)² = a²−2ab+b²</span><br>
+        <span class="goc">(a+b)(a−b) = a²−b²</span><br>
+        <span class="mic">(a+b)³ = a³+3a²b+3ab²+b³</span><br>
+        <span class="mic">(a−b)³ = a³−3a²b+3ab²−b³</span><br>
+        <span class="blc">a³+b³ = (a+b)(a²−ab+b²)</span><br>
+        <span class="rdc">a³−b³ = (a−b)(a²+ab+b²)</span>
+      </div>
+      <div class="ex">
+        <div class="ex-q">▶ If a+b=7, ab=10. Find a²+b².</div>
+        <div class="ex-s">a²+b² = (a+b)²−2ab = 49−20</div>
+        <div class="ex-a">= 29 ✓</div>
+      </div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--gold);">
+        <div class="ex-q" style="color:var(--gold);">▶ Expand (2x+3y)²</div>
+        <div class="ex-s">= 4x²+12xy+9y²</div>
+        <div class="ex-a" style="color:var(--gold);background:rgba(255,209,102,.08);">Done in one step ✓</div>
+      </div>
+    </div>
+    <div class="card cgo">
+      <div class="ct ctgo">📊 Key Derived Results</div>
+      <div class="fr"><span class="fl">a²+b² from (a+b)</span><span class="fv goc">(a+b)²−2ab</span></div>
+      <div class="fr"><span class="fl">a²+b² from (a−b)</span><span class="fv goc">(a−b)²+2ab</span></div>
+      <div class="fr"><span class="fl">(a+b)²−(a−b)²</span><span class="fv amc">= 4ab</span></div>
+      <div class="fr"><span class="fl">(a+b)²+(a−b)²</span><span class="fv amc">= 2(a²+b²)</span></div>
+      <div class="fr"><span class="fl">a³+b³ from (a+b)</span><span class="fv mic">(a+b)³−3ab(a+b)</span></div>
+      <div class="fr"><span class="fl">a³−b³ from (a−b)</span><span class="fv mic">(a−b)³+3ab(a−b)</span></div>
+      <div class="fr"><span class="fl">ab from (a+b),(a−b)</span><span class="fv">[(a+b)²−(a−b)²]/4</span></div>
+      <div class="ex" style="margin-top:12px;">
+        <div class="ex-q">▶ a+b=5, ab=6. Find a³+b³.</div>
+        <div class="ex-s">a³+b³=(a+b)³−3ab(a+b)=125−90</div>
+        <div class="ex-a">= 35 ✓</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 3-VAR IDENTITIES -->
+<div class="pg" id="p1">
+  <div class="g2">
+    <div class="card cmi">
+      <div class="ct ctmi">🧮 Three-Variable Identities</div>
+      <div class="ibox" style="border-color:rgba(61,255,160,.15);">
+        <span class="mic">(a+b+c)² = a²+b²+c²+2(ab+bc+ca)</span><br>
+        <span class="amc">a³+b³+c³−3abc = (a+b+c)(a²+b²+c²−ab−bc−ca)</span><br>
+        <span class="goc">If a+b+c=0 → a³+b³+c³ = 3abc</span>
+      </div>
+      <div class="ex">
+        <div class="ex-q">▶ x+y+z=0. Find x³+y³+z³.</div>
+        <div class="ex-s">Since x+y+z=0: x³+y³+z³ = 3xyz</div>
+        <div class="ex-a">= 3xyz ✓</div>
+      </div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--am);">
+        <div class="ex-q" style="color:var(--am);">▶ a+b+c=6, a²+b²+c²=14. Find ab+bc+ca.</div>
+        <div class="ex-s">(a+b+c)²=a²+b²+c²+2(ab+bc+ca)</div>
+        <div class="ex-s">36=14+2(ab+bc+ca) → 2×(ab+bc+ca)=22</div>
+        <div class="ex-a" style="color:var(--am);background:rgba(255,149,0,.08);">ab+bc+ca = 11 ✓</div>
+      </div>
+    </div>
+    <div class="card cbl">
+      <div class="ct ctbl">🔢 Hard 3-Variable Problems</div>
+      <div class="ex" style="margin-top:0;border-left-color:var(--blue);">
+        <div class="ex-q" style="color:var(--blue);">▶ a+b+c=6, ab+bc+ca=11, abc=6. Find a³+b³+c³.</div>
+        <div class="ex-s">a²+b²+c²=(6)²−2(11)=36−22=14</div>
+        <div class="ex-s">a³+b³+c³=(a+b+c)((a²+b²+c²)−(ab+bc+ca))+3abc</div>
+        <div class="ex-s">=6(14−11)+3(6)=18+18</div>
+        <div class="ex-a" style="color:var(--blue);background:rgba(91,158,255,.08);">=36 ✓</div>
+      </div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--gold);">
+        <div class="ex-q" style="color:var(--gold);">▶ Verify a+b+c=0 for a=1,b=ω,c=ω². Find a³+b³+c³.</div>
+        <div class="ex-s">1+ω+ω²=0 ✓. So a³+b³+c³=3abc</div>
+        <div class="ex-s">=3×1×ω×ω²=3ω³=3×1</div>
+        <div class="ex-a" style="color:var(--gold);background:rgba(255,209,102,.08);">=3 ✓</div>
+      </div>
+      <div class="ex" style="margin-top:8px;">
+        <div class="ex-q">▶ a=2, b=−3, c=1. Find a³+b³+c³−3abc.</div>
+        <div class="ex-s">a+b+c=0 → a³+b³+c³=3abc=3×2×(−3)×1=−18</div>
+        <div class="ex-s">a³+b³+c³−3abc=−18−(−18)</div>
+        <div class="ex-a">=0 ✓</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- FACTORING -->
+<div class="pg" id="p2">
+  <div class="g2">
+    <div class="card crd">
+      <div class="ct ctrd">✂️ Factoring Methods</div>
+      <div class="fr"><span class="fl">Common factor</span><span class="fv mic">ax+ay = a(x+y)</span></div>
+      <div class="fr"><span class="fl">Diff of squares</span><span class="fv mic">a²−b² = (a+b)(a−b)</span></div>
+      <div class="fr"><span class="fl">Perfect square +</span><span class="fv">a²+2ab+b² = (a+b)²</span></div>
+      <div class="fr"><span class="fl">Perfect square −</span><span class="fv">a²−2ab+b² = (a−b)²</span></div>
+      <div class="fr"><span class="fl">Sum of cubes</span><span class="fv goc">a³+b³=(a+b)(a²−ab+b²)</span></div>
+      <div class="fr"><span class="fl">Diff of cubes</span><span class="fv goc">a³−b³=(a−b)(a²+ab+b²)</span></div>
+      <div class="fr"><span class="fl">Trinomial x²+bx+c</span><span class="fv">find p+q=b, pq=c</span></div>
+      <div class="ex" style="margin-top:12px;"><div class="ex-q">▶ Factorise x²−5x+6</div><div class="ex-s">p+q=−5, pq=6 → p=−2, q=−3</div><div class="ex-a">=(x−2)(x−3) ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--am);"><div class="ex-q" style="color:var(--am);">▶ Factorise 8x³−27y³</div><div class="ex-s">=(2x)³−(3y)³=(2x−3y)((2x)²+6xy+(3y)²)</div><div class="ex-a" style="color:var(--am);background:rgba(255,149,0,.08);">=(2x−3y)(4x²+6xy+9y²) ✓</div></div>
+    </div>
+    <div class="card cpu">
+      <div class="ct ctpu">🔢 Advanced Factoring</div>
+      <div class="ex" style="margin-top:0;border-left-color:var(--purple);"><div class="ex-q" style="color:var(--purple);">▶ Factorise x⁴−1</div><div class="ex-s">=(x²)²−1²=(x²+1)(x²−1)=(x²+1)(x+1)(x−1)</div><div class="ex-a" style="color:var(--purple);background:rgba(200,123,255,.08);">Three factors ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--gold);"><div class="ex-q" style="color:var(--gold);">▶ Factorise a²+b²+c²+2ab+2bc+2ca</div><div class="ex-s">=(a+b+c)²</div><div class="ex-a" style="color:var(--gold);background:rgba(255,209,102,.08);">=(a+b+c)² ✓</div></div>
+      <div class="ex" style="margin-top:8px;"><div class="ex-q">▶ Factorise x³+6x²+11x+6</div><div class="ex-s">Try x=−1: −1+6−11+6=0 ✓ → (x+1) is factor</div><div class="ex-s">Divide: (x+1)(x²+5x+6)=(x+1)(x+2)(x+3)</div><div class="ex-a">=(x+1)(x+2)(x+3) ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- SURDS -->
+<div class="pg" id="p3">
+  <div class="g2">
+    <div class="card cam">
+      <div class="ct ctam">√ Surd Laws & Simplification</div>
+      <div class="fr"><span class="fl">√a × √b</span><span class="fv amc">= √(ab)</span></div>
+      <div class="fr"><span class="fl">√a / √b</span><span class="fv amc">= √(a/b)</span></div>
+      <div class="fr"><span class="fl">n√a × n√b</span><span class="fv">= n√(ab)</span></div>
+      <div class="fr"><span class="fl">(√a)²</span><span class="fv goc">= a</span></div>
+      <div class="fr"><span class="fl">a^(m/n)</span><span class="fv mic">= ⁿ√(aᵐ)</span></div>
+      <div class="fr"><span class="fl">Like surds</span><span class="fv">same radicand → combine</span></div>
+      <div class="kb" style="margin-top:10px;">
+        <div class="kb-l">Simplify by factoring out perfect squares</div>
+        √48=√(16×3)=<span class="amc">4√3</span><br>
+        √75=√(25×3)=<span class="amc">5√3</span><br>
+        √72=√(36×2)=<span class="amc">6√2</span><br>
+        √50=√(25×2)=<span class="amc">5√2</span><br>
+        √27=<span class="goc">3√3</span>, √18=<span class="goc">3√2</span>, √12=<span class="goc">2√3</span>
+      </div>
+      <div class="ex"><div class="ex-q">▶ Simplify: √48+√75−√27</div><div class="ex-s">=4√3+5√3−3√3</div><div class="ex-a">=6√3 ✓</div></div>
+    </div>
+    <div class="card cgo">
+      <div class="ct ctgo">🔄 Rationalisation</div>
+      <div class="kb">
+        <div class="kb-l">Conjugate Pair Method</div>
+        <span class="amc">1/(√a+√b)</span> → multiply by <span class="mic">(√a−√b)/(√a−√b)</span><br>
+        Result: <span class="goc">(√a−√b)/(a−b)</span><br><br>
+        <span class="amc">1/(a+√b)</span> → multiply by <span class="mic">(a−√b)/(a−√b)</span><br>
+        Result: <span class="goc">(a−√b)/(a²−b)</span>
+      </div>
+      <div class="ex"><div class="ex-q">▶ Rationalise: 1/(√5+√3)</div><div class="ex-s">=(√5−√3)/((√5)²−(√3)²)=(√5−√3)/(5−3)</div><div class="ex-a">=(√5−√3)/2 ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--am);"><div class="ex-q" style="color:var(--am);">▶ Rationalise: 5/(3−√2)</div><div class="ex-s">=5(3+√2)/(9−2)=5(3+√2)/7</div><div class="ex-a" style="color:var(--am);background:rgba(255,149,0,.08);">=(15+5√2)/7 ✓</div></div>
+      <div class="ex" style="margin-top:8px;border-left-color:var(--blue);"><div class="ex-q" style="color:var(--blue);">▶ If x=3−2√2, find x+1/x.</div><div class="ex-s">1/x=1/(3−2√2)=(3+2√2)/((9−8))=3+2√2</div><div class="ex-a" style="color:var(--blue);background:rgba(91,158,255,.08);">x+1/x=(3−2√2)+(3+2√2)=6 ✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- x+1/x SERIES -->
+<div class="pg" id="p4">
+  <div class="card cam" style="margin-bottom:14px;">
+    <div class="ct ctam">⭐ x + 1/x Chain — Most Asked in SSC/IBPS!</div>
+    <div class="g2">
+      <div>
+        <div class="ibox">
+          If <span class="amc">x + 1/x = k</span>:<br>
+          x² + 1/x² = <span class="goc">k² − 2</span><br>
+          x³ + 1/x³ = <span class="mic">k³ − 3k</span><br>
+          x⁴ + 1/x⁴ = <span class="blc">(k²−2)² − 2</span><br>
+          (x − 1/x)² = k² − 4<br>
+          (x + 1/x)² = (x − 1/x)² + 4
+        </div>
+        <div class="ibox" style="border-color:rgba(61,255,160,.15);">
+          If <span class="mic">x − 1/x = k</span>:<br>
+          x² + 1/x² = <span class="goc">k² + 2</span><br>
+          x³ − 1/x³ = <span class="amc">k³ + 3k</span><br>
+          (x + 1/x)² = k² + 4
+        </div>
+      </div>
+      <div>
+        <div class="ex" style="margin-top:0;"><div class="ex-q">▶ x+1/x=3. Find x²+1/x², x³+1/x³, x⁴+1/x⁴.</div><div class="ex-s">x²+1/x²=3²−2=7</div><div class="ex-s">x³+1/x³=3³−3×3=27−9=18</div><div class="ex-s">x⁴+1/x⁴=7²−2=47</div><div class="ex-a">7, 18, 47 ✓</div></div>
+        <div class="ex" style="margin-top:8px;border-left-color:var(--gold);"><div class="ex-q" style="color:var(--gold);">▶ x+1/x=√5. Find x²+1/x².</div><div class="ex-s">=(√5)²−2=5−2</div><div class="ex-a" style="color:var(--gold);background:rgba(255,209,102,.08);">=3 ✓</div></div>
+        <div class="ex" style="margin-top:8px;border-left-color:var(--blue);"><div class="ex-q" style="color:var(--blue);">▶ x−1/x=2√2. Find x²+1/x² and x+1/x.</div><div class="ex-s">x²+1/x²=(2√2)²+2=8+2=10</div><div class="ex-s">x+1/x=√(x²+1/x²+2)=√12=2√3</div><div class="ex-a" style="color:var(--blue);background:rgba(91,158,255,.08);">x²+1/x²=10, x+1/x=2√3 ✓</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRACTICE -->
+<div class="pg" id="p5">
+  <div class="g2">
+    <div>
+      <div class="pq"><div class="badge be">EASY</div><div class="pq-q">If a−b=4, ab=21. Find a+b and a²+b².</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">(a+b)²=(a−b)²+4ab=16+84=100 → a+b=10</div><div class="ex-s">a²+b²=(a+b)²−2ab=100−42=58</div><div class="ex-a">a+b=10, a²+b²=58 ✓</div></div></div></div>
+      <div class="pq"><div class="badge be">EASY</div><div class="pq-q">Simplify: (√5+√3)(√5−√3)</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">=(√5)²−(√3)²=5−3</div><div class="ex-a">=2 ✓</div></div></div></div>
+      <div class="pq"><div class="badge bm">MEDIUM</div><div class="pq-q">If x+1/x=4, find x⁴+1/x⁴.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">x²+1/x²=4²−2=14</div><div class="ex-s">x⁴+1/x⁴=14²−2=196−2</div><div class="ex-a">=194 ✓</div></div></div></div>
+      <div class="pq"><div class="badge bm">MEDIUM</div><div class="pq-q">Rationalise: (√3+√2)/(√3−√2)</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">×(√3+√2)/(√3+√2) = (√3+√2)²/(3−2)</div><div class="ex-s">=(3+2√6+2)/1</div><div class="ex-a">=5+2√6 ✓</div></div></div></div>
+    </div>
+    <div>
+      <div class="pq"><div class="badge bm">MEDIUM</div><div class="pq-q">If a+b+c=0, find (a²+b²+c²)/(ab+bc+ca).</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">(a+b+c)²=0 → a²+b²+c²+2(ab+bc+ca)=0</div><div class="ex-s">a²+b²+c²=−2(ab+bc+ca)</div><div class="ex-a">Ratio = −2 ✓</div></div></div></div>
+      <div class="pq"><div class="badge bh">HARD</div><div class="pq-q">If x=√5+2, find x−1/x.</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">1/x=1/(√5+2)=(√5−2)/((5−4))=√5−2</div><div class="ex-s">x−1/x=(√5+2)−(√5−2)=4</div><div class="ex-a">=4 ✓</div></div></div></div>
+      <div class="pq"><div class="badge bh">HARD</div><div class="pq-q">a³+b³+c³=3abc. Which condition must hold?</div><button class="pq-btn" onclick="tog(this)">▶ Show Answer</button><div class="pq-ans"><div class="ex" style="margin-top:0;"><div class="ex-s">a³+b³+c³−3abc=(a+b+c)(a²+b²+c²−ab−bc−ca)=0</div><div class="ex-s">Either a+b+c=0 OR a²+b²+c²=ab+bc+ca</div><div class="ex-a">a+b+c=0 (most common condition) ✓</div></div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- QUICK REF -->
+<div class="pg" id="p6">
+  <div class="g2">
+    <div>
+      <div class="tk"><div class="tk-t">⚡ Trick 1 — a²+b² shortcut</div><p>Given a+b and ab: <code>a²+b² = (a+b)²−2ab</code>. No need to find a and b. Given a−b and ab: <code>a²+b² = (a−b)²+2ab</code>.</p></div>
+      <div class="tk"><div class="tk-t">⚡ Trick 2 — x+1/x chain</div><p>k=x+1/x → x²+1/x²=k²−2 → x³+1/x³=k³−3k → x⁴+1/x⁴=(k²−2)²−2. Build the chain step by step!</p></div>
+      <div class="tk"><div class="tk-t">⚡ Trick 3 — a+b+c=0 magic</div><p>Then <code>a³+b³+c³=3abc</code> always. Also (a²+b²+c²)/(ab+bc+ca)=−2. Spot the "sum=0" condition quickly!</p></div>
+    </div>
+    <div>
+      <div class="tk"><div class="tk-t">⚡ Trick 4 — Surd memorisation</div><p>Memorise: √8=2√2, √12=2√3, √18=3√2, √27=3√3, √48=4√3, √50=5√2, √72=6√2, √75=5√3. Saves 30 seconds per question!</p></div>
+      <div class="tk"><div class="tk-t">⚡ Trick 5 — Rationalise instantly</div><p>Denominator (a+√b): multiply by <code>(a−√b)</code>. Result denominator = a²−b. For (√a+√b): denominator becomes <code>a−b</code>.</p></div>
+      <div class="tk"><div class="tk-t">⚡ Trick 6 — (a+b)²−(a−b)²=4ab</div><p>If given (a+b)²=X and (a−b)²=Y: then 4ab=X−Y, and a²+b²=(X+Y)/2. Very fast for competitive exams!</p></div>
+    </div>
+  </div>
+</div>
+
+</div>
+<script>
+function sw(btn,id){document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));document.querySelectorAll('.tab').forEach(t=>t.classList.remove('on'));document.getElementById(id).classList.add('on');btn.classList.add('on');}
+function tog(btn){const a=btn.nextElementSibling;a.classList.toggle('open');btn.textContent=a.classList.contains('open')?'▼ Hide Answer':'▶ Show Answer';}
+</script>
+</body>
+</html>
