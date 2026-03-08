@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Incircle of a Triangle</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;600&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --bg: #0d0d14;
+    --panel: #13131f;
+    --border: #2a2a40;
+    --accent: #f5c842;
+    --blue: #4fa3f7;
+    --green: #44e5a0;
+    --red: #f76b6b;
+    --purple: #b47dff;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.6rem, 4vw, 2.4rem);
+    text-align: center;
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin-bottom: 28px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+  }
+
+  .tab {
+    padding: 8px 18px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    transition: all 0.2s;
+  }
+
+  .tab.active, .tab:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: rgba(245,200,66,0.08);
+  }
+
+  .section { display: none; }
+  .section.active { display: block; }
+
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+  }
+
+  .card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card h2 .icon { font-size: 1.4rem; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    align-items: start;
+  }
+
+  @media(max-width: 640px) { .two-col { grid-template-columns: 1fr; } }
+
+  svg { width: 100%; height: auto; display: block; }
+
+  .formula-box {
+    background: rgba(245,200,66,0.06);
+    border: 1px solid rgba(245,200,66,0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.88rem;
+    line-height: 1.9;
+  }
+
+  .formula-box .label {
+    color: var(--muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 6px;
+  }
+
+  .highlight { color: var(--accent); font-weight: 600; }
+  .blue { color: var(--blue); }
+  .green { color: var(--green); }
+  .red { color: var(--red); }
+  .purple { color: var(--purple); }
+
+  .legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 14px;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+
+  .dot {
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .step-list { list-style: none; counter-reset: steps; }
+  .step-list li {
+    counter-increment: steps;
+    display: flex;
+    gap: 14px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: #cccce0;
+  }
+
+  .step-list li::before {
+    content: counter(steps);
+    background: var(--accent);
+    color: #000;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 0.75rem;
+    min-width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  .example-box {
+    background: #0a0a12;
+    border-left: 3px solid var(--green);
+    border-radius: 0 10px 10px 0;
+    padding: 16px 18px;
+    margin-top: 14px;
+  }
+
+  .example-box .q {
+    color: var(--green);
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 10px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .example-box .step {
+    font-size: 0.88rem;
+    color: #bbbbd0;
+    margin: 5px 0;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .ans {
+    margin-top: 10px;
+    background: rgba(68,229,160,0.1);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--green);
+    font-size: 0.9rem;
+  }
+
+  .tricks-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 14px;
+    margin-top: 4px;
+  }
+
+  .trick-card {
+    background: #0a0a12;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+
+  .trick-card .t-title {
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 7px;
+  }
+
+  .interactive-note {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.75rem;
+    margin-top: 8px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Animations */
+  @keyframes dash {
+    to { stroke-dashoffset: 0; }
+  }
+
+  .anim-path {
+    stroke-dasharray: 600;
+    stroke-dashoffset: 600;
+    animation: dash 1.8s ease forwards;
+  }
+
+  .anim-circle {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    animation: dash 1.5s 0.8s ease forwards;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .fade-in { animation: fadeIn 0.5s ease forwards; }
+</style>
+</head>
+<body>
+
+<h1>Incircle of a Triangle</h1>
+<p class="subtitle">// Visual Guide for Government Exam Prep</p>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('concept')">📐 Concept</button>
+  <button class="tab" onclick="showTab('right')">📐 Right Triangle</button>
+  <button class="tab" onclick="showTab('equilateral')">🔺 Equilateral</button>
+  <button class="tab" onclick="showTab('examples')">✏️ Solved Examples</button>
+  <button class="tab" onclick="showTab('tricks')">⚡ Exam Tricks</button>
+</div>
+
+<!-- ===== CONCEPT ===== -->
+<div id="concept" class="section active fade-in">
+  <div class="card">
+    <h2><span class="icon">🔵</span> What is an Incircle?</h2>
+    <div class="two-col">
+      <div>
+        <svg viewBox="0 0 300 270" xmlns="http://www.w3.org/2000/svg">
+          <!-- Triangle -->
+          <polygon points="150,30 280,230 20,230"
+            fill="rgba(79,163,247,0.06)" stroke="#4fa3f7" stroke-width="2.5" class="anim-path"/>
+
+          <!-- Incircle -->
+          <circle cx="150" cy="165" r="65"
+            fill="rgba(245,200,66,0.08)" stroke="#f5c842" stroke-width="2" class="anim-circle"/>
+
+          <!-- Incentre dot -->
+          <circle cx="150" cy="165" r="5" fill="#f5c842"/>
+          <text x="158" y="162" fill="#f5c842" font-size="11" font-family="JetBrains Mono">I (Incentre)</text>
+
+          <!-- Radius line -->
+          <line x1="150" y1="165" x2="150" y2="230" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="153" y="207" fill="#f5c842" font-size="11" font-family="JetBrains Mono">r</text>
+
+          <!-- Right angle mark at tangent point -->
+          <rect x="144" y="224" width="6" height="6" fill="none" stroke="#f5c842" stroke-width="1.2"/>
+
+          <!-- Angle bisectors -->
+          <line x1="150" y1="30" x2="150" y2="165" stroke="#b47dff" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+          <line x1="280" y1="230" x2="150" y2="165" stroke="#b47dff" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+          <line x1="20" y1="230" x2="150" y2="165" stroke="#b47dff" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+
+          <!-- Vertex labels -->
+          <text x="144" y="22" fill="#4fa3f7" font-size="13" font-family="JetBrains Mono" font-weight="bold">A</text>
+          <text x="285" y="236" fill="#4fa3f7" font-size="13" font-family="JetBrains Mono" font-weight="bold">B</text>
+          <text x="8" y="236" fill="#4fa3f7" font-size="13" font-family="JetBrains Mono" font-weight="bold">C</text>
+
+          <!-- Side labels -->
+          <text x="220" y="145" fill="#4fa3f7" font-size="11" font-family="JetBrains Mono">a</text>
+          <text x="60" y="145" fill="#4fa3f7" font-size="11" font-family="JetBrains Mono">b</text>
+          <text x="145" y="248" fill="#4fa3f7" font-size="11" font-family="JetBrains Mono">c</text>
+
+          <!-- Tangent dots -->
+          <circle cx="150" cy="230" r="3.5" fill="#44e5a0"/>
+          <circle cx="222" cy="147" r="3.5" fill="#44e5a0"/>
+          <circle cx="78" cy="147" r="3.5" fill="#44e5a0"/>
+
+          <!-- Purple label -->
+          <text x="88" y="94" fill="#b47dff" font-size="9.5" font-family="JetBrains Mono">angle bisectors</text>
+        </svg>
+        <div class="legend">
+          <div class="legend-item"><div class="dot" style="background:#4fa3f7"></div> Triangle sides</div>
+          <div class="legend-item"><div class="dot" style="background:#f5c842"></div> Incircle & r</div>
+          <div class="legend-item"><div class="dot" style="background:#44e5a0"></div> Tangent points</div>
+          <div class="legend-item"><div class="dot" style="background:#b47dff"></div> Angle bisectors</div>
+        </div>
+      </div>
+      <div>
+        <p style="color:#cccce0; font-size:0.9rem; line-height:1.75; margin-bottom:14px;">
+          An <span class="highlight">incircle</span> is the largest circle that fits <em>inside</em> a triangle, touching all three sides exactly once.
+        </p>
+        <ul class="step-list">
+          <li>The center is called the <span class="highlight">Incentre (I)</span></li>
+          <li>Incentre = intersection of all <span class="purple">three angle bisectors</span></li>
+          <li>The <span class="highlight">inradius (r)</span> = perpendicular distance from Incentre to any side</li>
+          <li>The incircle always lies <em>inside</em> the triangle</li>
+          <li>Three <span class="green">tangent points</span> — one on each side</li>
+        </ul>
+        <div class="formula-box">
+          <div class="label">Core Formula</div>
+          <span class="highlight">r = Area / s</span><br>
+          <span class="highlight">s = (a + b + c) / 2</span> &nbsp;<span style="color:var(--muted)">(semi-perimeter)</span><br>
+          <span class="highlight">Area = r × s</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== RIGHT TRIANGLE ===== -->
+<div id="right" class="section fade-in">
+  <div class="card">
+    <h2><span class="icon">📐</span> Incircle in a Right Triangle</h2>
+    <div class="two-col">
+      <div>
+        <svg viewBox="0 0 300 270" xmlns="http://www.w3.org/2000/svg">
+          <!-- Triangle: right angle at C -->
+          <polygon points="40,230 40,50 260,230"
+            fill="rgba(79,163,247,0.06)" stroke="#4fa3f7" stroke-width="2.5"/>
+
+          <!-- Right angle mark -->
+          <rect x="40" y="210" width="20" height="20" fill="none" stroke="#4fa3f7" stroke-width="1.5"/>
+
+          <!-- Incircle: for legs a=180, b=220, c=hyp. Simplified diagram: r shown as ~50 -->
+          <!-- For 6-8-10: r=2. For visual: place incentre at (40+r, 230-r) -->
+          <!-- Using legs: vertical=180, horizontal=220 → r=(180+220-hyp)/2 but let's do visual -->
+          <!-- Legs: left=180px, bottom=220px, hyp=√(180²+220²)≈284. r=(180+220-284)/2=58 -->
+          <circle cx="98" cy="172" r="58"
+            fill="rgba(245,200,66,0.08)" stroke="#f5c842" stroke-width="2"/>
+
+          <!-- Incentre dot -->
+          <circle cx="98" cy="172" r="5" fill="#f5c842"/>
+          <text x="106" y="169" fill="#f5c842" font-size="10" font-family="JetBrains Mono">I</text>
+
+          <!-- Radius lines -->
+          <line x1="98" y1="172" x2="40" y2="172" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <line x1="98" y1="172" x2="98" y2="230" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="55" y="168" fill="#f5c842" font-size="11" font-family="JetBrains Mono">r</text>
+          <text x="101" y="205" fill="#f5c842" font-size="11" font-family="JetBrains Mono">r</text>
+
+          <!-- Tangent right angle marks -->
+          <rect x="40" y="166" width="8" height="8" fill="none" stroke="#44e5a0" stroke-width="1.2"/>
+          <rect x="92" y="222" width="8" height="8" fill="none" stroke="#44e5a0" stroke-width="1.2"/>
+
+          <!-- Labels -->
+          <text x="32" y="46" fill="#4fa3f7" font-size="13" font-family="JetBrains Mono" font-weight="bold">A</text>
+          <text x="265" y="238" fill="#4fa3f7" font-size="13" font-family="JetBrains Mono" font-weight="bold">B</text>
+          <text x="20" y="238" fill="#4fa3f7" font-size="13" font-family="JetBrains Mono" font-weight="bold">C</text>
+
+          <!-- Side labels -->
+          <text x="22" y="145" fill="#4fa3f7" font-size="12" font-family="JetBrains Mono">b</text>
+          <text x="148" y="248" fill="#4fa3f7" font-size="12" font-family="JetBrains Mono">a</text>
+          <text x="168" y="128" fill="#f76b6b" font-size="12" font-family="JetBrains Mono">c (hyp)</text>
+
+          <!-- Tangent points -->
+          <circle cx="40" cy="172" r="4" fill="#44e5a0"/>
+          <circle cx="98" cy="230" r="4" fill="#44e5a0"/>
+        </svg>
+        <div class="interactive-note">Right angle at C • legs = a, b • hypotenuse = c</div>
+      </div>
+      <div>
+        <div class="formula-box">
+          <div class="label">Special Formula — Right Triangle</div>
+          <span class="red">r = (a + b − c) / 2</span><br><br>
+          where:<br>
+          <span class="blue">a, b</span> = two legs<br>
+          <span class="red">c</span> = hypotenuse
+        </div>
+        <p style="color:#cccce0; font-size:0.88rem; line-height:1.7; margin:12px 0;">
+          This formula works because in a right triangle, the incircle touches both legs and the hypotenuse. The geometry gives us a clean shortcut — no Heron's formula needed!
+        </p>
+        <div class="example-box">
+          <div class="q">▶ Example: Legs = 6, 8. Find r.</div>
+          <div class="step">Step 1: c = √(6² + 8²) = √100 = <span class="highlight">10</span></div>
+          <div class="step">Step 2: r = (6 + 8 − 10) / 2</div>
+          <div class="step">       = 4 / 2</div>
+          <div class="ans">∴ r = 2 cm ✅</div>
+        </div>
+        <div class="example-box" style="border-left-color: var(--blue); margin-top:12px;">
+          <div class="q" style="color:var(--blue);">▶ Example: Legs = 5, 12. Find r.</div>
+          <div class="step">c = √(25 + 144) = √169 = <span class="highlight">13</span></div>
+          <div class="step">r = (5 + 12 − 13) / 2 = 4/2</div>
+          <div class="ans" style="color:var(--blue); background:rgba(79,163,247,0.1);">∴ r = 2 cm ✅</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EQUILATERAL ===== -->
+<div id="equilateral" class="section fade-in">
+  <div class="card">
+    <h2><span class="icon">🔺</span> Incircle in an Equilateral Triangle</h2>
+    <div class="two-col">
+      <div>
+        <svg viewBox="0 0 300 280" xmlns="http://www.w3.org/2000/svg">
+          <!-- Equilateral triangle: centred -->
+          <polygon points="150,30 270,240 30,240"
+            fill="rgba(68,229,160,0.05)" stroke="#44e5a0" stroke-width="2.5"/>
+
+          <!-- Incircle: r = a/2√3. a≈240px visual, r≈69 -->
+          <circle cx="150" cy="171" r="69"
+            fill="rgba(245,200,66,0.08)" stroke="#f5c842" stroke-width="2"/>
+
+          <!-- Incentre = centroid for equilateral -->
+          <circle cx="150" cy="171" r="5" fill="#f5c842"/>
+          <text x="158" y="168" fill="#f5c842" font-size="10" font-family="JetBrains Mono">I = centroid</text>
+
+          <!-- Radius line to bottom -->
+          <line x1="150" y1="171" x2="150" y2="240" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <text x="154" y="212" fill="#f5c842" font-size="11" font-family="JetBrains Mono">r</text>
+          <rect x="144" y="234" width="6" height="6" fill="none" stroke="#44e5a0" stroke-width="1.2"/>
+
+          <!-- Median / bisector lines -->
+          <line x1="150" y1="30" x2="150" y2="240" stroke="#b47dff" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+          <line x1="270" y1="240" x2="90" y2="135" stroke="#b47dff" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+          <line x1="30" y1="240" x2="210" y2="135" stroke="#b47dff" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+
+          <!-- Equal side marks -->
+          <text x="97" y="102" fill="#44e5a0" font-size="14" font-family="JetBrains Mono">a</text>
+          <text x="202" y="102" fill="#44e5a0" font-size="14" font-family="JetBrains Mono">a</text>
+          <text x="148" y="258" fill="#44e5a0" font-size="14" font-family="JetBrains Mono">a</text>
+
+          <!-- Vertex labels -->
+          <text x="144" y="22" fill="#44e5a0" font-size="13" font-family="JetBrains Mono" font-weight="bold">A</text>
+          <text x="275" y="248" fill="#44e5a0" font-size="13" font-family="JetBrains Mono" font-weight="bold">B</text>
+          <text x="16" y="248" fill="#44e5a0" font-size="13" font-family="JetBrains Mono" font-weight="bold">C</text>
+
+          <!-- Tangent points -->
+          <circle cx="150" cy="240" r="4" fill="#44e5a0"/>
+          <circle cx="210" cy="135" r="4" fill="#44e5a0"/>
+          <circle cx="90" cy="135" r="4" fill="#44e5a0"/>
+        </svg>
+        <div class="interactive-note">All sides = a • Incentre = Centroid = Circumcentre</div>
+      </div>
+      <div>
+        <div class="formula-box">
+          <div class="label">Equilateral Triangle Formulas</div>
+          <span class="green">r = a / (2√3) = a√3 / 6</span><br>
+          <span class="purple">R = a / √3 = a√3 / 3</span><br><br>
+          <span style="color:var(--muted)">Key relation:</span> <span class="highlight">R = 2r</span><br>
+          <span style="color:var(--muted)">Area = </span><span class="green">√3/4 × a²</span>
+        </div>
+        <p style="color:#cccce0; font-size:0.88rem; line-height:1.7; margin:12px 0;">
+          In an equilateral triangle, the Incentre, Centroid, and Circumcentre are all the <span class="highlight">same point</span>! The circumradius R is always <span class="highlight">twice</span> the inradius r.
+        </p>
+        <div class="example-box">
+          <div class="q">▶ Example: Side = 6 cm. Find r.</div>
+          <div class="step">r = 6 / (2√3) = 3/√3</div>
+          <div class="step">  = 3√3/3 = <span class="highlight">√3</span></div>
+          <div class="ans">∴ r = √3 ≈ 1.73 cm ✅</div>
+        </div>
+        <div class="example-box" style="border-left-color:var(--purple); margin-top:12px;">
+          <div class="q" style="color:var(--purple);">▶ Example: r = 2 cm. Find side a.</div>
+          <div class="step">r = a√3/6  →  a = 6r/√3</div>
+          <div class="step">a = 12/√3 = 12√3/3 = 4√3</div>
+          <div class="ans" style="color:var(--purple); background:rgba(180,125,255,0.1);">∴ a = 4√3 ≈ 6.93 cm ✅</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== EXAMPLES ===== -->
+<div id="examples" class="section fade-in">
+  <div class="card">
+    <h2><span class="icon">✏️</span> Solved Examples (Heron's Formula Method)</h2>
+
+    <!-- Example 1 -->
+    <div style="margin-bottom:22px;">
+      <p style="color:var(--accent); font-family:'JetBrains Mono',monospace; font-size:0.85rem; margin-bottom:10px;">EXAMPLE 1 — General Triangle</p>
+      <div class="two-col">
+        <div>
+          <svg viewBox="0 0 260 220" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="60,190 200,190 130,40"
+              fill="rgba(79,163,247,0.06)" stroke="#4fa3f7" stroke-width="2"/>
+            <circle cx="130" cy="138" r="52" fill="rgba(245,200,66,0.08)" stroke="#f5c842" stroke-width="2"/>
+            <circle cx="130" cy="138" r="4" fill="#f5c842"/>
+            <line x1="130" y1="138" x2="130" y2="190" stroke="#f5c842" stroke-width="1.5" stroke-dasharray="4,3"/>
+            <text x="133" y="170" fill="#f5c842" font-size="10" font-family="JetBrains Mono">r=?</text>
+            <text x="80" y="100" fill="#4fa3f7" font-size="11" font-family="JetBrains Mono">5</text>
+            <text x="164" y="100" fill="#4fa3f7" font-size="11" font-family="JetBrains Mono">12</text>
+            <text x="125" y="207" fill="#4fa3f7" font-size="11" font-family="JetBrains Mono">13</text>
+          </svg>
+        </div>
+        <div>
+          <div class="example-box" style="margin-top:0">
+            <div class="q">▶ Sides: 5, 12, 13. Find r.</div>
+            <div class="step">s = (5+12+13)/2 = <span class="highlight">15</span></div>
+            <div class="step">Area = √[15×10×3×2]</div>
+            <div class="step">     = √900 = <span class="highlight">30</span></div>
+            <div class="step">r = Area/s = 30/15</div>
+            <div class="ans">∴ r = 2 cm ✅</div>
+          </div>
+          <p style="font-size:0.8rem; color:var(--muted); margin-top:8px;">Note: 5-12-13 is a Pythagorean triple so r = (5+12-13)/2 = 2 also works!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Example 2 -->
+    <div>
+      <p style="color:var(--green); font-family:'JetBrains Mono',monospace; font-size:0.85rem; margin-bottom:10px;">EXAMPLE 2 — Given Perimeter & r</p>
+      <div class="example-box" style="border-left-color:var(--green)">
+        <div class="q" style="color:var(--green);">▶ Perimeter = 48 cm, r = 4 cm. Find Area.</div>
+        <div class="step">s = 48/2 = <span class="highlight">24</span></div>
+        <div class="step">Area = r × s = 4 × 24</div>
+        <div class="ans">∴ Area = 96 cm² ✅</div>
+      </div>
+
+      <p style="color:var(--blue); font-family:'JetBrains Mono',monospace; font-size:0.85rem; margin:16px 0 10px;">EXAMPLE 3 — Find r from Area and Perimeter</p>
+      <div class="example-box" style="border-left-color:var(--blue)">
+        <div class="q" style="color:var(--blue);">▶ Area = 84 cm², Perimeter = 42 cm. Find r.</div>
+        <div class="step">s = 42/2 = <span class="highlight">21</span></div>
+        <div class="step">r = Area/s = 84/21</div>
+        <div class="ans">∴ r = 4 cm ✅</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ===== TRICKS ===== -->
+<div id="tricks" class="section fade-in">
+  <div class="card">
+    <h2><span class="icon">⚡</span> Exam Tricks & Quick Summary</h2>
+    <div class="tricks-grid">
+      <div class="trick-card">
+        <div class="t-title" style="color:var(--accent);">📌 Formula Sheet</div>
+        <div style="font-family:'JetBrains Mono',monospace; font-size:0.82rem; line-height:2;">
+          <span class="highlight">r = Area / s</span><br>
+          <span class="highlight">s = (a+b+c)/2</span><br>
+          <span class="blue">Right △: r = (a+b−c)/2</span><br>
+          <span class="green">Equil △: r = a√3/6</span><br>
+          <span class="purple">Equil: R = 2r</span>
+        </div>
+      </div>
+      <div class="trick-card">
+        <div class="t-title" style="color:var(--blue);">🔢 Pythagorean Triples</div>
+        <p style="color:#bbbbd0; font-size:0.83rem; line-height:1.8;">
+          Memorise these — r = (a+b−c)/2:<br>
+          <span class="blue">3-4-5 → r = 1</span><br>
+          <span class="blue">6-8-10 → r = 2</span><br>
+          <span class="blue">5-12-13 → r = 2</span><br>
+          <span class="blue">8-15-17 → r = 3</span>
+        </p>
+      </div>
+      <div class="trick-card">
+        <div class="t-title" style="color:var(--green);">💡 Shortcut</div>
+        <p style="color:#bbbbd0; font-size:0.83rem; line-height:1.7;">
+          If <span class="highlight">Perimeter</span> and <span class="highlight">r</span> are given:<br>
+          → <span class="green">Area = r × (P/2)</span><br><br>
+          If <span class="highlight">Area</span> and <span class="highlight">P</span> are given:<br>
+          → <span class="green">r = (2 × Area) / P</span>
+        </p>
+      </div>
+      <div class="trick-card">
+        <div class="t-title" style="color:var(--purple);">🎯 Key Facts</div>
+        <p style="color:#bbbbd0; font-size:0.83rem; line-height:1.7;">
+          • Incircle always <span class="highlight">inside</span> triangle<br>
+          • Incentre = intersection of <span class="purple">angle bisectors</span><br>
+          • Equilateral: Incentre = Centroid = Circumcentre<br>
+          • r is perpendicular to all 3 sides
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top:20px; padding:16px; background:#0a0a12; border-radius:10px; border:1px solid var(--border);">
+      <p style="color:var(--accent); font-family:'JetBrains Mono',monospace; font-size:0.82rem; margin-bottom:10px; text-transform:uppercase; letter-spacing:1px;">Quick Decision Tree</p>
+      <div style="font-family:'JetBrains Mono',monospace; font-size:0.82rem; line-height:2; color:#cccce0;">
+        Given <span class="blue">3 sides</span>? → Use Heron's → r = Area/s<br>
+        Given <span class="red">right triangle legs</span>? → r = (a+b−c)/2<br>
+        Given <span class="green">equilateral side</span>? → r = a√3/6<br>
+        Given <span class="purple">Perimeter + r</span>? → Area = r × (P/2)<br>
+        Given <span class="highlight">Area + Perimeter</span>? → r = 2·Area/P
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

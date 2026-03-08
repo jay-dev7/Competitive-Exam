@@ -1,32 +1,35 @@
-# Competitive Exam Practice CLI
+# Competitive Exam Notes (React)
 
-A minimal command-line mock test app for competitive exam preparation.
+Simple React app to organize your Quantitative Aptitude HTML notes.
 
-## Run
-
-```bash
-python run.py
-```
-
-## Useful options
+## Setup
 
 ```bash
-python run.py --limit 5 --shuffle --show-explanations
-python run.py --file questions.json --limit 10
+npm install
+npm run dev
 ```
 
-## Question format
+Then open the local URL shown in terminal (usually `http://localhost:5173`).
 
-`questions.json` is an array of objects:
+## Add new concept notes
+
+1. Put your HTML file inside `public/notes/`.
+2. Add an entry in `public/notes/manifest.json`.
+
+Example:
 
 ```json
-{
-  "prompt": "Question text",
-  "options": ["A", "B", "C", "D"],
-  "answer": 2,
-  "explanation": "Optional explanation"
-}
+[
+  { "title": "Incircle", "file": "Incircle.html" },
+  { "title": "Percentage", "file": "Percentage.html" }
+]
 ```
 
-- `answer` is 1-based index of the correct option.
-- Add your own subject-wise question banks and pass them with `--file`.
+Each entry becomes a button under **Quantitative Aptitude**.
+Clicking a button opens the note in the in-app viewer, with option to open in a new tab.
+
+## Mobile + Web responsiveness
+
+- Responsive two-column desktop layout.
+- Single-column mobile layout below 880px.
+- Viewer and controls scale for both phone and desktop screens.

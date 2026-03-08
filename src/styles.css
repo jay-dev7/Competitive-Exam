@@ -1,0 +1,143 @@
+:root {
+  --bg: #f4f7fb;
+  --card: #ffffff;
+  --text: #15233b;
+  --muted: #5a6c8a;
+  --line: #d7e0ee;
+  --accent: #0057b8;
+  --accent-2: #0b7d62;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--text);
+  background: linear-gradient(180deg, #eef3fa 0%, #f9fbff 100%);
+}
+
+.app-shell {
+  min-height: 100vh;
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.hero {
+  background: radial-gradient(circle at top right, #d5e7ff, #ffffff 60%);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1.25rem;
+}
+
+.hero h1 {
+  margin: 0;
+  font-size: clamp(1.25rem, 3vw, 2rem);
+}
+
+.hero p {
+  margin: 0.5rem 0 0;
+  color: var(--muted);
+}
+
+.content {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: 320px minmax(0, 1fr);
+  gap: 1rem;
+}
+
+.notes-section,
+.viewer-section {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 1rem;
+}
+
+.section-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.section-head h2 {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.section-head span {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.selector-wrap {
+  display: grid;
+  gap: 0.4rem;
+}
+
+.selector-label {
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.concept-select {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 0.65rem 0.75rem;
+  font-size: 0.95rem;
+  background: #fff;
+  color: var(--text);
+}
+
+.concept-select:focus {
+  outline: 2px solid #c8dcff;
+  border-color: var(--accent);
+}
+
+.note-frame {
+  width: 100%;
+  min-height: 70vh;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: #fff;
+}
+
+.placeholder {
+  min-height: 200px;
+  border: 1px dashed var(--line);
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  color: var(--muted);
+  padding: 1rem;
+  text-align: center;
+}
+
+.open-link {
+  color: var(--accent-2);
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.error {
+  color: #9c1a1a;
+  margin: 0 0 0.75rem;
+}
+
+@media (max-width: 880px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+
+  .note-frame {
+    min-height: 58vh;
+  }
+}
