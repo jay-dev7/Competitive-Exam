@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2D Mensuration Formula Sheet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IBM+Plex+Mono:wght@400;600;700&family=Nunito:wght@300;400;600;700&display=swap');
+
+  :root {
+    --bg: #080f09;
+    --surface: #0a130b;
+    --panel: #0f1a10;
+    --border: #1a2e1b;
+    --border2: #223324;
+    --green: #00b894;
+    --lime: #55efc4;
+    --yellow: #fdcb6e;
+    --orange: #e17055;
+    --blue: #74b9ff;
+    --pink: #fd79a8;
+    --cyan: #00cec9;
+    --purple: #a29bfe;
+    --white: #dceedd;
+    --text: #e0f0e3;
+    --muted: #5a7a5e;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    min-height: 100vh;
+    padding-bottom: 60px;
+    overflow-x: hidden;
+  }
+
+  /* HERO */
+  .hero {
+    padding: 44px 20px 32px;
+    text-align: center;
+    background: linear-gradient(135deg, #080f09 0%, #0f2010 50%, #080f12 100%);
+    border-bottom: 1px solid var(--border2);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::after {
+    content: '2D';
+    position: absolute;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 20rem;
+    color: rgba(255,255,255,0.012);
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    letter-spacing: 15px;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 3px;
+    color: var(--lime);
+    border: 1px solid rgba(85,239,196,0.3);
+    padding: 4px 14px;
+    border-radius: 999px;
+    margin-bottom: 14px;
+    animation: fadeIn 0.5s ease both;
+  }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.8rem, 8vw, 5.5rem);
+    letter-spacing: 5px;
+    background: linear-gradient(135deg, #fff 0%, var(--lime) 45%, var(--cyan) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: fadeIn 0.5s 0.1s ease both;
+    opacity: 0;
+    line-height: 1;
+  }
+
+  .hero-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 10px;
+    letter-spacing: 1px;
+    animation: fadeIn 0.5s 0.2s ease both;
+    opacity: 0;
+  }
+
+  /* TABS */
+  .tabs {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 18px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    backdrop-filter: blur(12px);
+  }
+
+  .tab {
+    padding: 7px 14px;
+    border-radius: 6px;
+    border: 1px solid var(--border2);
+    background: transparent;
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.5px;
+    transition: all 0.18s;
+    white-space: nowrap;
+  }
+
+  .tab:hover { color: var(--text); }
+  .tab.active { background: rgba(85,239,196,0.1); border-color: var(--lime); color: var(--lime); }
+
+  /* CONTENT */
+  .content { padding: 20px 16px; max-width: 1100px; margin: 0 auto; }
+  .section { display: none; }
+  .section.active { display: block; animation: slideUp 0.35s ease both; }
+
+  .g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+  .g3 { display: grid; grid-template-columns: repeat(3,1fr); gap: 14px; margin-bottom: 14px; }
+  @media(max-width:680px) { .g2,.g3 { grid-template-columns:1fr; } }
+  @media(max-width:900px) { .g3 { grid-template-columns:1fr 1fr; } }
+
+  /* SHAPE CARD */
+  .scard {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 18px;
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.2s;
+  }
+  .scard:hover { transform: translateY(-2px); }
+
+  .scard-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+
+  .shape-icon {
+    width: 42px; height: 42px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    flex-shrink: 0;
+  }
+
+  .scard-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 2px;
+  }
+
+  .scard-sub {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.63rem;
+    color: var(--muted);
+    letter-spacing: 1px;
+  }
+
+  .shape-svg {
+    width: 100%;
+    max-height: 130px;
+    display: block;
+    margin-bottom: 12px;
+  }
+
+  .frow {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 10px;
+  }
+  .frow:last-child { border-bottom: none; }
+  .fl { font-family: 'IBM Plex Mono', monospace; font-size: 0.72rem; color: var(--muted); flex-shrink: 0; }
+  .fv { font-family: 'IBM Plex Mono', monospace; font-size: 0.78rem; color: var(--text); text-align: right; }
+
+  .eg {
+    background: rgba(255,255,255,0.025);
+    border-left: 3px solid var(--lime);
+    border-radius: 0 8px 8px 0;
+    padding: 10px 12px;
+    margin-top: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.74rem;
+  }
+
+  .eg-q { color: var(--lime); font-weight: 700; margin-bottom: 6px; }
+  .eg-s { color: #90a898; margin: 3px 0; }
+  .eg-a {
+    margin-top: 7px;
+    background: rgba(85,239,196,0.1);
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: var(--lime);
+    font-weight: 700;
+  }
+
+  /* colors */
+  .c-green { color: var(--green); }
+  .c-lime { color: var(--lime); }
+  .c-yellow { color: var(--yellow); }
+  .c-orange { color: var(--orange); }
+  .c-blue { color: var(--blue); }
+  .c-pink { color: var(--pink); }
+  .c-cyan { color: var(--cyan); }
+  .c-purple { color: var(--purple); }
+
+  .b-green { border-top: 2px solid var(--green); }
+  .b-lime { border-top: 2px solid var(--lime); }
+  .b-yellow { border-top: 2px solid var(--yellow); }
+  .b-orange { border-top: 2px solid var(--orange); }
+  .b-blue { border-top: 2px solid var(--blue); }
+  .b-pink { border-top: 2px solid var(--pink); }
+  .b-cyan { border-top: 2px solid var(--cyan); }
+  .b-purple { border-top: 2px solid var(--purple); }
+
+  .i-green { background: rgba(0,184,148,0.12); }
+  .i-lime { background: rgba(85,239,196,0.12); }
+  .i-yellow { background: rgba(253,203,110,0.12); }
+  .i-orange { background: rgba(225,112,85,0.12); }
+  .i-blue { background: rgba(116,185,255,0.12); }
+  .i-pink { background: rgba(253,121,168,0.12); }
+  .i-cyan { background: rgba(0,206,201,0.12); }
+  .i-purple { background: rgba(162,155,254,0.12); }
+
+  /* stitle */
+  .stitle {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 4px;
+    color: var(--muted);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border2);
+  }
+
+  /* trick */
+  .trick {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+
+  .trick-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.67rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 8px;
+    color: var(--lime);
+  }
+
+  .trick p {
+    font-size: 0.9rem;
+    color: #88a890;
+    line-height: 1.65;
+  }
+
+  .trick code {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.8rem;
+    background: rgba(85,239,196,0.1);
+    color: var(--lime);
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  .sum-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+  }
+
+  .sum-table th {
+    background: rgba(85,239,196,0.08);
+    color: var(--lime);
+    padding: 9px 12px;
+    text-align: left;
+    border: 1px solid var(--border2);
+    font-size: 0.66rem;
+    letter-spacing: 1px;
+  }
+
+  .sum-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text);
+    vertical-align: middle;
+  }
+
+  .sum-table tr:hover td { background: rgba(255,255,255,0.02); }
+  .sum-table td:first-child { color: var(--lime); font-weight: 700; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="badge">GOVERNMENT EXAM PREP · MENSURATION</div>
+  <h1>2D Mensuration</h1>
+  <p class="hero-sub">// Area · Perimeter · All Shapes · SSC · IBPS · RRB · UPSC</p>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('triangle')">🔺 Triangle</button>
+  <button class="tab" onclick="showTab('quad')">⬛ Quadrilaterals</button>
+  <button class="tab" onclick="showTab('circle')">⭕ Circle</button>
+  <button class="tab" onclick="showTab('polygon')">⬡ Polygons</button>
+  <button class="tab" onclick="showTab('summary2d')">📊 Summary</button>
+  <button class="tab" onclick="showTab('tricks2d')">⚡ Tricks</button>
+</div>
+
+<div class="content">
+
+<!-- ====== TRIANGLE ====== -->
+<div id="triangle" class="section active">
+  <div class="g3">
+
+    <!-- Scalene -->
+    <div class="scard b-lime">
+      <div class="scard-head">
+        <div class="shape-icon i-lime">🔺</div>
+        <div>
+          <div class="scard-name c-lime">TRIANGLE</div>
+          <div class="scard-sub">General · sides a, b, c</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="30,110 170,110 110,20" fill="rgba(85,239,196,0.07)" stroke="#55efc4" stroke-width="2"/>
+        <!-- height -->
+        <line x1="110" y1="20" x2="110" y2="110" stroke="#fdcb6e" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <rect x="110" y="103" width="7" height="7" fill="none" stroke="#fdcb6e" stroke-width="1"/>
+        <text x="113" y="70" fill="#fdcb6e" font-size="11" font-family="IBM Plex Mono">h</text>
+        <!-- base label -->
+        <text x="92" y="126" fill="#55efc4" font-size="11" font-family="IBM Plex Mono">b</text>
+        <!-- vertex labels -->
+        <text x="22" y="118" fill="#74b9ff" font-size="11" font-family="IBM Plex Mono">A</text>
+        <text x="173" y="118" fill="#74b9ff" font-size="11" font-family="IBM Plex Mono">B</text>
+        <text x="107" y="15" fill="#74b9ff" font-size="11" font-family="IBM Plex Mono">C</text>
+        <!-- side labels -->
+        <text x="56" y="68" fill="#55efc4" font-size="10" font-family="IBM Plex Mono">a</text>
+        <text x="148" y="68" fill="#55efc4" font-size="10" font-family="IBM Plex Mono">c</text>
+      </svg>
+      <div class="frow"><span class="fl">Area (basic)</span><span class="fv c-lime">½ × base × height</span></div>
+      <div class="frow"><span class="fl">Heron's Area</span><span class="fv c-lime">√[s(s-a)(s-b)(s-c)]</span></div>
+      <div class="frow"><span class="fl">s (semi-peri)</span><span class="fv">(a+b+c)/2</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv">a+b+c</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ Base=10, Height=6. Area?</div>
+        <div class="eg-s">A = ½ × 10 × 6 = <b style="color:#fdcb6e">30 cm²</b></div>
+        <div class="eg-a">Area = 30 cm² ✅</div>
+      </div>
+    </div>
+
+    <!-- Right Triangle -->
+    <div class="scard b-yellow">
+      <div class="scard-head">
+        <div class="shape-icon i-yellow">📐</div>
+        <div>
+          <div class="scard-name c-yellow">RIGHT TRIANGLE</div>
+          <div class="scard-sub">Legs a, b · Hypotenuse c</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="30,110 170,110 30,20" fill="rgba(253,203,110,0.07)" stroke="#fdcb6e" stroke-width="2"/>
+        <rect x="30" y="90" width="20" height="20" fill="none" stroke="#fdcb6e" stroke-width="1.5"/>
+        <!-- labels -->
+        <text x="18" y="70" fill="#fdcb6e" font-size="11" font-family="IBM Plex Mono">a</text>
+        <text x="92" y="126" fill="#fdcb6e" font-size="11" font-family="IBM Plex Mono">b</text>
+        <text x="108" y="62" fill="#fd79a8" font-size="10" font-family="IBM Plex Mono">c (hyp)</text>
+        <!-- vertices -->
+        <text x="18" y="15" fill="#74b9ff" font-size="11" font-family="IBM Plex Mono">C</text>
+        <text x="173" y="118" fill="#74b9ff" font-size="11" font-family="IBM Plex Mono">B</text>
+        <text x="18" y="118" fill="#74b9ff" font-size="11" font-family="IBM Plex Mono">A</text>
+      </svg>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-yellow">½ × a × b</span></div>
+      <div class="frow"><span class="fl">Hypotenuse</span><span class="fv c-yellow">√(a²+b²)</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv">a+b+c</span></div>
+      <div class="frow"><span class="fl">Inradius r</span><span class="fv">(a+b−c)/2</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ Legs = 3, 4. Area & hyp?</div>
+        <div class="eg-s">Area = ½×3×4 = <b style="color:#fdcb6e">6 cm²</b></div>
+        <div class="eg-s">c = √(9+16) = <b style="color:#fdcb6e">5 cm</b></div>
+        <div class="eg-a">Area=6 cm², c=5 cm ✅</div>
+      </div>
+    </div>
+
+    <!-- Equilateral -->
+    <div class="scard b-green">
+      <div class="scard-head">
+        <div class="shape-icon i-green">🟢</div>
+        <div>
+          <div class="scard-name c-green">EQUILATERAL</div>
+          <div class="scard-sub">All sides = a</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="100,10 185,115 15,115" fill="rgba(0,184,148,0.07)" stroke="#00b894" stroke-width="2"/>
+        <!-- height -->
+        <line x1="100" y1="10" x2="100" y2="115" stroke="#fdcb6e" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="103" y="68" fill="#fdcb6e" font-size="10" font-family="IBM Plex Mono">h=a√3/2</text>
+        <!-- side labels -->
+        <text x="38" y="68" fill="#00b894" font-size="11" font-family="IBM Plex Mono">a</text>
+        <text x="152" y="68" fill="#00b894" font-size="11" font-family="IBM Plex Mono">a</text>
+        <text x="95" y="127" fill="#00b894" font-size="11" font-family="IBM Plex Mono">a</text>
+        <!-- equal marks -->
+        <line x1="54" y1="64" x2="60" y2="70" stroke="#00b894" stroke-width="2"/>
+        <line x1="140" y1="64" x2="146" y2="58" stroke="#00b894" stroke-width="2"/>
+        <line x1="96" y1="118" x2="104" y2="118" stroke="#00b894" stroke-width="2"/>
+      </svg>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-green">√3/4 × a²</span></div>
+      <div class="frow"><span class="fl">Height</span><span class="fv c-green">a√3/2</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv">3a</span></div>
+      <div class="frow"><span class="fl">Inradius r</span><span class="fv">a/(2√3) = a√3/6</span></div>
+      <div class="frow"><span class="fl">Circumradius R</span><span class="fv">a/√3 = a√3/3</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ a = 6 cm. Area?</div>
+        <div class="eg-s">A = √3/4 × 36 = 9√3</div>
+        <div class="eg-a">Area = 9√3 ≈ 15.6 cm² ✅</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== QUADRILATERALS ====== -->
+<div id="quad" class="section">
+  <div class="g2">
+
+    <!-- Rectangle -->
+    <div class="scard b-blue">
+      <div class="scard-head">
+        <div class="shape-icon i-blue">🟦</div>
+        <div>
+          <div class="scard-name c-blue">RECTANGLE</div>
+          <div class="scard-sub">Length l, Breadth b</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg">
+        <rect x="30" y="20" width="160" height="80" fill="rgba(116,185,255,0.07)" stroke="#74b9ff" stroke-width="2" rx="2"/>
+        <!-- right angle marks -->
+        <rect x="30" y="20" width="10" height="10" fill="none" stroke="#74b9ff" stroke-width="1"/>
+        <rect x="180" y="20" width="10" height="10" fill="none" stroke="#74b9ff" stroke-width="1"/>
+        <!-- labels -->
+        <text x="100" y="114" fill="#74b9ff" font-size="11" font-family="IBM Plex Mono">l</text>
+        <text x="10" y="65" fill="#74b9ff" font-size="11" font-family="IBM Plex Mono">b</text>
+        <!-- diagonal -->
+        <line x1="30" y1="20" x2="190" y2="100" stroke="#fdcb6e" stroke-width="1" stroke-dasharray="4,3" opacity="0.5"/>
+        <text x="105" y="55" fill="#fdcb6e" font-size="9" font-family="IBM Plex Mono">d=√(l²+b²)</text>
+      </svg>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-blue">l × b</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv c-blue">2(l + b)</span></div>
+      <div class="frow"><span class="fl">Diagonal</span><span class="fv">√(l² + b²)</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ l=12, b=5. Area, P, Diagonal?</div>
+        <div class="eg-s">Area = 12×5 = <b style="color:#fdcb6e">60 cm²</b></div>
+        <div class="eg-s">P = 2(12+5) = <b style="color:#fdcb6e">34 cm</b></div>
+        <div class="eg-s">d = √(144+25) = √169 = <b style="color:#fdcb6e">13 cm</b></div>
+        <div class="eg-a">A=60, P=34, d=13 ✅</div>
+      </div>
+    </div>
+
+    <!-- Square -->
+    <div class="scard b-lime">
+      <div class="scard-head">
+        <div class="shape-icon i-lime">🟩</div>
+        <div>
+          <div class="scard-name c-lime">SQUARE</div>
+          <div class="scard-sub">Side = a</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+        <rect x="40" y="10" width="120" height="100" fill="rgba(85,239,196,0.07)" stroke="#55efc4" stroke-width="2"/>
+        <!-- diagonal -->
+        <line x1="40" y1="10" x2="160" y2="110" stroke="#fdcb6e" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <line x1="160" y1="10" x2="40" y2="110" stroke="#fdcb6e" stroke-width="1.5" stroke-dasharray="5,3"/>
+        <text x="95" y="58" fill="#fdcb6e" font-size="9" font-family="IBM Plex Mono">d=a√2</text>
+        <!-- labels -->
+        <text x="93" y="118" fill="#55efc4" font-size="11" font-family="IBM Plex Mono">a</text>
+        <text x="22" y="65" fill="#55efc4" font-size="11" font-family="IBM Plex Mono">a</text>
+      </svg>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-lime">a²</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv c-lime">4a</span></div>
+      <div class="frow"><span class="fl">Diagonal</span><span class="fv c-lime">a√2</span></div>
+      <div class="frow"><span class="fl">Area (diagonal)</span><span class="fv">d²/2</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ Side = 7 cm. Area & Diagonal?</div>
+        <div class="eg-s">Area = 7² = <b style="color:#fdcb6e">49 cm²</b></div>
+        <div class="eg-s">d = 7√2 ≈ <b style="color:#fdcb6e">9.9 cm</b></div>
+        <div class="eg-a">A=49 cm², d=7√2 ✅</div>
+      </div>
+    </div>
+
+    <!-- Parallelogram -->
+    <div class="scard b-orange">
+      <div class="scard-head">
+        <div class="shape-icon i-orange">▱</div>
+        <div>
+          <div class="scard-name c-orange">PARALLELOGRAM</div>
+          <div class="scard-sub">Base b, Height h, Side a</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="50,100 190,100 170,20 30,20" fill="rgba(225,112,85,0.07)" stroke="#e17055" stroke-width="2"/>
+        <!-- height -->
+        <line x1="50" y1="20" x2="50" y2="100" stroke="#fdcb6e" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <rect x="50" y="93" width="7" height="7" fill="none" stroke="#fdcb6e" stroke-width="1"/>
+        <text x="54" y="62" fill="#fdcb6e" font-size="11" font-family="IBM Plex Mono">h</text>
+        <!-- base -->
+        <text x="110" y="115" fill="#e17055" font-size="11" font-family="IBM Plex Mono">b</text>
+        <text x="24" y="62" fill="#e17055" font-size="11" font-family="IBM Plex Mono">a</text>
+      </svg>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-orange">base × height</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv c-orange">2(a + b)</span></div>
+      <div class="frow"><span class="fl">Area (diagonals)</span><span class="fv">½×d₁×d₂×sin θ</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ b=10, h=6, a=7. Area & P?</div>
+        <div class="eg-s">Area = 10 × 6 = <b style="color:#fdcb6e">60 cm²</b></div>
+        <div class="eg-s">P = 2(7+10) = <b style="color:#fdcb6e">34 cm</b></div>
+        <div class="eg-a">A=60 cm², P=34 cm ✅</div>
+      </div>
+    </div>
+
+    <!-- Trapezium -->
+    <div class="scard b-pink">
+      <div class="scard-head">
+        <div class="shape-icon i-pink">🔷</div>
+        <div>
+          <div class="scard-name c-pink">TRAPEZIUM</div>
+          <div class="scard-sub">Parallel sides a,b · Height h</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 220 120" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="60,20 160,20 195,100 25,100" fill="rgba(253,121,168,0.07)" stroke="#fd79a8" stroke-width="2"/>
+        <!-- height -->
+        <line x1="60" y1="20" x2="60" y2="100" stroke="#fdcb6e" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="63" y="64" fill="#fdcb6e" font-size="11" font-family="IBM Plex Mono">h</text>
+        <!-- parallel labels -->
+        <text x="100" y="15" fill="#fd79a8" font-size="11" font-family="IBM Plex Mono">a</text>
+        <text x="100" y="115" fill="#fd79a8" font-size="11" font-family="IBM Plex Mono">b</text>
+        <!-- parallel arrows -->
+        <line x1="65" y1="12" x2="155" y2="12" stroke="#fd79a8" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+        <line x1="30" y1="108" x2="190" y2="108" stroke="#fd79a8" stroke-width="1" stroke-dasharray="3,2" opacity="0.5"/>
+      </svg>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-pink">½ × (a + b) × h</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv">sum of all 4 sides</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ a=8, b=14, h=6. Area?</div>
+        <div class="eg-s">A = ½ × (8+14) × 6 = ½×22×6</div>
+        <div class="eg-a">Area = 66 cm² ✅</div>
+      </div>
+    </div>
+
+    <!-- Rhombus -->
+    <div class="scard b-purple">
+      <div class="scard-head">
+        <div class="shape-icon i-purple">💎</div>
+        <div>
+          <div class="scard-name c-purple">RHOMBUS</div>
+          <div class="scard-sub">Side a, Diagonals d₁ & d₂</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="100,10 185,65 100,120 15,65" fill="rgba(162,155,254,0.07)" stroke="#a29bfe" stroke-width="2"/>
+        <!-- diagonals -->
+        <line x1="15" y1="65" x2="185" y2="65" stroke="#fdcb6e" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="100" y1="10" x2="100" y2="120" stroke="#55efc4" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <!-- right angle at center -->
+        <rect x="100" y="65" width="7" height="7" fill="none" stroke="#fdcb6e" stroke-width="1"/>
+        <!-- labels -->
+        <text x="92" y="62" fill="#fdcb6e" font-size="10" font-family="IBM Plex Mono">d₁</text>
+        <text x="103" y="50" fill="#55efc4" font-size="10" font-family="IBM Plex Mono">d₂</text>
+        <text x="30" y="42" fill="#a29bfe" font-size="11" font-family="IBM Plex Mono">a</text>
+      </svg>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-purple">½ × d₁ × d₂</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv c-purple">4a</span></div>
+      <div class="frow"><span class="fl">Side a</span><span class="fv">½√(d₁²+d₂²)</span></div>
+      <div class="frow"><span class="fl">d₁² + d₂²</span><span class="fv">(2a)² = 4a²</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ d₁=10, d₂=24. Area & side?</div>
+        <div class="eg-s">Area = ½×10×24 = <b style="color:#fdcb6e">120 cm²</b></div>
+        <div class="eg-s">a = ½√(100+576) = ½√676 = <b style="color:#fdcb6e">13 cm</b></div>
+        <div class="eg-a">A=120 cm², side=13 cm ✅</div>
+      </div>
+    </div>
+
+    <!-- Kite -->
+    <div class="scard b-cyan">
+      <div class="scard-head">
+        <div class="shape-icon i-cyan">🪁</div>
+        <div>
+          <div class="scard-name c-cyan">KITE / GENERAL QUAD</div>
+          <div class="scard-sub">Diagonals d₁, d₂ (d₁ ⊥ d₂)</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 200 130" xmlns="http://www.w3.org/2000/svg">
+        <polygon points="100,10 175,70 100,120 25,70" fill="rgba(0,206,201,0.07)" stroke="#00cec9" stroke-width="2"/>
+        <line x1="25" y1="70" x2="175" y2="70" stroke="#fdcb6e" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <line x1="100" y1="10" x2="100" y2="120" stroke="#55efc4" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <rect x="100" y="70" width="7" height="7" fill="none" stroke="#fdcb6e" stroke-width="1"/>
+        <text x="105" y="66" fill="#fdcb6e" font-size="10" font-family="IBM Plex Mono">d₁</text>
+        <text x="103" y="44" fill="#55efc4" font-size="10" font-family="IBM Plex Mono">d₂</text>
+      </svg>
+      <div class="frow"><span class="fl">Area (kite/rhombus)</span><span class="fv c-cyan">½ × d₁ × d₂</span></div>
+      <div class="frow"><span class="fl">Area (any quad)</span><span class="fv c-cyan">½ × d × (h₁+h₂)</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ d₁=8, d₂=6. Area?</div>
+        <div class="eg-s">A = ½ × 8 × 6 = <b style="color:#fdcb6e">24 cm²</b></div>
+        <div class="eg-a">Area = 24 cm² ✅</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== CIRCLE ====== -->
+<div id="circle" class="section">
+  <div class="g2">
+    <!-- Circle -->
+    <div class="scard b-cyan">
+      <div class="scard-head">
+        <div class="shape-icon i-cyan">⭕</div>
+        <div>
+          <div class="scard-name c-cyan">CIRCLE</div>
+          <div class="scard-sub">Radius r, Diameter d</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="100" cy="70" r="55" fill="rgba(0,206,201,0.06)" stroke="#00cec9" stroke-width="2"/>
+        <circle cx="100" cy="70" r="3" fill="#00cec9"/>
+        <!-- radius -->
+        <line x1="100" y1="70" x2="155" y2="70" stroke="#fdcb6e" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <text x="120" y="64" fill="#fdcb6e" font-size="12" font-family="IBM Plex Mono">r</text>
+        <!-- diameter -->
+        <line x1="45" y1="70" x2="155" y2="70" stroke="#55efc4" stroke-width="1" opacity="0.4"/>
+        <!-- arc label -->
+        <text x="130" y="38" fill="#00cec9" font-size="10" font-family="IBM Plex Mono">circumference</text>
+        <text x="100" y="78" fill="#00cec9" font-size="9" font-family="IBM Plex Mono">O</text>
+      </svg>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-cyan">πr²</span></div>
+      <div class="frow"><span class="fl">Circumference</span><span class="fv c-cyan">2πr = πd</span></div>
+      <div class="frow"><span class="fl">Area (diameter)</span><span class="fv">π/4 × d²</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ r=7. Area & Circumference?</div>
+        <div class="eg-s">A = (22/7)×49 = <b style="color:#fdcb6e">154 cm²</b></div>
+        <div class="eg-s">C = 2×(22/7)×7 = <b style="color:#fdcb6e">44 cm</b></div>
+        <div class="eg-a">A=154 cm², C=44 cm ✅</div>
+      </div>
+    </div>
+
+    <!-- Sector / Segment -->
+    <div class="scard b-green">
+      <div class="scard-head">
+        <div class="shape-icon i-green">🥧</div>
+        <div>
+          <div class="scard-name c-green">SECTOR & SEGMENT</div>
+          <div class="scard-sub">Radius r, Angle θ°</div>
+        </div>
+      </div>
+      <svg class="shape-svg" viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+        <!-- Sector -->
+        <path d="M 100,70 L 155,70 A 55,55 0 0,0 100,15 Z" fill="rgba(0,184,148,0.12)" stroke="#00b894" stroke-width="2"/>
+        <circle cx="100" cy="70" r="55" fill="none" stroke="#00b894" stroke-width="1.5" stroke-dasharray="5,3" opacity="0.4"/>
+        <!-- chord for segment -->
+        <line x1="155" y1="70" x2="100" y2="15" stroke="#55efc4" stroke-width="1.5" stroke-dasharray="4,3"/>
+        <!-- angle arc -->
+        <path d="M 130,70 A 30,30 0 0,0 100,40" fill="none" stroke="#fdcb6e" stroke-width="1.5"/>
+        <text x="120" y="54" fill="#fdcb6e" font-size="11" font-family="IBM Plex Mono">θ</text>
+        <!-- r labels -->
+        <text x="120" y="66" fill="#00b894" font-size="11" font-family="IBM Plex Mono">r</text>
+        <text x="90" y="40" fill="#00b894" font-size="11" font-family="IBM Plex Mono">r</text>
+      </svg>
+      <div class="frow"><span class="fl">Arc length</span><span class="fv c-green">θ/360 × 2πr</span></div>
+      <div class="frow"><span class="fl">Sector Area</span><span class="fv c-green">θ/360 × πr²</span></div>
+      <div class="frow"><span class="fl">Sector Area</span><span class="fv c-green">½ × r × l (l=arc)</span></div>
+      <div class="frow"><span class="fl">Segment Area</span><span class="fv">Sector − Triangle</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ r=14, θ=90°. Sector area & arc?</div>
+        <div class="eg-s">A = (90/360)×(22/7)×196 = ¼×616 = <b style="color:#fdcb6e">154 cm²</b></div>
+        <div class="eg-s">Arc = (90/360)×2×(22/7)×14 = <b style="color:#fdcb6e">22 cm</b></div>
+        <div class="eg-a">A=154 cm², Arc=22 cm ✅</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== POLYGON ====== -->
+<div id="polygon" class="section">
+  <div class="scard b-yellow" style="margin-bottom:14px;">
+    <div class="scard-head">
+      <div class="shape-icon i-yellow">⬡</div>
+      <div>
+        <div class="scard-name c-yellow">REGULAR POLYGONS</div>
+        <div class="scard-sub">n sides, side length a</div>
+      </div>
+    </div>
+    <div class="g2">
+      <div>
+        <div class="frow"><span class="fl">Sum of interior angles</span><span class="fv c-yellow">(n−2) × 180°</span></div>
+        <div class="frow"><span class="fl">Each interior angle</span><span class="fv">(n−2)×180/n</span></div>
+        <div class="frow"><span class="fl">Each exterior angle</span><span class="fv">360/n</span></div>
+        <div class="frow"><span class="fl">Perimeter</span><span class="fv c-yellow">n × a</span></div>
+        <div class="frow"><span class="fl">Area</span><span class="fv c-yellow">¼ × n × a² × cot(π/n)</span></div>
+      </div>
+      <div>
+        <svg viewBox="0 0 200 160" xmlns="http://www.w3.org/2000/svg" style="max-height:140px;">
+          <!-- Hexagon -->
+          <polygon points="100,20 165,55 165,105 100,140 35,105 35,55" fill="rgba(253,203,110,0.06)" stroke="#fdcb6e" stroke-width="1.8"/>
+          <!-- apothem -->
+          <line x1="100" y1="80" x2="100" y2="20" stroke="#55efc4" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <circle cx="100" cy="80" r="3" fill="#fdcb6e"/>
+          <text x="103" y="50" fill="#55efc4" font-size="10" font-family="IBM Plex Mono">R</text>
+          <text x="103" y="78" fill="#fdcb6e" font-size="9" font-family="IBM Plex Mono">O</text>
+          <text x="126" y="42" fill="#fdcb6e" font-size="10" font-family="IBM Plex Mono">a</text>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="g3">
+    <div class="scard b-lime">
+      <div class="scard-head"><div class="shape-icon i-lime">⬛</div><div><div class="scard-name c-lime" style="font-size:1rem;">REGULAR HEXAGON</div><div class="scard-sub">6 sides, side = a</div></div></div>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-lime">3√3/2 × a²</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv">6a</span></div>
+      <div class="frow"><span class="fl">Circumradius</span><span class="fv">a</span></div>
+      <div class="frow"><span class="fl">Inradius</span><span class="fv">a√3/2</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ a=6. Area?</div>
+        <div class="eg-s">A = 3√3/2 × 36 = 54√3 ≈ <b style="color:#fdcb6e">93.5 cm²</b></div>
+        <div class="eg-a">A = 54√3 cm² ✅</div>
+      </div>
+    </div>
+
+    <div class="scard b-orange">
+      <div class="scard-head"><div class="shape-icon i-orange">⬛</div><div><div class="scard-name c-orange" style="font-size:1rem;">PENTAGON</div><div class="scard-sub">5 sides, side = a</div></div></div>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-orange">¼√(5(5+2√5)) × a²</span></div>
+      <div class="frow"><span class="fl">Area (approx)</span><span class="fv">≈ 1.72 × a²</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv">5a</span></div>
+      <div class="frow"><span class="fl">Interior angle</span><span class="fv">108°</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ a=4. Area (approx)?</div>
+        <div class="eg-s">A ≈ 1.72 × 16 = <b style="color:#fdcb6e">27.5 cm²</b></div>
+        <div class="eg-a">A ≈ 27.5 cm² ✅</div>
+      </div>
+    </div>
+
+    <div class="scard b-purple">
+      <div class="scard-head"><div class="shape-icon i-purple">⬛</div><div><div class="scard-name c-purple" style="font-size:1rem;">OCTAGON</div><div class="scard-sub">8 sides, side = a</div></div></div>
+      <div class="frow"><span class="fl">Area</span><span class="fv c-purple">2(1+√2) × a²</span></div>
+      <div class="frow"><span class="fl">Area (approx)</span><span class="fv">≈ 4.83 × a²</span></div>
+      <div class="frow"><span class="fl">Perimeter</span><span class="fv">8a</span></div>
+      <div class="frow"><span class="fl">Interior angle</span><span class="fv">135°</span></div>
+      <div class="eg">
+        <div class="eg-q">▶ a=3. Area?</div>
+        <div class="eg-s">A = 2(1+√2)×9 = 18(1+√2)</div>
+        <div class="eg-a">A ≈ 43.5 cm² ✅</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ====== SUMMARY ====== -->
+<div id="summary2d" class="section">
+  <div class="stitle">📊 Complete 2D Summary</div>
+  <div style="overflow-x:auto; background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:4px; margin-bottom:16px;">
+    <table class="sum-table">
+      <thead>
+        <tr><th>Shape</th><th>Area</th><th>Perimeter</th><th>Special Formula</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>Square (a)</td><td>a²</td><td>4a</td><td>Diagonal = a√2</td></tr>
+        <tr><td>Rectangle (l,b)</td><td>l×b</td><td>2(l+b)</td><td>Diagonal = √(l²+b²)</td></tr>
+        <tr><td>Triangle (b,h)</td><td>½×b×h</td><td>a+b+c</td><td>Heron's: √[s(s-a)(s-b)(s-c)]</td></tr>
+        <tr><td>Equilateral △ (a)</td><td>√3/4 × a²</td><td>3a</td><td>Height = a√3/2</td></tr>
+        <tr><td>Right △ (a,b,c)</td><td>½×a×b</td><td>a+b+c</td><td>c = √(a²+b²)</td></tr>
+        <tr><td>Parallelogram</td><td>b×h</td><td>2(a+b)</td><td>—</td></tr>
+        <tr><td>Trapezium</td><td>½(a+b)h</td><td>sum of sides</td><td>—</td></tr>
+        <tr><td>Rhombus</td><td>½×d₁×d₂</td><td>4a</td><td>d₁²+d₂² = 4a²</td></tr>
+        <tr><td>Circle (r)</td><td>πr²</td><td>2πr</td><td>Area = πd²/4</td></tr>
+        <tr><td>Sector (r,θ)</td><td>θ/360 × πr²</td><td>2r+arc</td><td>Arc = θ/360 × 2πr</td></tr>
+        <tr><td>Hexagon (a)</td><td>3√3/2 × a²</td><td>6a</td><td>Circumradius = a</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div style="background:var(--panel); border:1px solid var(--border2); border-radius:10px; padding:14px 16px; font-family:'IBM Plex Mono',monospace; font-size:0.8rem; line-height:2.2; color:#88a890;">
+    <div style="color:var(--lime); font-size:0.66rem; text-transform:uppercase; letter-spacing:2px; margin-bottom:8px;">Key π Values</div>
+    π = <span style="color:#fdcb6e">22/7</span> (when r is multiple of 7) &nbsp;|&nbsp; π = <span style="color:#55efc4">3.14</span> (general)
+  </div>
+</div>
+
+<!-- ====== TRICKS ====== -->
+<div id="tricks2d" class="section">
+  <div class="stitle">⚡ Exam Tricks & Shortcuts</div>
+  <div class="g2">
+    <div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 1 — Square from diagonal</div>
+        <p>If diagonal of square = d, then Area = <code>d²/2</code>. No need to find side first! Example: diagonal=10 → Area = 100/2 = 50 cm².</p>
+      </div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 2 — Rectangle diagonal shortcut</div>
+        <p>If l:b = 3:4 and diagonal given, use 3-4-5 triple. Diagonal=10 → l=6, b=8. Area = 6×8 = 48 instantly!</p>
+      </div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 3 — Circle from circumference</div>
+        <p>If Circumference = C, then Area = <code>C²/(4π)</code>. Example: C=44 → Area = 1936/(4×22/7) = 1936×7/88 = 154 cm².</p>
+      </div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 4 — Rhombus side</div>
+        <p>Diagonals of rhombus bisect at 90°. Each side² = (d₁/2)² + (d₂/2)². Use Pythagorean triples like 3-4-5, 5-12-13!</p>
+      </div>
+    </div>
+    <div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 5 — Area change on scaling</div>
+        <p>If all dimensions are multiplied by k, Area becomes <code>k² × original</code>. Perimeter becomes <code>k × original</code>. Volume (3D) becomes <code>k³ × original</code>.</p>
+      </div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 6 — Equilateral triangle shortcut</div>
+        <p>Area of equilateral triangle with side a = <code>√3/4 × a²</code>. For a=2: Area=√3. For a=4: Area=4√3. Multiply by 4 each time sides double.</p>
+      </div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 7 — Path around a field</div>
+        <p>For a rectangular field l×b with a path of width w inside: Inner rectangle = (l−2w)×(b−2w). Area of path = Area(outer) − Area(inner).</p>
+      </div>
+      <div class="trick">
+        <div class="trick-title">⚡ Trick 8 — Heron's formula quick check</div>
+        <p>If sides form a right triangle (Pythagorean triple), use Area = ½×leg₁×leg₂ directly. Heron's formula is only needed for general triangles!</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  event.target.classList.add('active');
+}
+</script>
+</body>
+</html>
