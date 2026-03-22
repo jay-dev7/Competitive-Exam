@@ -32,6 +32,33 @@ function App() {
     return `/notes/${activeNote.file}`;
   }, [activeNote]);
 
+  const applySpacingFix = (event) => {
+    const doc = event.currentTarget?.contentDocument;
+    if (!doc || doc.getElementById("global-spacing-fix")) return;
+    const style = doc.createElement("style");
+    style.id = "global-spacing-fix";
+    style.textContent = `
+      .step-list li,
+      .prop-list li {
+        display: block !important;
+        position: relative !important;
+        justify-content: flex-start !important;
+        align-items: initial !important;
+        gap: 0 !important;
+        padding-left: 34px !important;
+      }
+
+      .step-list li::before,
+      .prop-list li::before {
+        position: absolute !important;
+        left: 0 !important;
+        top: 2px !important;
+        margin-top: 0 !important;
+      }
+    `;
+    doc.head.appendChild(style);
+  };
+
   return (
     <div className="app-shell">
       <header className="hero">
@@ -87,6 +114,7 @@ function App() {
               title={activeNote.title}
               src={activeSrc}
               className="note-frame"
+              onLoad={applySpacingFix}
             />
           ) : (
             <div className="placeholder">

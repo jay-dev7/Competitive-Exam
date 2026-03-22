@@ -1,0 +1,1423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mensuration Formula Sheet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@400;600&family=Lato:wght@300;400;700&display=swap');
+
+  :root {
+    --bg: #0d0d14;
+    --panel: #13131f;
+    --border: #2a2a40;
+    --accent: #f5c842;
+    --blue: #4fa3f7;
+    --green: #44e5a0;
+    --red: #f76b6b;
+    --purple: #b47dff;
+    --orange: #ff9f5a;
+    --cyan: #5af0f0;
+    --pink: #f77bb4;
+    --text: #e8e8f0;
+    --muted: #8888aa;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Lato', sans-serif;
+    min-height: 100vh;
+    padding: 24px 16px 48px;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 32px;
+    position: relative;
+  }
+
+  .header::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 320px;
+    height: 120px;
+    background: radial-gradient(ellipse, rgba(245,200,66,0.12) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+    color: var(--accent);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 0.85rem;
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 6px;
+  }
+
+  .badge-row {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .badge {
+    padding: 4px 14px;
+    border-radius: 999px;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* Tabs */
+  .tabs {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 28px;
+    position: sticky;
+    top: 8px;
+    z-index: 100;
+    padding: 10px 0;
+    background: var(--bg);
+  }
+
+  .tab {
+    padding: 8px 20px;
+    border-radius: 999px;
+    border: 1.5px solid var(--border);
+    background: rgba(13,13,20,0.9);
+    color: var(--muted);
+    cursor: pointer;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    transition: all 0.2s;
+    backdrop-filter: blur(8px);
+  }
+
+  .tab:hover { border-color: var(--accent); color: var(--accent); }
+  .tab.active { border-color: var(--accent); color: #000; background: var(--accent); }
+
+  /* Sections */
+  .section { display: none; }
+  .section.active { display: block; animation: fadeIn 0.4s ease; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(6px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Section Header */
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Formula Grid */
+  .formula-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  /* Shape Card */
+  .shape-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+
+  .shape-card:hover {
+    border-color: rgba(245,200,66,0.35);
+    transform: translateY(-2px);
+  }
+
+  .card-header {
+    padding: 14px 18px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .card-header .shape-icon svg {
+    display: block;
+  }
+
+  .card-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.05rem;
+    color: var(--text);
+  }
+
+  .card-body {
+    padding: 14px 18px;
+  }
+
+  /* Formula Rows */
+  .f-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 10px;
+  }
+
+  .f-row:last-child { border-bottom: none; }
+
+  .f-label {
+    color: var(--muted);
+    font-size: 0.78rem;
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    flex-shrink: 0;
+    min-width: 90px;
+  }
+
+  .f-val {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-align: right;
+    line-height: 1.5;
+  }
+
+  /* Scenario pills */
+  .scenarios {
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .s-title {
+    font-size: 0.72rem;
+    color: var(--muted);
+    font-family: 'JetBrains Mono', monospace;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 7px;
+  }
+
+  .s-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .s-item {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.78rem;
+    color: #bbbbd0;
+    padding: 5px 9px;
+    background: rgba(255,255,255,0.03);
+    border-radius: 6px;
+    border-left: 2px solid transparent;
+    line-height: 1.5;
+  }
+
+  /* Tricks / Quick-ref section */
+  .mega-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    margin-bottom: 24px;
+    overflow-x: auto;
+    display: block;
+  }
+
+  .mega-table th {
+    background: rgba(245,200,66,0.1);
+    color: var(--accent);
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+
+  .mega-table td {
+    padding: 9px 12px;
+    border: 1px solid var(--border);
+    color: #cccce0;
+    vertical-align: top;
+    line-height: 1.6;
+  }
+
+  .mega-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .mega-table tr:hover td { background: rgba(245,200,66,0.04); }
+
+  /* Colors per shape theme */
+  .c-accent { color: var(--accent); }
+  .c-blue { color: var(--blue); }
+  .c-green { color: var(--green); }
+  .c-red { color: var(--red); }
+  .c-purple { color: var(--purple); }
+  .c-orange { color: var(--orange); }
+  .c-cyan { color: var(--cyan); }
+  .c-pink { color: var(--pink); }
+
+  .tip-box {
+    background: rgba(245,200,66,0.06);
+    border: 1px solid rgba(245,200,66,0.2);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin-bottom: 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    line-height: 2;
+  }
+
+  .tip-box .tip-title {
+    color: var(--accent);
+    font-weight: 700;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 8px;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .formula-grid { grid-template-columns: 1fr; }
+    .mega-table { font-size: 0.72rem; }
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 20px 0;
+  }
+
+  /* Note pill */
+  .note {
+    display: inline-block;
+    background: rgba(180,125,255,0.12);
+    border: 1px solid rgba(180,125,255,0.3);
+    color: var(--purple);
+    border-radius: 6px;
+    padding: 3px 8px;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    margin-top: 4px;
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>📐 Mensuration Formula Sheet</h1>
+  <p class="subtitle">// Complete 2D & 3D Reference — Government Exam Prep</p>
+  <div class="badge-row">
+    <span class="badge" style="background:rgba(79,163,247,0.15);border:1px solid rgba(79,163,247,0.4);color:var(--blue);">2D Shapes</span>
+    <span class="badge" style="background:rgba(68,229,160,0.15);border:1px solid rgba(68,229,160,0.4);color:var(--green);">3D Solids</span>
+    <span class="badge" style="background:rgba(245,200,66,0.15);border:1px solid rgba(245,200,66,0.4);color:var(--accent);">Scenario Variants</span>
+    <span class="badge" style="background:rgba(180,125,255,0.15);border:1px solid rgba(180,125,255,0.4);color:var(--purple);">Exam Tricks</span>
+  </div>
+</div>
+
+<div class="tabs">
+  <button class="tab active" onclick="showTab('td2')">🔷 2D Shapes</button>
+  <button class="tab" onclick="showTab('polygons')">⬡ Polygons</button>
+  <button class="tab" onclick="showTab('td3')">🧊 3D Solids</button>
+  <button class="tab" onclick="showTab('quickref')">⚡ Quick Reference</button>
+  <button class="tab" onclick="showTab('tricks')">🎯 Exam Tricks</button>
+</div>
+
+<!-- ===== 2D SHAPES ===== -->
+<div id="td2" class="section active">
+  <div class="section-title" style="color:var(--blue);">🔷 2D Shapes — Area & Perimeter</div>
+
+  <div class="formula-grid">
+
+    <!-- Triangle General -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="36" height="32" viewBox="0 0 36 32"><polygon points="18,2 34,30 2,30" fill="rgba(79,163,247,0.15)" stroke="#4fa3f7" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Triangle</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">General</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-blue">½ × base × height</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-blue">a + b + c</span></div>
+        <div class="f-row"><span class="f-label">Heron's</span><span class="f-val c-blue">√[s(s−a)(s−b)(s−c)]</span></div>
+        <div class="f-row"><span class="f-label">Semi-perim</span><span class="f-val c-blue">s = (a+b+c)/2</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Scenario Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--blue);">Right △: Area = ½ × leg₁ × leg₂</div>
+            <div class="s-item" style="border-left-color:var(--blue);">Equilateral: Area = (√3/4) × a²</div>
+            <div class="s-item" style="border-left-color:var(--blue);">Isosceles: Area = (b/4)√(4a²−b²)</div>
+            <div class="s-item" style="border-left-color:var(--blue);">Given 2 sides & angle: ½ab·sinC</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Triangle -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="36" height="32" viewBox="0 0 36 32"><polygon points="2,30 2,2 34,30" fill="rgba(247,107,107,0.15)" stroke="#f76b6b" stroke-width="1.8"/><rect x="2" y="22" width="8" height="8" fill="none" stroke="#f76b6b" stroke-width="1.2"/></svg>
+        </div>
+        <div>
+          <h3>Right Triangle</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">90° at C</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Hypotenuse</span><span class="f-val c-red">c = √(a²+b²)</span></div>
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-red">½ × a × b</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-red">a + b + c</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-red">(a + b − c) / 2</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-red">R = c / 2</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Pythagorean Triples</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--red);">3-4-5 | r=1, R=2.5</div>
+            <div class="s-item" style="border-left-color:var(--red);">5-12-13 | r=2, R=6.5</div>
+            <div class="s-item" style="border-left-color:var(--red);">8-15-17 | r=3, R=8.5</div>
+            <div class="s-item" style="border-left-color:var(--red);">7-24-25 | r=3, R=12.5</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Equilateral Triangle -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="36" height="32" viewBox="0 0 36 32"><polygon points="18,2 34,30 2,30" fill="rgba(68,229,160,0.15)" stroke="#44e5a0" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Equilateral Triangle</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">All sides = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-green">(√3/4) × a²</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-green">3a</span></div>
+        <div class="f-row"><span class="f-label">Height h</span><span class="f-val c-green">(√3/2) × a</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-green">a / (2√3) = a√3/6</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-green">R = a / √3 = a√3/3</span></div>
+        <div class="f-row"><span class="f-label">R : r</span><span class="f-val c-green">2 : 1</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--green);">Given Area A: a = √(4A/√3)</div>
+            <div class="s-item" style="border-left-color:var(--green);">Given r: a = 2r√3</div>
+            <div class="s-item" style="border-left-color:var(--green);">Given h: a = 2h/√3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Square -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32"><rect x="2" y="2" width="28" height="28" fill="rgba(245,200,66,0.15)" stroke="#f5c842" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Square</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Side = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-accent">a²</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-accent">4a</span></div>
+        <div class="f-row"><span class="f-label">Diagonal d</span><span class="f-val c-accent">a√2</span></div>
+        <div class="f-row"><span class="f-label">Side from d</span><span class="f-val c-accent">a = d/√2</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--accent);">Area from diagonal: d²/2</div>
+            <div class="s-item" style="border-left-color:var(--accent);">Perimeter from diagonal: 2d√2</div>
+            <div class="s-item" style="border-left-color:var(--accent);">Inradius = a/2 | Circumradius = a√2/2</div>
+            <div class="s-item" style="border-left-color:var(--accent);">Area if perimeter P: (P/4)²</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rectangle -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="40" height="28" viewBox="0 0 40 28"><rect x="2" y="2" width="36" height="24" fill="rgba(79,163,247,0.15)" stroke="#4fa3f7" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Rectangle</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">l × b</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-blue">l × b</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-blue">2(l + b)</span></div>
+        <div class="f-row"><span class="f-label">Diagonal</span><span class="f-val c-blue">√(l² + b²)</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--blue);">l from Area & b: l = A/b</div>
+            <div class="s-item" style="border-left-color:var(--blue);">l from P & b: l = P/2 − b</div>
+            <div class="s-item" style="border-left-color:var(--blue);">Area from diagonal d & b: d² − b² then × b</div>
+            <div class="s-item" style="border-left-color:var(--blue);">Room: Area of 4 walls = 2h(l+b)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Circle -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="rgba(180,125,255,0.15)" stroke="#b47dff" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Circle</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Radius = r</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-purple">π r²</span></div>
+        <div class="f-row"><span class="f-label">Circumference</span><span class="f-val c-purple">2πr</span></div>
+        <div class="f-row"><span class="f-label">Diameter</span><span class="f-val c-purple">2r</span></div>
+        <div class="f-row"><span class="f-label">Arc Length</span><span class="f-val c-purple">(θ/360) × 2πr</span></div>
+        <div class="f-row"><span class="f-label">Sector Area</span><span class="f-val c-purple">(θ/360) × πr²</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--purple);">r from area A: r = √(A/π)</div>
+            <div class="s-item" style="border-left-color:var(--purple);">r from circumference C: r = C/(2π)</div>
+            <div class="s-item" style="border-left-color:var(--purple);">Sector perimeter = 2r + arc length</div>
+            <div class="s-item" style="border-left-color:var(--purple);">Segment area = Sector − Triangle</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Semi-circle -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="36" height="24" viewBox="0 0 36 24"><path d="M2,20 A16,16 0 0,1 34,20" fill="rgba(95,240,240,0.15)" stroke="#5af0f0" stroke-width="1.8"/><line x1="2" y1="20" x2="34" y2="20" stroke="#5af0f0" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Semi-circle</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Half circle</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-cyan">πr²/2</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-cyan">πr + 2r = r(π+2)</span></div>
+        <div class="f-row"><span class="f-label">Arc only</span><span class="f-val c-cyan">πr</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--cyan);">From diameter d: Area = πd²/8</div>
+            <div class="s-item" style="border-left-color:var(--cyan);">Centroid from diameter = 4r/3π</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Parallelogram -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="40" height="28" viewBox="0 0 40 28"><polygon points="8,26 32,26 38,2 14,2" fill="rgba(255,159,90,0.15)" stroke="#ff9f5a" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Parallelogram</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">base × height</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-orange">b × h</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-orange">2(a + b)</span></div>
+        <div class="f-row"><span class="f-label">Alt. Area</span><span class="f-val c-orange">ab·sinθ</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--orange);">Diagonals d₁,d₂: Area = ½d₁d₂·sinθ</div>
+            <div class="s-item" style="border-left-color:var(--orange);">h from area & base: h = A/b</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Rhombus -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32"><polygon points="16,2 30,16 16,30 2,16" fill="rgba(247,123,180,0.15)" stroke="#f77bb4" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Rhombus</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Equal sides, diagonals ⊥</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-pink">½ × d₁ × d₂</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-pink">4a</span></div>
+        <div class="f-row"><span class="f-label">Side a</span><span class="f-val c-pink">½√(d₁²+d₂²)</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--pink);">d₁ from Area & d₂: d₁ = 2A/d₂</div>
+            <div class="s-item" style="border-left-color:var(--pink);">Alt. Area = a² × sinθ</div>
+            <div class="s-item" style="border-left-color:var(--pink);">d₁² + d₂² = 4a² (relation)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Trapezium -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="40" height="28" viewBox="0 0 40 28"><polygon points="10,26 30,26 36,2 4,2" fill="rgba(68,229,160,0.15)" stroke="#44e5a0" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Trapezium</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">One pair of parallel sides</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-green">½(a+b) × h</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-green">a + b + c + d</span></div>
+        <div class="f-row"><span class="f-label">Median (m)</span><span class="f-val c-green">(a+b)/2</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--green);">h from area & parallel sides: h = 2A/(a+b)</div>
+            <div class="s-item" style="border-left-color:var(--green);">Isosceles trap: c=d, diagonals equal</div>
+            <div class="s-item" style="border-left-color:var(--green);">Area = median × height</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quadrilateral General -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="36" height="32" viewBox="0 0 36 32"><polygon points="8,28 32,24 28,4 2,8" fill="rgba(79,163,247,0.12)" stroke="#4fa3f7" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Quadrilateral</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">General / Irregular</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-blue">½ × d × (h₁+h₂)</span></div>
+        <div class="f-row" style="align-items:flex-start;"><span class="f-label" style="padding-top:2px;">Note</span><span class="f-val" style="color:var(--muted);font-size:0.76rem;text-align:right;">d = diagonal<br>h₁,h₂ = perp. heights</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Special Cases</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--blue);">Cyclic quad: Brahmagupta = √[(s−a)(s−b)(s−c)(s−d)]</div>
+            <div class="s-item" style="border-left-color:var(--blue);">Kite: Area = ½d₁d₂ (diagonals ⊥)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ring / Annulus -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="none" stroke="#b47dff" stroke-width="6" opacity="0.3"/><circle cx="16" cy="16" r="13" fill="none" stroke="#b47dff" stroke-width="1.5"/><circle cx="16" cy="16" r="7" fill="rgba(13,13,20,1)" stroke="#b47dff" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <h3>Ring (Annulus)</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">R = outer, r = inner</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-purple">π(R²−r²)</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-purple">2π(R+r)</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--purple);">Area = π(R+r)(R−r)</div>
+            <div class="s-item" style="border-left-color:var(--purple);">Width = R − r</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end 2d grid -->
+</div>
+
+<!-- ===== POLYGONS ===== -->
+<div id="polygons" class="section">
+  <div class="section-title" style="color:var(--cyan);">⬡ Regular Polygons — n-sided Shapes</div>
+
+  <!-- Master formula box -->
+  <div style="background:rgba(95,240,240,0.06);border:1px solid rgba(95,240,240,0.25);border-radius:14px;padding:18px 20px;margin-bottom:22px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--cyan);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">⚙️ Universal Formulas — Any Regular n-gon (side = a)</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:10px;font-family:'JetBrains Mono',monospace;font-size:0.84rem;line-height:2;">
+      <div><span style="color:var(--muted);">Area</span> = <span class="c-cyan">(n·a²/4) × cot(π/n)</span></div>
+      <div><span style="color:var(--muted);">Perimeter</span> = <span class="c-cyan">n × a</span></div>
+      <div><span style="color:var(--muted);">Interior angle</span> = <span class="c-cyan">(n−2) × 180 / n</span></div>
+      <div><span style="color:var(--muted);">Exterior angle</span> = <span class="c-cyan">360 / n</span></div>
+      <div><span style="color:var(--muted);">Sum of interior ∠</span> = <span class="c-cyan">(n−2) × 180°</span></div>
+      <div><span style="color:var(--muted);">Inradius r</span> = <span class="c-cyan">(a/2) × cot(π/n)</span></div>
+      <div><span style="color:var(--muted);">Circumradius R</span> = <span class="c-cyan">(a/2) × cosec(π/n)</span></div>
+      <div><span style="color:var(--muted);">No. of diagonals</span> = <span class="c-cyan">n(n−3)/2</span></div>
+    </div>
+    <div style="margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted);">
+      💡 Also: Area = ½ × Perimeter × inradius = ½ × n × a × r
+    </div>
+  </div>
+
+  <div class="formula-grid">
+
+    <!-- Pentagon -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="34" viewBox="0 0 34 34"><polygon points="17,2 32,13 26,30 8,30 2,13" fill="rgba(95,240,240,0.12)" stroke="#5af0f0" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Pentagon</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">5 sides, side = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-cyan">(√(25+10√5)/4) × a²</span></div>
+        <div class="f-row"><span class="f-label">≈ Area</span><span class="f-val c-cyan">1.720 × a²</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-cyan">5a</span></div>
+        <div class="f-row"><span class="f-label">Interior ∠</span><span class="f-val c-cyan">108°</span></div>
+        <div class="f-row"><span class="f-label">Exterior ∠</span><span class="f-val c-cyan">72°</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-cyan">a/(2·tan36°) ≈ 0.688a</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-cyan">a/(2·sin36°) ≈ 0.851a</span></div>
+        <div class="f-row"><span class="f-label">Diagonals</span><span class="f-val c-cyan">5</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--cyan);">Diagonal length = a × φ = a × 1.618 (golden ratio)</div>
+            <div class="s-item" style="border-left-color:var(--cyan);">Sum of interior angles = 540°</div>
+            <div class="s-item" style="border-left-color:var(--cyan);">Area = ½ × 5a × r</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hexagon -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="34" viewBox="0 0 34 34"><polygon points="17,2 30,9.5 30,24.5 17,32 4,24.5 4,9.5" fill="rgba(245,200,66,0.12)" stroke="#f5c842" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Hexagon</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">6 sides, side = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-accent">(3√3/2) × a²</span></div>
+        <div class="f-row"><span class="f-label">≈ Area</span><span class="f-val c-accent">2.598 × a²</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-accent">6a</span></div>
+        <div class="f-row"><span class="f-label">Interior ∠</span><span class="f-val c-accent">120°</span></div>
+        <div class="f-row"><span class="f-label">Exterior ∠</span><span class="f-val c-accent">60°</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-accent">a√3/2 ≈ 0.866a</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-accent">R = a</span></div>
+        <div class="f-row"><span class="f-label">Long diagonal</span><span class="f-val c-accent">2a</span></div>
+        <div class="f-row"><span class="f-label">Short diagonal</span><span class="f-val c-accent">a√3</span></div>
+        <div class="f-row"><span class="f-label">Diagonals</span><span class="f-val c-accent">9</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Key Facts (Most Exam-Asked!)</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--accent);">R = a (circumradius equals side) ← unique property!</div>
+            <div class="s-item" style="border-left-color:var(--accent);">Made of 6 equilateral triangles each of side a</div>
+            <div class="s-item" style="border-left-color:var(--accent);">Sum of angles = 720°</div>
+            <div class="s-item" style="border-left-color:var(--accent);">Area from R: (3√3/2)R²</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Heptagon -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="34" viewBox="0 0 34 34"><polygon points="17,2 29,8 32,21 24,31 10,31 2,21 5,8" fill="rgba(180,125,255,0.12)" stroke="#b47dff" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Heptagon</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">7 sides, side = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">≈ Area</span><span class="f-val c-purple">3.634 × a²</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-purple">7a</span></div>
+        <div class="f-row"><span class="f-label">Interior ∠</span><span class="f-val c-purple">≈ 128.57°</span></div>
+        <div class="f-row"><span class="f-label">Exterior ∠</span><span class="f-val c-purple">≈ 51.43°</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-purple">≈ 1.038a</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-purple">≈ 1.152a</span></div>
+        <div class="f-row"><span class="f-label">Diagonals</span><span class="f-val c-purple">14</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Note</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--purple);">Sum of interior angles = 900°</div>
+            <div class="s-item" style="border-left-color:var(--purple);">Exact formula: (7a²/4)·cot(π/7)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Octagon -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="34" viewBox="0 0 34 34"><polygon points="12,2 22,2 32,12 32,22 22,32 12,32 2,22 2,12" fill="rgba(68,229,160,0.12)" stroke="#44e5a0" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Octagon</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">8 sides, side = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-green">2(1+√2) × a²</span></div>
+        <div class="f-row"><span class="f-label">≈ Area</span><span class="f-val c-green">4.828 × a²</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-green">8a</span></div>
+        <div class="f-row"><span class="f-label">Interior ∠</span><span class="f-val c-green">135°</span></div>
+        <div class="f-row"><span class="f-label">Exterior ∠</span><span class="f-val c-green">45°</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-green">(1+√2)a/2 ≈ 1.207a</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-green">≈ 1.307a</span></div>
+        <div class="f-row"><span class="f-label">Long diagonal</span><span class="f-val c-green">a(1+√2)·√2</span></div>
+        <div class="f-row"><span class="f-label">Diagonals</span><span class="f-val c-green">20</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--green);">Sum of angles = 1080°</div>
+            <div class="s-item" style="border-left-color:var(--green);">Can be formed by cutting corners of a square</div>
+            <div class="s-item" style="border-left-color:var(--green);">If inscribed in square of side s: a = s/(1+√2) = s(√2−1)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Nonagon -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="34" viewBox="0 0 34 34"><polygon points="17,2 27,5 32,14 30,25 22,31 12,31 4,25 2,14 7,5" fill="rgba(255,159,90,0.12)" stroke="#ff9f5a" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Nonagon</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">9 sides, side = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">≈ Area</span><span class="f-val c-orange">6.182 × a²</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-orange">9a</span></div>
+        <div class="f-row"><span class="f-label">Interior ∠</span><span class="f-val c-orange">140°</span></div>
+        <div class="f-row"><span class="f-label">Exterior ∠</span><span class="f-val c-orange">40°</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-orange">≈ 1.374a</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-orange">≈ 1.462a</span></div>
+        <div class="f-row"><span class="f-label">Diagonals</span><span class="f-val c-orange">27</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Note</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--orange);">Sum of angles = 1260°</div>
+            <div class="s-item" style="border-left-color:var(--orange);">Exact: (9a²/4)·cot(π/9)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Decagon -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="34" viewBox="0 0 34 34"><polygon points="17,2 25,4 31,11 32,19 28,27 20,32 14,32 6,27 2,19 3,11 9,4" fill="rgba(247,107,107,0.12)" stroke="#f76b6b" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Decagon</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">10 sides, side = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-red">(5a²/2)·√(5+2√5)</span></div>
+        <div class="f-row"><span class="f-label">≈ Area</span><span class="f-val c-red">7.694 × a²</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-red">10a</span></div>
+        <div class="f-row"><span class="f-label">Interior ∠</span><span class="f-val c-red">144°</span></div>
+        <div class="f-row"><span class="f-label">Exterior ∠</span><span class="f-val c-red">36°</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-red">≈ 1.539a</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-red">≈ 1.618a = φ·a</span></div>
+        <div class="f-row"><span class="f-label">Diagonals</span><span class="f-val c-red">35</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Note</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--red);">Sum of angles = 1440°</div>
+            <div class="s-item" style="border-left-color:var(--red);">R = φ·a (golden ratio appears!)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dodecagon -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="34" viewBox="0 0 34 34"><polygon points="17,2 23,3.5 28,8 31,14 31,20 28,26 23,30.5 17,32 11,30.5 6,26 3,20 3,14 6,8 11,3.5" fill="rgba(247,123,180,0.12)" stroke="#f77bb4" stroke-width="1.8"/></svg>
+        </div>
+        <div>
+          <h3>Dodecagon</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">12 sides, side = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Area</span><span class="f-val c-pink">3(2+√3) × a²</span></div>
+        <div class="f-row"><span class="f-label">≈ Area</span><span class="f-val c-pink">11.196 × a²</span></div>
+        <div class="f-row"><span class="f-label">Perimeter</span><span class="f-val c-pink">12a</span></div>
+        <div class="f-row"><span class="f-label">Interior ∠</span><span class="f-val c-pink">150°</span></div>
+        <div class="f-row"><span class="f-label">Exterior ∠</span><span class="f-val c-pink">30°</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-pink">≈ 1.866a</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-pink">≈ 1.932a</span></div>
+        <div class="f-row"><span class="f-label">Diagonals</span><span class="f-val c-pink">54</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Note</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--pink);">Sum of angles = 1800°</div>
+            <div class="s-item" style="border-left-color:var(--pink);">Interior angle 150° → easy to spot in questions</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- General n-gon reference card -->
+    <div class="shape-card" style="border-color:rgba(95,240,240,0.3);">
+      <div class="card-header" style="border-bottom-color:rgba(95,240,240,0.2);">
+        <div class="shape-icon">
+          <svg width="34" height="34" viewBox="0 0 34 34"><circle cx="17" cy="17" r="14" fill="rgba(95,240,240,0.08)" stroke="#5af0f0" stroke-width="1.5" stroke-dasharray="3,2"/><text x="11" y="22" fill="#5af0f0" font-size="13" font-family="JetBrains Mono" font-weight="bold">n</text></svg>
+        </div>
+        <div>
+          <h3>n-gon Cheat Values</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Quick lookup table</div>
+        </div>
+      </div>
+      <div class="card-body" style="padding:10px 14px;">
+        <table style="width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:0.76rem;">
+          <thead>
+            <tr>
+              <th style="color:var(--cyan);padding:5px 4px;border-bottom:1px solid var(--border);text-align:left;">n</th>
+              <th style="color:var(--cyan);padding:5px 4px;border-bottom:1px solid var(--border);text-align:left;">Name</th>
+              <th style="color:var(--cyan);padding:5px 4px;border-bottom:1px solid var(--border);text-align:right;">Int ∠</th>
+              <th style="color:var(--cyan);padding:5px 4px;border-bottom:1px solid var(--border);text-align:right;">∑ ∠</th>
+              <th style="color:var(--cyan);padding:5px 4px;border-bottom:1px solid var(--border);text-align:right;">Diag</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:4px;">3</td><td style="color:#cccce0;padding:4px;">Triangle</td><td style="text-align:right;color:var(--accent);padding:4px;">60°</td><td style="text-align:right;color:var(--muted);padding:4px;">180°</td><td style="text-align:right;color:var(--muted);padding:4px;">0</td></tr>
+            <tr style="background:rgba(255,255,255,0.02);"><td style="padding:4px;">4</td><td style="color:#cccce0;padding:4px;">Quadrilateral</td><td style="text-align:right;color:var(--accent);padding:4px;">90°</td><td style="text-align:right;color:var(--muted);padding:4px;">360°</td><td style="text-align:right;color:var(--muted);padding:4px;">2</td></tr>
+            <tr><td style="padding:4px;">5</td><td style="color:#cccce0;padding:4px;">Pentagon</td><td style="text-align:right;color:var(--accent);padding:4px;">108°</td><td style="text-align:right;color:var(--muted);padding:4px;">540°</td><td style="text-align:right;color:var(--muted);padding:4px;">5</td></tr>
+            <tr style="background:rgba(255,255,255,0.02);"><td style="padding:4px;">6</td><td style="color:#cccce0;padding:4px;">Hexagon</td><td style="text-align:right;color:var(--accent);padding:4px;">120°</td><td style="text-align:right;color:var(--muted);padding:4px;">720°</td><td style="text-align:right;color:var(--muted);padding:4px;">9</td></tr>
+            <tr><td style="padding:4px;">7</td><td style="color:#cccce0;padding:4px;">Heptagon</td><td style="text-align:right;color:var(--accent);padding:4px;">128.6°</td><td style="text-align:right;color:var(--muted);padding:4px;">900°</td><td style="text-align:right;color:var(--muted);padding:4px;">14</td></tr>
+            <tr style="background:rgba(255,255,255,0.02);"><td style="padding:4px;">8</td><td style="color:#cccce0;padding:4px;">Octagon</td><td style="text-align:right;color:var(--accent);padding:4px;">135°</td><td style="text-align:right;color:var(--muted);padding:4px;">1080°</td><td style="text-align:right;color:var(--muted);padding:4px;">20</td></tr>
+            <tr><td style="padding:4px;">9</td><td style="color:#cccce0;padding:4px;">Nonagon</td><td style="text-align:right;color:var(--accent);padding:4px;">140°</td><td style="text-align:right;color:var(--muted);padding:4px;">1260°</td><td style="text-align:right;color:var(--muted);padding:4px;">27</td></tr>
+            <tr style="background:rgba(255,255,255,0.02);"><td style="padding:4px;">10</td><td style="color:#cccce0;padding:4px;">Decagon</td><td style="text-align:right;color:var(--accent);padding:4px;">144°</td><td style="text-align:right;color:var(--muted);padding:4px;">1440°</td><td style="text-align:right;color:var(--muted);padding:4px;">35</td></tr>
+            <tr><td style="padding:4px;">12</td><td style="color:#cccce0;padding:4px;">Dodecagon</td><td style="text-align:right;color:var(--accent);padding:4px;">150°</td><td style="text-align:right;color:var(--muted);padding:4px;">1800°</td><td style="text-align:right;color:var(--muted);padding:4px;">54</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div><!-- end polygon grid -->
+
+  <!-- Area multipliers box -->
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin-top:4px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px;">📐 Area = k × a² — Quick Multipliers (side = a)</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;">
+      <div style="background:#0a0a12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:4px;">Triangle (equil.)</div>
+        <div style="color:var(--green);font-size:0.9rem;font-weight:600;">0.433 × a²</div>
+      </div>
+      <div style="background:#0a0a12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:4px;">Square</div>
+        <div style="color:var(--accent);font-size:0.9rem;font-weight:600;">1.000 × a²</div>
+      </div>
+      <div style="background:#0a0a12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:4px;">Pentagon</div>
+        <div style="color:var(--cyan);font-size:0.9rem;font-weight:600;">1.720 × a²</div>
+      </div>
+      <div style="background:#0a0a12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:4px;">Hexagon</div>
+        <div style="color:var(--accent);font-size:0.9rem;font-weight:600;">2.598 × a²</div>
+      </div>
+      <div style="background:#0a0a12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:4px;">Heptagon</div>
+        <div style="color:var(--purple);font-size:0.9rem;font-weight:600;">3.634 × a²</div>
+      </div>
+      <div style="background:#0a0a12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:4px;">Octagon</div>
+        <div style="color:var(--green);font-size:0.9rem;font-weight:600;">4.828 × a²</div>
+      </div>
+      <div style="background:#0a0a12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:4px;">Nonagon</div>
+        <div style="color:var(--orange);font-size:0.9rem;font-weight:600;">6.182 × a²</div>
+      </div>
+      <div style="background:#0a0a12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:4px;">Decagon</div>
+        <div style="color:var(--red);font-size:0.9rem;font-weight:600;">7.694 × a²</div>
+      </div>
+      <div style="background:#0a0a12;border-radius:8px;padding:10px 12px;font-family:'JetBrains Mono',monospace;">
+        <div style="font-size:0.7rem;color:var(--muted);margin-bottom:4px;">Dodecagon</div>
+        <div style="color:var(--pink);font-size:0.9rem;font-weight:600;">11.196 × a²</div>
+      </div>
+    </div>
+    <div style="margin-top:12px;font-family:'JetBrains Mono',monospace;font-size:0.78rem;color:var(--muted);">
+      💡 As n → ∞, the polygon approaches a circle. Area → π(a/2)² only if a is diameter. For circumscribed circle of radius r: area → πr².
+    </div>
+  </div>
+</div>
+
+<!-- ===== 3D SHAPES ===== -->
+<div id="td3" class="section">
+  <div class="section-title" style="color:var(--green);">🧊 3D Solids — Surface Area & Volume</div>
+
+  <div class="formula-grid">
+
+    <!-- Cube -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="36" height="32" viewBox="0 0 36 32"><polygon points="4,22 16,30 32,22 32,8 16,0 4,8" fill="rgba(245,200,66,0.1)" stroke="#f5c842" stroke-width="1.6"/><line x1="16" y1="0" x2="16" y2="30" stroke="#f5c842" stroke-width="1" stroke-dasharray="3,2"/><line x1="4" y1="8" x2="32" y2="8" stroke="#f5c842" stroke-width="1" stroke-dasharray="3,2"/><line x1="4" y1="22" x2="32" y2="22" stroke="#f5c842" stroke-width="1"/></svg>
+        </div>
+        <div>
+          <h3>Cube</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Side = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-accent">a³</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-accent">6a²</span></div>
+        <div class="f-row"><span class="f-label">LSA</span><span class="f-val c-accent">4a²</span></div>
+        <div class="f-row"><span class="f-label">Diagonal</span><span class="f-val c-accent">a√3</span></div>
+        <div class="f-row"><span class="f-label">Face diag.</span><span class="f-val c-accent">a√2</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--accent);">a from Volume V: a = V^(1/3)</div>
+            <div class="s-item" style="border-left-color:var(--accent);">a from TSA: a = √(TSA/6)</div>
+            <div class="s-item" style="border-left-color:var(--accent);">a from diagonal d: a = d/√3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cuboid -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="40" height="32" viewBox="0 0 40 32"><polygon points="2,24 14,30 38,24 38,10 14,4 2,10" fill="rgba(79,163,247,0.1)" stroke="#4fa3f7" stroke-width="1.6"/><line x1="14" y1="4" x2="14" y2="30" stroke="#4fa3f7" stroke-width="1" stroke-dasharray="3,2"/><line x1="2" y1="10" x2="38" y2="10" stroke="#4fa3f7" stroke-width="1" stroke-dasharray="3,2"/></svg>
+        </div>
+        <div>
+          <h3>Cuboid</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">l × b × h</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-blue">l × b × h</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-blue">2(lb + bh + lh)</span></div>
+        <div class="f-row"><span class="f-label">LSA</span><span class="f-val c-blue">2h(l + b)</span></div>
+        <div class="f-row"><span class="f-label">Diagonal</span><span class="f-val c-blue">√(l²+b²+h²)</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--blue);">Area of 4 walls (room) = LSA = 2h(l+b)</div>
+            <div class="s-item" style="border-left-color:var(--blue);">h from V, l, b: h = V/(lb)</div>
+            <div class="s-item" style="border-left-color:var(--blue);">No. of smaller cuboids = V_large / V_small</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cylinder -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="32" height="36" viewBox="0 0 32 36"><ellipse cx="16" cy="6" rx="13" ry="4" fill="rgba(68,229,160,0.15)" stroke="#44e5a0" stroke-width="1.6"/><rect x="3" y="6" width="26" height="24" fill="rgba(68,229,160,0.08)" stroke="none"/><ellipse cx="16" cy="30" rx="13" ry="4" fill="rgba(68,229,160,0.15)" stroke="#44e5a0" stroke-width="1.6"/><line x1="3" y1="6" x2="3" y2="30" stroke="#44e5a0" stroke-width="1.6"/><line x1="29" y1="6" x2="29" y2="30" stroke="#44e5a0" stroke-width="1.6"/></svg>
+        </div>
+        <div>
+          <h3>Cylinder</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">r = radius, h = height</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-green">π r² h</span></div>
+        <div class="f-row"><span class="f-label">CSA</span><span class="f-val c-green">2π r h</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-green">2π r (r + h)</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--green);">Hollow cylinder: Vol = π(R²−r²)h</div>
+            <div class="s-item" style="border-left-color:var(--green);">Hollow TSA = 2π(R+r)(R−r+h)</div>
+            <div class="s-item" style="border-left-color:var(--green);">r from volume V & h: r = √(V/πh)</div>
+            <div class="s-item" style="border-left-color:var(--green);">h from volume: h = V/(πr²)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Cone -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="32" height="36" viewBox="0 0 32 36"><ellipse cx="16" cy="30" rx="13" ry="4" fill="rgba(247,107,107,0.15)" stroke="#f76b6b" stroke-width="1.6"/><line x1="3" y1="30" x2="16" y2="2" stroke="#f76b6b" stroke-width="1.6"/><line x1="29" y1="30" x2="16" y2="2" stroke="#f76b6b" stroke-width="1.6"/></svg>
+        </div>
+        <div>
+          <h3>Cone</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">r, h, l (slant)</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-red">⅓ π r² h</span></div>
+        <div class="f-row"><span class="f-label">CSA</span><span class="f-val c-red">π r l</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-red">π r (r + l)</span></div>
+        <div class="f-row"><span class="f-label">Slant l</span><span class="f-val c-red">√(r² + h²)</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--red);">Frustum: ⅓πh(R²+r²+Rr) [vol]</div>
+            <div class="s-item" style="border-left-color:var(--red);">Frustum CSA: π(R+r)l | l=√[h²+(R−r)²]</div>
+            <div class="s-item" style="border-left-color:var(--red);">h from V & r: h = 3V/(πr²)</div>
+            <div class="s-item" style="border-left-color:var(--red);">Cone vol = ⅓ × Cylinder vol (same r,h)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Sphere -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="13" fill="rgba(180,125,255,0.15)" stroke="#b47dff" stroke-width="1.8"/><ellipse cx="16" cy="16" rx="13" ry="5" fill="none" stroke="#b47dff" stroke-width="1" stroke-dasharray="3,2"/></svg>
+        </div>
+        <div>
+          <h3>Sphere</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Radius = r</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-purple">⁴⁄₃ π r³</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-purple">4 π r²</span></div>
+        <div class="f-row"><span class="f-label">Diameter</span><span class="f-val c-purple">2r</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--purple);">r from Volume V: r = ∛(3V/4π)</div>
+            <div class="s-item" style="border-left-color:var(--purple);">r from TSA: r = √(TSA/4π)</div>
+            <div class="s-item" style="border-left-color:var(--purple);">No. of small spheres = R³/r³</div>
+            <div class="s-item" style="border-left-color:var(--purple);">Vol : TSA = r : 3</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hemisphere -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="24" viewBox="0 0 34 24"><path d="M2,18 A15,15 0 0,1 32,18" fill="rgba(95,240,240,0.15)" stroke="#5af0f0" stroke-width="1.8"/><ellipse cx="17" cy="18" rx="15" ry="4" fill="rgba(13,13,20,0.8)" stroke="#5af0f0" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <h3>Hemisphere</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Half sphere</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-cyan">⅔ π r³</span></div>
+        <div class="f-row"><span class="f-label">CSA (curved)</span><span class="f-val c-cyan">2 π r²</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-cyan">3 π r²</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--cyan);">Hollow hemisphere: Vol = ⅔π(R³−r³)</div>
+            <div class="s-item" style="border-left-color:var(--cyan);">Hemisphere vol = ½ Sphere vol</div>
+            <div class="s-item" style="border-left-color:var(--cyan);">CSA hemisphere = ½ Sphere SA</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Prism -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="36" height="32" viewBox="0 0 36 32"><polygon points="4,28 18,20 32,28" fill="rgba(255,159,90,0.12)" stroke="#ff9f5a" stroke-width="1.6"/><line x1="4" y1="28" x2="4" y2="10" stroke="#ff9f5a" stroke-width="1.6"/><line x1="32" y1="28" x2="32" y2="10" stroke="#ff9f5a" stroke-width="1.6"/><line x1="18" y1="20" x2="18" y2="2" stroke="#ff9f5a" stroke-width="1.6" stroke-dasharray="3,2"/><polygon points="4,10 18,2 32,10" fill="rgba(255,159,90,0.12)" stroke="#ff9f5a" stroke-width="1.6"/></svg>
+        </div>
+        <div>
+          <h3>Prism</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Any cross-section</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-orange">Base Area × h</span></div>
+        <div class="f-row"><span class="f-label">LSA</span><span class="f-val c-orange">Perimeter of Base × h</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-orange">LSA + 2 × Base Area</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants by Base Shape</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--orange);">Triangular prism: Base = ½bh_t</div>
+            <div class="s-item" style="border-left-color:var(--orange);">Rectangular prism = Cuboid</div>
+            <div class="s-item" style="border-left-color:var(--orange);">Hexagonal prism: Base = (3√3/2)a²</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pyramid -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="32" viewBox="0 0 34 32"><polygon points="17,2 32,28 2,28" fill="rgba(247,123,180,0.12)" stroke="#f77bb4" stroke-width="1.6"/><line x1="17" y1="28" x2="17" y2="2" stroke="#f77bb4" stroke-width="1" stroke-dasharray="3,2"/></svg>
+        </div>
+        <div>
+          <h3>Pyramid</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Any polygonal base</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-pink">⅓ × Base Area × h</span></div>
+        <div class="f-row"><span class="f-label">LSA</span><span class="f-val c-pink">½ × Perimeter × slant l</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-pink">LSA + Base Area</span></div>
+        <div class="scenarios">
+          <div class="s-title">📌 Variants</div>
+          <div class="s-list">
+            <div class="s-item" style="border-left-color:var(--pink);">Square base: Vol = ⅓ a² h</div>
+            <div class="s-item" style="border-left-color:var(--pink);">Slant l = √(h² + (a/2)²) [sq. base]</div>
+            <div class="s-item" style="border-left-color:var(--pink);">Tetrahedron: Vol = a³/(6√2)</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Frustum of Cone -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="36" height="32" viewBox="0 0 36 32"><ellipse cx="18" cy="28" rx="14" ry="3.5" fill="rgba(247,107,107,0.15)" stroke="#f76b6b" stroke-width="1.5"/><ellipse cx="18" cy="8" rx="7" ry="2" fill="rgba(247,107,107,0.15)" stroke="#f76b6b" stroke-width="1.5"/><line x1="4" y1="28" x2="11" y2="8" stroke="#f76b6b" stroke-width="1.5"/><line x1="32" y1="28" x2="25" y2="8" stroke="#f76b6b" stroke-width="1.5"/></svg>
+        </div>
+        <div>
+          <h3>Frustum (Cone)</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">R=big, r=small, h, l</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-red" style="font-size:0.78rem;">⅓πh(R²+r²+Rr)</span></div>
+        <div class="f-row"><span class="f-label">CSA</span><span class="f-val c-red">π(R+r)l</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-red">π[(R+r)l+R²+r²]</span></div>
+        <div class="f-row"><span class="f-label">Slant l</span><span class="f-val c-red">√[h²+(R−r)²]</span></div>
+      </div>
+    </div>
+
+    <!-- Tetrahedron -->
+    <div class="shape-card">
+      <div class="card-header">
+        <div class="shape-icon">
+          <svg width="34" height="32" viewBox="0 0 34 32"><polygon points="17,2 32,28 2,28" fill="rgba(68,229,160,0.1)" stroke="#44e5a0" stroke-width="1.6"/><line x1="17" y1="2" x2="17" y2="28" stroke="#44e5a0" stroke-width="1" stroke-dasharray="3,2"/><line x1="2" y1="28" x2="24" y2="16" stroke="#44e5a0" stroke-width="1" stroke-dasharray="3,2"/></svg>
+        </div>
+        <div>
+          <h3>Tetrahedron</h3>
+          <div style="font-size:0.72rem;color:var(--muted);font-family:'JetBrains Mono',monospace;">Regular, edge = a</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="f-row"><span class="f-label">Volume</span><span class="f-val c-green">a³ / (6√2)</span></div>
+        <div class="f-row"><span class="f-label">TSA</span><span class="f-val c-green">√3 × a²</span></div>
+        <div class="f-row"><span class="f-label">Height</span><span class="f-val c-green">a√(2/3)</span></div>
+        <div class="f-row"><span class="f-label">Inradius r</span><span class="f-val c-green">a / (2√6)</span></div>
+        <div class="f-row"><span class="f-label">Circumradius</span><span class="f-val c-green">a√6 / 4</span></div>
+      </div>
+    </div>
+
+  </div><!-- end 3d grid -->
+</div>
+
+<!-- ===== QUICK REF TABLE ===== -->
+<div id="quickref" class="section">
+  <div class="section-title" style="color:var(--accent);">⚡ Quick Reference Tables</div>
+
+  <p style="color:var(--muted);font-family:'JetBrains Mono',monospace;font-size:0.8rem;margin-bottom:16px;">All formulas at a glance — scroll horizontally on mobile</p>
+
+  <p style="color:var(--accent);font-family:'JetBrains Mono',monospace;font-size:0.82rem;margin-bottom:10px;text-transform:uppercase;letter-spacing:1px;">▌ 2D Shapes</p>
+  <table class="mega-table">
+    <thead>
+      <tr>
+        <th>Shape</th>
+        <th>Area</th>
+        <th>Perimeter</th>
+        <th>Special</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="c-blue">Triangle (General)</td><td>½ × b × h</td><td>a+b+c</td><td>Heron's: √[s(s−a)(s−b)(s−c)]</td></tr>
+      <tr><td class="c-red">Right Triangle</td><td>½ × a × b</td><td>a+b+c</td><td>Hyp c=√(a²+b²) | r=(a+b−c)/2</td></tr>
+      <tr><td class="c-green">Equilateral △</td><td>(√3/4)a²</td><td>3a</td><td>h=a√3/2 | r=a/(2√3) | R=a/√3</td></tr>
+      <tr><td class="c-accent">Square</td><td>a²</td><td>4a</td><td>Diagonal = a√2 | Area = d²/2</td></tr>
+      <tr><td class="c-blue">Rectangle</td><td>l×b</td><td>2(l+b)</td><td>Diagonal=√(l²+b²)</td></tr>
+      <tr><td class="c-purple">Circle</td><td>πr²</td><td>2πr</td><td>Sector area=(θ/360)πr² | Arc=(θ/360)2πr</td></tr>
+      <tr><td class="c-cyan">Semi-circle</td><td>πr²/2</td><td>πr + 2r</td><td>From diameter d: Area=πd²/8</td></tr>
+      <tr><td class="c-orange">Parallelogram</td><td>b×h</td><td>2(a+b)</td><td>Alt: ab·sinθ</td></tr>
+      <tr><td class="c-pink">Rhombus</td><td>½d₁d₂</td><td>4a</td><td>Side=½√(d₁²+d₂²) | a²·sinθ</td></tr>
+      <tr><td class="c-green">Trapezium</td><td>½(a+b)h</td><td>a+b+c+d</td><td>Median=(a+b)/2</td></tr>
+      <tr><td class="c-purple">Ring (Annulus)</td><td>π(R²−r²)</td><td>2π(R+r)</td><td>π(R+r)(R−r)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="divider"></div>
+
+  <p style="color:var(--green);font-family:'JetBrains Mono',monospace;font-size:0.82rem;margin-bottom:10px;margin-top:16px;text-transform:uppercase;letter-spacing:1px;">▌ 3D Solids</p>
+  <table class="mega-table">
+    <thead>
+      <tr>
+        <th>Solid</th>
+        <th>Volume</th>
+        <th>CSA / LSA</th>
+        <th>TSA</th>
+        <th>Special</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td class="c-accent">Cube (a)</td><td>a³</td><td>4a²</td><td>6a²</td><td>Diag=a√3 | Face diag=a√2</td></tr>
+      <tr><td class="c-blue">Cuboid (l,b,h)</td><td>lbh</td><td>2h(l+b)</td><td>2(lb+bh+lh)</td><td>Diag=√(l²+b²+h²)</td></tr>
+      <tr><td class="c-green">Cylinder (r,h)</td><td>πr²h</td><td>2πrh</td><td>2πr(r+h)</td><td>Hollow: π(R²−r²)h</td></tr>
+      <tr><td class="c-red">Cone (r,h,l)</td><td>⅓πr²h</td><td>πrl</td><td>πr(r+l)</td><td>l=√(r²+h²)</td></tr>
+      <tr><td class="c-purple">Sphere (r)</td><td>(4/3)πr³</td><td>—</td><td>4πr²</td><td>n small spheres: R³/r³</td></tr>
+      <tr><td class="c-cyan">Hemisphere (r)</td><td>(2/3)πr³</td><td>2πr²</td><td>3πr²</td><td>½ of sphere</td></tr>
+      <tr><td class="c-orange">Prism</td><td>A_base × h</td><td>P_base × h</td><td>LSA+2A</td><td>A=base area, P=perimeter</td></tr>
+      <tr><td class="c-pink">Pyramid</td><td>⅓ A_base × h</td><td>½ P × l</td><td>LSA+A</td><td>Sq base: l=√(h²+(a/2)²)</td></tr>
+      <tr><td class="c-red">Frustum (R,r,h,l)</td><td>⅓πh(R²+r²+Rr)</td><td>π(R+r)l</td><td>π[(R+r)l+R²+r²]</td><td>l=√[h²+(R−r)²]</td></tr>
+      <tr><td class="c-green">Tetrahedron (a)</td><td>a³/(6√2)</td><td>—</td><td>√3·a²</td><td>h=a√(2/3)</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ===== EXAM TRICKS ===== -->
+<div id="tricks" class="section">
+  <div class="section-title" style="color:var(--purple);">🎯 Exam Tricks & Shortcuts</div>
+
+  <div class="formula-grid">
+
+    <div class="tip-box">
+      <div class="tip-title">🔑 Must-Know Relations</div>
+      <span class="c-accent">Cone Vol = ⅓ × Cylinder Vol</span> (same r, h)<br>
+      <span class="c-green">Sphere SA = 4 × Circle Area</span> (same r)<br>
+      <span class="c-blue">Hemisphere Vol = ½ Sphere Vol</span><br>
+      <span class="c-red">Equilateral: R = 2r</span> (circum = 2 × inradius)<br>
+      <span class="c-purple">Square Area = ½ × diagonal²</span>
+    </div>
+
+    <div class="tip-box" style="border-color:rgba(68,229,160,0.25);background:rgba(68,229,160,0.05);">
+      <div class="tip-title" style="color:var(--green);">⚡ Perimeter → Area Shortcuts</div>
+      <span class="c-green">Circle: C given → r = C/2π → A = πr²</span><br>
+      <span class="c-green">Square: P given → a = P/4 → A = a²</span><br>
+      <span class="c-green">Equilateral: P given → a = P/3 → A = √3a²/4</span><br>
+      <span class="c-green">General △: Area = r × s</span> (inradius × semi-perimeter)
+    </div>
+
+    <div class="tip-box" style="border-color:rgba(79,163,247,0.25);background:rgba(79,163,247,0.05);">
+      <div class="tip-title" style="color:var(--blue);">📏 Scaling Rules</div>
+      <span class="c-blue">Scale sides by k → Area scales by k²</span><br>
+      <span class="c-blue">Scale sides by k → Volume scales by k³</span><br>
+      <span class="c-blue">Scale sides by k → Perimeter scales by k</span><br>
+      <span class="c-blue">Radius doubled → Vol × 8, SA × 4</span>
+    </div>
+
+    <div class="tip-box" style="border-color:rgba(247,107,107,0.25);background:rgba(247,107,107,0.05);">
+      <div class="tip-title" style="color:var(--red);">🔢 Pythagorean Triples (Right Triangle r)</div>
+      <span class="c-red">3-4-5 → r = 1 | R = 2.5</span><br>
+      <span class="c-red">6-8-10 → r = 2 | R = 5</span><br>
+      <span class="c-red">5-12-13 → r = 2 | R = 6.5</span><br>
+      <span class="c-red">8-15-17 → r = 3 | R = 8.5</span><br>
+      <span class="c-red">7-24-25 → r = 3 | R = 12.5</span>
+    </div>
+
+    <div class="tip-box" style="border-color:rgba(180,125,255,0.25);background:rgba(180,125,255,0.05);">
+      <div class="tip-title" style="color:var(--purple);">🎯 Decision Tree — Which Formula?</div>
+      <span class="c-purple">3 sides given?</span> → Heron's formula<br>
+      <span class="c-red">Right △ (legs given)?</span> → ½ab, hyp=√(a²+b²)<br>
+      <span class="c-green">Equilateral?</span> → Area=√3a²/4<br>
+      <span class="c-blue">P + r given?</span> → Area = r × P/2<br>
+      <span class="c-accent">Area + P given?</span> → r = 2·Area/P
+    </div>
+
+    <div class="tip-box" style="border-color:rgba(255,159,90,0.25);background:rgba(255,159,90,0.05);">
+      <div class="tip-title" style="color:var(--orange);">💡 Melting / Recasting Trick</div>
+      <span class="c-orange">Volume is conserved when shape is recast</span><br><br>
+      n small spheres from big sphere:<br>
+      <span class="c-accent">n = R³ / r³</span><br><br>
+      Wire from cylinder (radius ρ, length L):<br>
+      <span class="c-accent">πR²H = πρ²L → L = R²H/ρ²</span>
+    </div>
+
+  </div>
+
+  <!-- Constant values -->
+  <div style="background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:18px 20px;margin-top:4px;">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:12px;">📌 Key Constants & Approximations</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;font-family:'JetBrains Mono',monospace;font-size:0.82rem;">
+      <div style="color:#cccce0;"><span class="c-accent">π</span> ≈ 22/7 ≈ 3.1416</div>
+      <div style="color:#cccce0;"><span class="c-accent">√2</span> ≈ 1.414</div>
+      <div style="color:#cccce0;"><span class="c-accent">√3</span> ≈ 1.732</div>
+      <div style="color:#cccce0;"><span class="c-accent">√5</span> ≈ 2.236</div>
+      <div style="color:#cccce0;"><span class="c-accent">√6</span> ≈ 2.449</div>
+      <div style="color:#cccce0;"><span class="c-accent">1/√3</span> ≈ 0.577</div>
+      <div style="color:#cccce0;"><span class="c-accent">√3/2</span> ≈ 0.866</div>
+      <div style="color:#cccce0;"><span class="c-accent">√3/4</span> ≈ 0.433</div>
+    </div>
+    <div class="divider" style="margin:14px 0 12px;"></div>
+    <div style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;color:#bbbbd0;line-height:1.9;">
+      <span class="c-green">CSA</span> = Curved Surface Area &nbsp;|&nbsp;
+      <span class="c-blue">LSA</span> = Lateral Surface Area &nbsp;|&nbsp;
+      <span class="c-purple">TSA</span> = Total Surface Area &nbsp;|&nbsp;
+      <span class="c-accent">s</span> = semi-perimeter
+    </div>
+  </div>
+</div>
+
+<script>
+  function showTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+  }
+</script>
+</body>
+</html>

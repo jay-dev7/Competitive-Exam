@@ -3,23 +3,21 @@
     "title": "Algebra Surds",
     "file": "algebra-surds.html"
   },
-  {
-    "title": "Time Work",
-    "file": "time-work.html"
-  },
+ 
   {
     "title": "Trigonometry Formula Sheet",
     "file": "Trig-Formula-Sheet.html"
   },
+
    {
-    "title": "Trig Ratios",
-    "file": "trig-ratios.html"
+    "title": "Mensuration Formulas",
+    "file": "mensuration_formulas.html"
   },
-  
-  {
-    "title": "2D Mensuration",
-    "file": "2D-Mensuration.html"
+   {
+    "title": "Time Work",
+    "file": "time-work.html"
   },
+
    {
     "title": "Circle Chords",
     "file": "circle-chords.html"
@@ -28,10 +26,7 @@
     "title": "Incircle Explainer",
     "file": "Incircle-Explainer.html"
   },
-  {
-    "title": "3D Mensuration",
-    "file": "3D-Mensuration.html"
-  },
+
   {
     "title": "Tangents",
     "file": "tangent_problems.html"
